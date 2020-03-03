@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="single-post">
+   	  <div class="container">
+   	   <div class="row">
+
+         <div class="modal-dialog">
+          <div class="modal-content">
+           <div class="modal-body">
+             <center>
+             <h2>You have been successfully registerd into OOAL<h2><br>
+
+              <h4>A link has been sent to your email. Please verify your email by clicking that link </h4><br><br>
+
+              <a href="{% url 'user_auth:home' %}" style="color:grey">Go back to home</a>
+               </center>
+           </div><!--/ modal-body -->
+
+          </div><!--/ modal-content -->
+         </div><!--/ modal-dialog -->
+
+         </div><!--/ modal-dialog -->
+         </div><!--/ modal-dialog -->
+        </section><!--/ modal -->
+
+
+{% endblock %}

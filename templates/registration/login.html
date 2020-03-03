@@ -1,0 +1,74 @@
+
+
+{% extends 'base.html' %}
+{% load static %}
+{% load staticfiles %}
+
+{% block extra_head_content  %}
+<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OOAL</title>
+		<meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <meta property="og:title" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:description" content="" />
+
+<!-- <link rel="stylesheet" href={% static "bus_booking/css/open-iconic-bootstrap.min.css" %}> -->
+		<link rel="icon" href={% static "assets/img/logo.html" %}>
+		<link rel="apple-touch-icon" href={% static "img/favicons/apple-touch-icon.html" %}>
+		<link rel="apple-touch-icon" sizes="72x72" href={% static  "img/favicons/apple-touch-icon-72x72.html" %}>
+		<link rel="apple-touch-icon" sizes="114x114" href={% static  "img/favicons/apple-touch-icon-114x114.html" %}>
+
+    <link type="text/css"  rel="stylesheet" href={% static "assets/css/demos/photo.css" %} />
+
+		<script src={% static  "assets/js/modernizr-custom.html" %}></script>
+{% endblock %}
+
+
+{% block content %}
+
+<section class="login">
+      <div class="container">
+       <div class="banner-content">
+
+		  <h1> OOAL</h1>
+		  <form method="post" class="form-signin">
+		   <h3 class="form-signin-heading">Please Sign In</h3>
+       <form method="post">
+         {% csrf_token %}
+       <div class="form-group">
+		    <input name="name" type="email" class="form-control" placeholder="Email" required>
+		   </div>
+		   <div class="form-group">
+		    <input type="password" class="form-control" name="password" placeholder="Password" required>
+		   </div>
+		   <button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="submit">Sign In</button>
+		   <br/>
+       </form>
+       {% if warning %}
+          <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
+       {% endif %}
+		   <a class="btn btn-dark " href="{% url 'user_auth:signup' %}" role="button">Don't have an account?</a>
+		   <a class="btn btn-dark " href="{% url 'user_auth:forgot_password' %}" role="button">Forgot Password?</a>
+		  </form>
+
+       </div><!--/. banner-content -->
+      </div><!-- /.container -->
+     </section>
+
+
+
+	<script src={% static  "assets/js/jquery.min.js" %}></script>
+	<script src={% static  "assets/js/bootstrap.min.js" %}></script>
+	<script src={% static  "assets/js/base.js" %}></script>
+
+  <!-- <form method="post">
+    {% csrf_token %}
+    Name : <input type="email" name="name" required>
+    Password : <input type="password" name="password" required>
+    Re-Password : <input type="password" name="repassword" required>
+    <button type="submit" name="button">Signup</button>
+  </form> -->
+{% endblock %}

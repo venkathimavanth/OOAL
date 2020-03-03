@@ -1,0 +1,186 @@
+{% extends 'loggedinbase.html' %}
+
+
+
+{% load static %}
+{% load staticfiles %}
+
+{% block extra_head_content %}
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+function func1(exe){
+  var id = exe.id;
+ $.ajax({
+   method:"GET",
+   url: "http://127.0.0.1:8000/viewprofile/" + id,
+   data:{},
+   success: function(data){
+    window.location.reload();
+   }
+ })
+
+};
+}
+</style> -->
+
+
+<meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+
+    <!-- CSS
+	============================================ -->
+  <style>
+    .card {
+      background-color: white;
+      border-radius: 0.25rem;
+      box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .btn {
+      color: black;
+      padding: 0.8rem;
+      font-size: 14px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      font-weight: 400;
+      display: block;
+      /* width: 100%; */
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+    }
+
+    .btn:hover {
+      background-color: black;
+    }
+
+
+    .btn-group button {
+  border: 0px solid grey; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+.btn1{
+  background-color: #359100;
+}
+.btn2{
+  /* color:black; */
+  background-color: LigthGrey;
+}
+.btn3{
+  background-color: #9A0000;
+}
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: transparent;
+  </style>
+
+
+
+
+
+    {% endblock %}
+
+    {% block content %}
+
+
+    <div class="about-author-details" style="width:100%;padding:50px">
+                    <center>
+                    <table  style="border-collapse:separate; border-spacing: 30px 0; width:100%">
+                        <tr class="row" style="column-gap: 40px;">
+                            <td class="col-lg-3" style="padding: 0px 0px 10px 0px;width:20%;">
+                              <div style="background-color:white;"">
+                                <div class="card widget-item" style="padding: 0px 15px 0px 15px;">
+                                    <div class="about-me">
+                                        <ul class="nav flex-column about-author-menu">
+                                            <li style="padding: 15px 0px 0px 0px;color:black;"><a href="{% url 'user:friends' %}" style="color:black;" >Friends</a></li><hr>
+                                            <li><a href="{% url 'user:pendingrequests' %}" style="color:black;"  class="active" >Pending Requests</a></li><hr>
+                                            <li><a href="{% url 'user:findfriends' %}" style="color:black;" >Find Friends</a></li><hr>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </div>
+                            </td>
+                            <td class="col-lg-3" style="background-color:white;padding: px 0px 10px 0px;width:100% ;box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);">
+
+                              <section class="notifications" style="width:100%;background-color:white;">
+                              	  <div class="container" style="width:100%">
+                              	   <div class="row">
+                                     {% if content %}
+                                     {% for c in content %}
+
+                                    <div class="col-lg-8 col-lg-offset-2" >
+                                	<ul >
+                              		 <li>
+                                         <div class="media first_child" style="background-color:#F3F3F3;padding: px 0px 10px 0px;width:100% ;box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);">
+                                          <img src="data:image/jpeg;base64,{{ c.photo }}" alt="" class="img-responsive img-circle">
+                                          <div class="media_body" >
+                                           <p><b>{{ c.name }}</b><i> sent you a friend request.</i>
+                                           </p>
+                                           <p>{{ c.discription }}</p>
+
+
+                                           <div class="btn-group" style="width:100%">
+                                              <button class="btn card_btn kafe-btn btn1" style="width:20%"><i class="fa fa-check"></i></button>
+                                              <button class="btn card_btn kafe-btn btn2" id="{{ c.email }}"  onclick="fun1(this)" style="width:55%;color:black">View Profile</button>
+                                              <button class="btn card_btn kafe-btn btn3" style="width:20%"><i class="fa fa-times"></i></button>
+                                            </div>
+                                                </div>
+                                         </div>
+                                       </li>
+
+
+                              		</ul>
+                              		</div>
+
+                                  {% endfor %}
+                                  {% endif %}
+
+                                     </div><!--/ row-->
+                              	  </div><!--/ container -->
+                              	 </section><!--/ profile -->
+
+
+                            </td>
+                        </tr>
+                    </table><center>
+                </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    function fun1(exe){
+      var id = exe.id;
+      var url = window.location.href + exe.id + "/";
+      console.log(url)
+      window.location.href = url
+
+    };
+     </script>
+
+
+
+    {% endblock %}

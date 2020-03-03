@@ -1,0 +1,193 @@
+{% extends 'loggedinbase.html' %}
+
+
+
+{% load static %}
+{% load staticfiles %}
+
+{% block extra_head_content %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+input[type=text] {
+  width: 30%;
+  box-sizing: border-box;
+  border: 2px solid  #93FFD0;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
+h1 {
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.btn {
+  color: #ffffff;
+  padding: 0.8rem;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  font-weight: 400;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+}
+
+.btn:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards_item {
+  display: flex;
+  padding: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .cards_item {
+    width: 50%;
+  }
+}
+
+@media (min-width: 56rem) {
+  .cards_item {
+    width: 33.3333%;
+  }
+}
+
+.card {
+  background-color: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card_content {
+  padding: 1rem;
+  background: linear-gradient(to bottom left, #EF8D9C 40%, #FFC39E 100%);
+}
+
+.card_title {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin: 0px;
+}
+
+.card_text {
+  color: #ffffff;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+}
+.made_by{
+  font-weight: 400;
+  font-size: 13px;
+  margin-top: 35px;
+  text-align: center;
+}
+
+
+
+</style>
+
+
+    {% endblock %}
+
+    {% block content %}
+
+
+    <div class="about-author-details" style="width:100%;padding:50px">
+                    <center>
+                    <table  style="border-collapse:separate; border-spacing: 30px 0; width:100%">
+                        <tr class="row" style="column-gap: 40px;">
+                            <td class="col-lg-3" style="padding: 0px 0px 10px 0px;width:20%;">
+                              <div style="background-color:white;"">
+                                <div class="card widget-item" style="padding: 0px 15px 0px 15px;">
+                                    <div class="about-me">
+                                        <ul class="nav flex-column about-author-menu">
+                                            <li style="padding: 15px 0px 0px 0px;color:black;"><a href="{% url 'user:friends' %}" style="color:black;"  class="active">Friends</a></li><hr>
+                                            <li><a href="{% url 'user:pendingrequests' %}" style="color:black;" >Pending Requests</a></li><hr>
+                                            <li><a href="{% url 'user:findfriends' %}" style="color:black;" >Find Friends</a></li><hr>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </div>
+                            </td>
+                            <td class="col-lg-3" style="background-color:white;padding: 30px 10px 30px 10px;width:100% ;box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);">
+                              <div><center>
+                              <form>
+                                <input type="text" name="search" placeholder="Search for a friend..">
+                              </form>
+                              </center></div>
+
+                              <div class="main">
+                                <h2 class="made_by">Your Friends ♡</h2>
+                                <ul class="cards">
+
+                                  {% if content %}
+                                  {% for c in content %}
+
+                                  <li class="cards_item">
+                                    <div class="card">
+                                      <div class="card_image"><img src="data:image/jpeg;base64,{{ c.photo }}"></div>
+                                      <div class="card_content">
+                                        <h2 class="card_title">{{ c.name }}</h2>
+                                        <p class="card_text">{{ c.discription }}</p>
+                                        <button class="btn card_btn" id="{{ c.email }}">View Profile</button>
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  {% endfor %}
+                                  {% endif %}
+
+                                </ul>
+                              </div>
+
+
+
+                            </td>
+                        </tr>
+                    </table><center>
+                </div>
+
+
+
+
+
+
+    {% endblock %}

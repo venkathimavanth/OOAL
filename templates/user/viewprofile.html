@@ -1,0 +1,138 @@
+
+{% extends 'loggedinbase.html' %}
+
+
+
+{% load static %}
+{% load staticfiles %}
+
+{% block extra_head_content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+function send_friend_req(exe){
+  var r = false;
+  if (exe.id == 0){
+    r = true
+  }
+  else if(exe.id == 1){
+    r =confirm("Unsend Request?");
+  }
+  else if (exe.id == 2) {
+    r = confirm("Are You Sure You Want To Unfriend Your OOALmate ?");
+  }
+  else if (exe.id == 3) {
+    r = confirm("Are You Sure You Want Accept This Friend Request ?");
+  }
+  if ( r == true ){
+    console.log(r)
+ $.ajax({
+   method:"GET",
+   url: "" + exe.id + "/",
+   data:{},
+   success: function(data){
+    window.location.reload();
+   }
+ })
+
+};
+}
+ </script>
+
+{% endblock %}
+
+{% block content %}
+
+
+<section class="profile">
+ <div class="container-fluid">
+  <div class="row">
+
+  <div class="col-lg-3" style="width:100%">
+  <div class="profilebox hidden-xs hidden-sm"
+    style="background: linear-gradient( rgba(34,34,34,0.45), rgba(34,34,34,0.45)), url({% static "assets/img/posts/37.jpg" %}) no-repeat;
+           width:100%;
+               background-position: center center;
+               -webkit-background-size: cover;
+               -moz-background-size: cover;
+               -o-background-size: cover;">
+  </div>
+  </div>
+
+    </div><!--/ row-->
+ </div><!--/ container -->
+</section><!--/ profile -->
+
+<!-- ==============================================
+User Profile Section
+=============================================== -->
+<section class="user-profile">
+ <div class="container-fluid">
+  <div class="row">
+
+   <div class="col-lg-12">
+    <div class="post-content">
+     <div class="author-post text-center">
+      <a href="#"><img class="img-fluid img-circle" src="data:image/jpeg;base64,{{ photo }}" alt="Image"></a>
+     </div><!-- /author -->
+    </div><!-- /.post-content -->
+ </div><!-- /col-sm-12 -->
+
+    </div><!--/ row-->
+ </div><!--/ container -->
+</section><!--/ profile -->
+
+<!-- ==============================================
+User Profile Section
+=============================================== -->
+<section class="details">
+ <div class="container">
+  <div class="row">
+   <div class="col-lg-12">
+
+       <div class="details-box row">
+    <div class="col-lg-9">
+        <div class="content-box">
+      <h4>{{ name }}</h4>
+          <p>{{ discription }} </p>
+    <small> <span class="hashtag">{{ email }}</span></small>
+        </div><!--/ media -->
+    </div>
+    <div class="col-lg-3">
+        <div class="follow-box">
+
+          {% if friends == 3 %}<a  onclick="send_friend_req(this)" id="{{ friends }}" class="kafe-btn kafe-btn-mint">Accept Friend Request</a> {% endif %}
+          {% if friends == 2 %}<a onclick="send_friend_req(this)" id="{{ friends }}"  class="kafe-btn kafe-btn-mint"><i class="fa fa-check"></i> Friends </a> {% endif %}
+          {% if friends == 1 %}<a onclick="send_friend_req(this)" id="{{ friends }}"  class="kafe-btn kafe-btn-mint">Friend Request sent</a> {% endif %}
+          {% if friends == 0 %}<a  onclick="send_friend_req(this)" id="{{ friends }}" class="kafe-btn kafe-btn-mint">Send Friend Request</a> {% endif %}
+
+
+        </div><!--/ dropdown -->
+    </div>
+       </div><!--/ details-box -->
+
+ </div>
+  </div>
+ </div><!--/ container -->
+</section><!--/ profile -->
+
+
+<section class="home-menu">
+      <div class="container">
+       <div class="row">
+
+        <div class="menu-category">
+         <ul class="menu">
+          <li class="current-menu-item"><a href="photo_profile.html">Posts <span>1.7k</span></a></li>
+          <li><a href="photo_followers.html">Followers <span>1.3M</span></a></li>
+          <li><a href="photo_followers.html">Following <span>1200</span></a></li>
+         </ul>
+		</div>
+    <br><br><br><br><br><br><br><br>
+	   </div><!--/row -->
+      </div><!--/container -->
+     </section><!--/home-menu -->
+
+<br><br>
+
+
+{% endblock %}
