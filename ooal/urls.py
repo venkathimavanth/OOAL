@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include('user_auth.urls')),
     path('', include('management.urls')),
     path('', include('user.urls')),
+    path('', include('clans.urls')),
 ]
 
 # if settings.DEBUG:
