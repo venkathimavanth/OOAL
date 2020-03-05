@@ -116,7 +116,6 @@ media/
 !**/migrations/__init__.py
 
 clans/__pycache__
-<<<<<<< HEAD
 clans/migrations
 .idea
 
