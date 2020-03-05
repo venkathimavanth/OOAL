@@ -34,89 +34,90 @@
 	   <div class="row">
 	   
 	    <div class="col-lg-8 col-lg-offset-2">
-        <div class="search-box full-width">
-            <div class="search">  
-                <div class="input-field" style="float:left;width:84%">
-                    <input placeholder="Search" type="text">
-                    <i class="fa fa-search"></i>
-                </div>
-                <div class="container"style="float:right;width:16%">
-                <!-- Trigger the modal with a button -->
-                <button type="button" class="kafe-btn kafe-btn-mint" id="createClan"><i class="fa fa-users"></i> Create</button>
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                    
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header" style="padding:35px 50px;">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h5><span class="glyphicon glyphicon-plus"></span> Create Clan</h5>
-                        </div>
-                        <div class="modal-body" style="padding:40px 50px;">
-                        <form role="form"method="post" action="{% url 'community:create-clan' %}"  enctype="multipart/form-data">
-                        {% csrf_token %}
-                            <div class="form-group">
-                            <input name="name" type="text" class="form-control" placeholder="Full Name" required >
-                            </div>
-                            <div class="form-group">
-                            <textarea rows="4" cols="50" class="form-control" name="discription" form="addchallenge" placeholder="Discription" required></textarea>
-                            </div>
-                            <div class="form-group">
-                            <input type="file" class="form-control" id="img" name="photo"  accept="image/*" onchange="readURL(this);" required>
-                            </div>
-                            <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> Create</button>
-                            {% if warning %}
-                                <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
-                            {% endif %}
-                        </form>
-                        </div>
-                        <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                        </div>
+            <div class="search-box full-width">
+                <div class="search">  
+                    <div class="input-field" style="float:left;width:84%">
+                        <input placeholder="Search" type="text">
+                        <i class="fa fa-search"></i>
                     </div>
-                    
+                    <div class="container"style="float:right;width:16%">
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="kafe-btn kafe-btn-mint" id="createClan"><i class="fa fa-users"></i> Create</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                        
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h5><span class="glyphicon glyphicon-plus"></span> Create Clan</h5>
+                            </div>
+                            <div class="modal-body" style="padding:40px 50px;">
+                            <form role="form" method="post" action="{% url 'community:create-clan' %}"  enctype="multipart/form-data" id="addclan">
+                            {% csrf_token %}
+                                <div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Full Name" required >
+                                </div>
+                                <div class="form-group">
+                                <textarea rows="4" cols="50" class="form-control" name="discription" form="addclan" placeholder="Discription" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                <input type="file" class="form-control" id="img" name="photo"  accept="image/*" onchange="readURL(this);" required>
+                                </div>
+                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> Create</button>
+                                {% if warning %}
+                                    <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
+                                {% endif %}
+                            </form>  
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                            </div>
+                        </div>
+                        
+                        </div>
+                    </div> 
                     </div>
-                </div> 
-                </div>
- 
+    
 
 
 
-            </div><!--/ search-->
-        </div>
+                </div><!--/ search-->
+            </div>
+        
 		
-         <div class="followers-box full-width">
-			<div class="followers-list">
-			{% for i in clans %}
-				<div class="followers-body" >
-				 <img class="img-responsive img-circle" src={% static "assets/img/users/1.jpg"%} alt="">
-				 <div class="name-box">
-				  <h4>{{ i.0.name }}</h4>
-				  <span>@{{ username }}</span>
-				  <div class="followers-base">
-                   <ul class="list-group">
-                    <li class="list-group-item full-width">
-					 <div class="pull-left" style="margin-right: 20px;">
-					  <img src={% static "assets/img/users/1.jpg"%} alt="" class="img-circle max-w-40 ">
-					  <img src={% static "assets/img/users/2.jpg"%} alt="" class="img-circle max-w-40 ">
-					  <img src={% static "assets/img/users/3.jpg"%} alt="" class="img-circle max-w-40 ">
-					  <img src={% static "assets/img/users/4.jpg"%} alt="" class="img-circle max-w-40 ">
-					 </div><!--/ pull-left -->
-					</li> 
-                   </ul>
-				  </div><!--/ followers-base -->
-			     </div><!--/ name-box -->
-				 <span><a href="#" class="kafe-btn kafe-btn-mint-small"> Follow</a></span>
-				</div><!--/ followers-body -->
-                {% endfor %}
-			
-			
-			
-				
-				
-			</div><!--suggestions-list end-->
-		</div>	
+            <div class="followers-box full-width">
+                <div class="followers-list">
+                {% for i in clans %}
+                    <div class="followers-body" >
+                    <img class="img-responsive img-circle" src={% static "assets/img/users/1.jpg"%} alt="">
+                    <div class="name-box">
+                    <h4>{{ i.0.name }}</h4>
+                    <span>@{{ username }}</span>
+                    <div class="followers-base">
+                    <ul class="list-group">
+                        <li class="list-group-item full-width">
+                        <div class="pull-left" style="margin-right: 20px;">
+                        <img src={% static "assets/img/users/1.jpg"%} alt="" class="img-circle max-w-40 ">
+                        <img src={% static "assets/img/users/2.jpg"%} alt="" class="img-circle max-w-40 ">
+                        <img src={% static "assets/img/users/3.jpg"%} alt="" class="img-circle max-w-40 ">
+                        <img src={% static "assets/img/users/4.jpg"%} alt="" class="img-circle max-w-40 ">
+                        </div><!--/ pull-left -->
+                        </li> 
+                    </ul>
+                    </div><!--/ followers-base -->
+                    </div><!--/ name-box -->
+                    <span><a href="#" class="kafe-btn kafe-btn-mint-small"> Follow</a></span>
+                    </div><!--/ followers-body -->
+                    {% endfor %}
+                
+                
+                
+                    
+                    
+                </div><!--suggestions-list end-->
+		    </div>	
 		
 		</div>
 		
@@ -127,13 +128,7 @@
      <!-- ==============================================
 	 Scripts
 	 =============================================== -->
-     <script>
-        $(document).ready(function(){
-        $("#createClan").click(function(){
-            $("#myModal").modal();
-        });
-        });
-    </script>
+     
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -152,9 +147,17 @@
 			size:"8px",
 		});		
 	</script>
+    <script>
+        $(document).ready(function(){
+        $("#createClan").click(function(){
+            $("#myModal").modal();
+        });
+        });
+    </script>
 
   </body>
 
 <!-- Mirrored from themashabrand.com/templates/Fluffs/photo_followers.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 23 Feb 2020 13:33:16 GMT -->
 </html>
 {% endblock %}
+

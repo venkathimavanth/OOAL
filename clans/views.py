@@ -32,7 +32,7 @@ def create_clan(request):
             Profile.objects(user_id=uid["id"]).update_one(push__clans_registered=clan["id"])
 
 
-            return redirect('user_auth:loggedinhome')
+            return redirect('community:clan-home')
         else:
             return render(request,'clans/clans.html',{"warning":"Please fill all the blanks"})
     return redirect('user_auth:home')
