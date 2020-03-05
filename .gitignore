@@ -106,12 +106,17 @@ media/
 *.pyc
 *.db
 *.pid
+<<<<<<< HEAD
 # django migrations
+=======
+# django migrations 
+>>>>>>> origin/rajeshwar
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
 
 clans/__pycache__
+<<<<<<< HEAD
 clans/migrations
 .idea
 
