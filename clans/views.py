@@ -49,3 +49,15 @@ def clanHome(request):
     print(clans)
     
     return render(request,'clans/clans.html',{"clans": clans, "username": profile["name"]})
+
+
+def add_participants(request,slug):
+    if request.method == 'POST':
+                id = request.POST["users"]
+                print(id)
+                Profile.objects(id = id).update_one(push__pending_clan_requests = slug)
+
+                return redirect('user_auth:loggedinhome')
+    else:
+            prof = Profile.objects.all()
+            return render(request, 'clans/add_participant.html', {'prof': prof, "warning":"Please fill all the blanks"})

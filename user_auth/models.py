@@ -30,6 +30,7 @@ class Profile(Document):
     number_of_followers = IntField(default=0)
     friends = ListField(ObjectIdField())
     pending_friend_requests = ListField(ObjectIdField())
+    pending_clan_requests = ListField(ObjectIdField())
     accepted_chall=ListField(ObjectIdField())
     completed=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
