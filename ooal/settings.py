@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'user_auth',
     'management',
     'user',
+    'clans',
 ]
 
 MIDDLEWARE = [

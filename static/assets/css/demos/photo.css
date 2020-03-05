@@ -990,7 +990,7 @@ a.navbar-brand:hover {
    ========================================================================== */
 .storybox {
   color: #fff;
-  height: 60px !important;
+  height: 200px;
   width: 100%;
 
   border-radius: 3px;
@@ -1341,7 +1341,7 @@ a.navbar-brand:hover {
 }
 .stories .storybox {
   color: #fff;
-  height: 60px !important;
+  height: 360px !important;
   width: 100%;
 
   border-radius: 3px;
@@ -1781,6 +1781,35 @@ a.navbar-brand:hover {
  color: #88898a;
  font-weight: 700;
 }
+.search {
+  padding: 10px 20px 20px 20px;
+ }
+ .search .input-field {
+  background: #f4f4f4;
+  margin: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0 20px;
+  position: relative;
+ }
+ .search .input-field input {
+  font-family: 'Abhaya Libre', serif;
+  width: 95%; 
+  margin: 0;
+  border: 0;
+  background: #f4f4f4;
+  color: #848484 !important;
+  padding: 10px 0px;
+ }
+ .search .input-field i {
+  font-size: 25px;
+  color: #848484 !important;
+  float: right;
+  position: relative;
+  top: 10px;
+  cursor: pointer;
+ }
+ 
 .search-area {
  padding: 10px 20px 20px 20px;
 }
