@@ -14,7 +14,6 @@ def create_clan(request):
     print("got into create_clan")
     if request.method == 'POST':
         print("got into create_clan POST")
-        print(request.POST)
         if "photo" in request.FILES and "name" in request.POST and "discription" in request.POST:
             username = request.session["username"]
             uid = User.objects(email=username)[0]
