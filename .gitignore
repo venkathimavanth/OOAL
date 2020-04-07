@@ -119,5 +119,5 @@ user_auth/__pycache__
 ooal/__pycache__
 management/__pycache__
 chat/migrations
-
-.sqlite3
+OOAL/db.sqlite3
+db.sqlite3
