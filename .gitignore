@@ -113,3 +113,11 @@ media/
 
 clans/__pycache__
 clans/migrations
+
+user/__pycache__
+user_auth/__pycache__
+ooal/__pycache__
+management/__pycache__
+chat/migrations
+
+.sqlite3

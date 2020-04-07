@@ -1,0 +1,45 @@
+{% extends 'loggedinbase.html' %}
+
+
+
+{% load static %}
+{% load staticfiles %}
+
+{% block extra_head_content %}
+
+{% endblock %}
+
+{% block content %}
+
+
+
+<section class="notifications">
+	  <div class="container">
+	   <div class="row">
+
+	    <div class="col-lg-8 col-lg-offset-2">
+		<ul>
+      {% if dc %}
+		 <li>
+           <div class="media first_child">
+            <img src="assets/img/users/1.jpg" alt="" class="img-responsive img-circle">
+            <div class="media_body">
+             <p><b>{{dc.name}}</b></p><p> {{dc.discription}}</p>
+             <h6>{{dc.posted_date}}</h6>
+             <div class="btn_group">
+              <a class="kafe-btn kafe-btn-mint"><i class="fa fa-check"></i></a>
+              <a class="kafe-btn kafe-btn-red"><i class="fa fa-times"></i></a>
+             </div>
+            </div>
+           </div>
+         </li>
+    {% endif %}
+
+		</ul>
+
+		</div>
+
+       </div><!--/ row-->
+	  </div><!--/ container -->
+	 </section><!--/ profile -->
+   {% endblock %}

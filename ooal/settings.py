@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'management',
     'user',
     'clans',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +89,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ooal.wsgi.application'
 
+#Channels
+
+ASGI_APPLICATION = 'ooal.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

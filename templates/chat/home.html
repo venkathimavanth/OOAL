@@ -1,0 +1,317 @@
+{% extends 'loggedinbase.html' %}
+
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+
+	 <!-- ==============================================
+	 Modal Section
+	 =============================================== -->
+     <section class="chat">
+	  <div class="container">
+	   <div class="row">
+	   
+        <div class="messages-box">
+		 <div class="row">
+		  <div class="col-lg-4 col-md-12 no-pdd">
+		   <div class="messages-container">
+		   
+			<div class="message-header">
+			 <div class="message-title">
+			  <h4>Messages</h4>
+			 </div><!--/ message-title-->
+             <div class="search-area">  
+              <div class="input-field">
+               <input placeholder="Search" type="text">
+               <i class="fa fa-search"></i>
+              </div>
+             </div><!--/ search-area-->			 
+			</div><!--/ message-header-->
+								
+			<div class="messages-list">
+			  <ul>
+			   <li class="active">
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="">
+				  <span class="user-online"></span>
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Anthony McCartney</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+				 <span class="message-notification">1</span>
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/10.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Sean Coleman</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/3.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Vanessa Wells</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/4.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Clifford Graham</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/5.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Grace Karen</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/14.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Alex Grantte</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/7.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Anna Morgan</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/8.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Francis Long</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+			   <li>
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img src="assets/img/users/9.jpg" class="img-responsive img-circle" alt="">
+				 </div>
+				 <div class="user-message-info">
+				  <h4>Eleanor Harper</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+			    </div><!--/ user-message-details -->
+			   </li>
+										
+			  </ul>
+			</div><!--/ messages-list -->
+			
+		   </div><!--/ messages-container-->
+		  </div><!--/ col-lg-4 -->
+		  
+		  <div class="col-lg-8 col-md-12 pd-right-none pd-left-none">
+		   <div class="conversation-box">
+		   
+			<div class="conversation-header">
+			 <div class="user-message-details">
+			  <div class="user-message-img">
+			   <img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="">
+			  </div>
+			  <div class="user-message-info">
+			   <h4>John Doe</h4>
+			   <p>Online</p>
+			  </div><!--/ user-message-info -->
+			 </div><!--/ user-message-details -->
+			 <a href="#" title=""><i class="fa fa-ellipsis-v"></i></a>
+			</div><!--/ conversation-header -->
+			
+			<div class="conversation-container">
+
+			 <div class="convo-box pull-right">
+			  <div class="convo-area">
+			   <div class="convo-message">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
+			   </div><!--/ convo-message-->
+			   <span>Sat, Aug 23, 1:08 PM</span>
+			  </div><!--/ convo-area -->
+			  <div class="convo-img">
+			   <img src="assets/img/users/2.jpg" alt="" class="img-responsive img-circle">
+			  </div><!--/ convo-img -->
+			 </div><!--/ convo-box -->
+
+			 <div class="convo-box convo-left">
+			  <div class="convo-area convo-left">
+			   <div class="convo-message">
+				<p>Cras ultricies ligula.</p>
+			   </div><!--/ convo-message-->
+			   <span>5 minutes ago</span>
+			  </div><!--/ convo-area -->
+			  <div class="convo-img">
+			   <img src="assets/img/users/6.jpg" alt="" class="img-responsive img-circle">
+			  </div><!--/ convo-img -->
+			 </div><!--/ convo-box -->
+
+			 <div class="convo-box pull-right">
+			  <div class="convo-area">
+			   <div class="convo-message">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
+			   </div><!--/ convo-message-->
+			   <span>Sat, Aug 23, 1:08 PM</span>
+			  </div><!--/ convo-area -->
+			  <div class="convo-img">
+			   <img src="assets/img/users/2.jpg" alt="" class="img-responsive img-circle">
+			  </div><!--/ convo-img -->
+			 </div><!--/ convo-box -->
+
+			 <div class="convo-box convo-left">
+			  <div class="convo-area convo-left">
+			   <div class="convo-message">
+				<p>Lorem ipsum dolor sit amet</p>
+			   </div><!--/ convo-message-->
+			   <span>2 minutes ago</span>
+			  </div><!--/ convo-area -->
+			  <div class="convo-img">
+			   <img src="assets/img/users/6.jpg" alt="" class="img-responsive img-circle">
+			  </div><!--/ convo-img -->
+			 </div><!--/ convo-box -->
+
+			 <div class="convo-box pull-right">
+			  <div class="convo-area">
+			   <div class="convo-message">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
+			   </div><!--/ convo-message-->
+			   <span>Sat, Aug 23, 1:08 PM</span>
+			  </div><!--/ convo-area -->
+			  <div class="convo-img">
+			   <img src="assets/img/users/2.jpg" alt="" class="img-responsive img-circle">
+			  </div><!--/ convo-img -->
+			 </div><!--/ convo-box -->
+
+			 <div class="convo-box convo-left">
+			  <div class="convo-area convo-left">
+			   <div class="convo-message">
+				<p>Typing...</p>
+			   </div><!--/ convo-message-->
+			   <span>2 minutes ago</span>
+			  </div><!--/ convo-area -->
+			  <div class="convo-img">
+			   <img src="assets/img/users/6.jpg" alt="" class="img-responsive img-circle">
+			  </div><!--/ convo-img -->
+			 </div><!--/ convo-box -->
+									
+			</div><!--/ conversation-container -->
+			<form id="compose_msg_form">
+            <div class="type_messages">  
+             <div class="input-field">
+              <textarea id="msg" placeholder="Type something &amp; press enter" onkeyup="manage(this)" ></textarea>
+			  <ul class="imoji">
+			   <button id="send_btn" type="submit" class="send-btn" disabled ><i class="fa fa-paper-plane"></i></button>
+			   <button id="send_btn" class="send-btn" ><i class="fa fa-smile" ></i></button>
+			   <button id="send_btn" class="send-btn" ><i class="fa fa-image"></i></button>
+			   <button id="send_btn" class="send-btn" ><i class="fa fa-paperclip"></i></button>
+			  </ul><!--/ imoji -->
+             </div><!--/ input-field -->
+            </div><!--/ type_messages -->	
+			</form>
+								
+           </div><!--main-conversation-box end-->
+		  </div><!--/ col-lg-8 -->
+		  
+		 </div><!--/ row -->
+		</div><!--/ messages-box -->	   
+	  
+      </div><!--/ row -->
+      </div><!--/ container -->
+     </section><!--/ chat -->	 
+	   
+     <!-- ==============================================
+	 Scripts document.getElementById("myTextarea").value
+	 =============================================== -->
+	 <script type="text/javascript">
+		function manage(txt) {
+			var bt = document.getElementById('send_btn');
+			if (txt.value != '') {
+				bt.disabled = false;
+			}
+			else {
+				bt.disabled = true;
+			}
+		}    
+	</script>
+	<script type="text/javascript">
+
+		$(document).on('submit','#compose_msg_form', function(e){
+			e.preventDefault();
+
+			$.ajax({
+				type: 'POST',
+				url: '/chat/send/',
+				data:{
+					msg: $('#msg').val()
+
+				},
+				success:function(){
+					
+				}
+			});
+		});
+
+	</script>
+
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/base.js"></script>
+	<script src="assets/plugins/slimscroll/jquery.slimscroll.js"></script>
+	<script>
+	$('#Slim,#Slim2').slimScroll({
+	        height:"auto",
+			position: 'right',
+			railVisible: true,
+			alwaysVisible: true,
+			size:"8px",
+		});		
+	</script>
+
+  </body>
+
+<!-- Mirrored from themashabrand.com/templates/Fluffs/photo_chat.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 23 Feb 2020 13:33:24 GMT -->
+</html>
+{% endblock %}

@@ -681,8 +681,7 @@ a.navbar-brand:hover {
     position: relative;
     display: block;
 }
-.cardbox .cardbox-item img{
-}
+
 .img-responsive{
     display: block;
     max-width: 100%;
@@ -1457,7 +1456,7 @@ a.navbar-brand:hover {
 
 @media (max-width: 768px){
 	.details .col-lg-3{
-	  float: left !important
+	  float: left !important;
       margin-bottom: 20px;
 	}
 }
@@ -2069,7 +2068,7 @@ a.navbar-brand:hover {
  border: 0;
  box-shadow: none;
  color: #beced7;
- width: 80%;
+ width: 75%;
 }
 .type_messages .input-field .imoji {
  position: absolute;
@@ -2080,11 +2079,27 @@ a.navbar-brand:hover {
  display: inline-block;
  padding-left: 17px;
 }
+.type_messages .input-field .imoji button {
+  background-color: white;
+  border: none;
+  display: inline-block;
+  padding-left: 8px;
+  padding-right: 8px;
+ }
 .type_messages .input-field .imoji li a {
  font-size: 25px;
  color: #0fc19e;
 }
+.type_messages .input-field .imoji button i {
+  font-size: 25px;
+  color: #0fc19e;
+ }
 
+ .type_messages .input-field .imoji button:disabled i {
+  font-size: 25px;
+  color: #666666;
+ }
+ 
 
 .message-send-area {
     float: left;

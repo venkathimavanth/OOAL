@@ -49,3 +49,14 @@ def clanHome(request):
     print(clans)
     
     return render(request,'clans/clans.html',{"clans": clans, "username": profile["name"]})
+
+@login_required
+def clan(request, clan_id):
+    username = request.session["username"]
+    user = User.objects(email=username)[0]
+    profile = Profile.objects(user_id=user["id"])[0]
+    clan = community.objects(id=clan_id)[0]
+    clan_users = []
+    
+    print(clan)
+    return render(request, 'clans/clan_show.html')
