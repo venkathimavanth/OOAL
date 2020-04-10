@@ -138,11 +138,8 @@ def add_user(request):
         uid_prof = Profile.objects(user_id=uid['id'])[0]
         clan = community.objects(id=clanid)[0]
 
+        flag = False
         members = clan.participants
-        admins = clan.Heads
-        if a_uid['id'] not in admins:
-            print("you are not admin So you cant add a person")
-            return HttpResponse("you are not admin So you cant add a person")
         if uid["id"] in members:
             print("User already in group")
             return HttpResponse('User already in group')
