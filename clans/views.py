@@ -138,22 +138,28 @@ def add_user(request):
         uid_prof = Profile.objects(user_id=uid['id'])[0]
         clan = community.objects(id=clanid)[0]
 
-        Profile.objects(user_id=uid["id"]).update_one(push__clans_registered=clanid)
-        print("Profile Updated")
-        community.objects(id=clanid).update_one(push__participants=uid["id"])
-        print("Clan Participant Added")
-        community.objects(id=clanid).update_one(set__no_of_participants=clan.no_of_participants+1)
-        print("clan num participants changed")
-        text = a_uid_prof.name
-        text += " added " 
-        text += uid_prof.name
-        print("Message: ", text)
-        message = GroupMessage(msg=text,sender=a_uid['id'],group=clanid)
-        message.save()
-        print("message saved")
-        print(message['id'])
-        community.objects(id=clanid).update_one(push__messages = message['id'])
-        return HttpResponse('')
+        flag = False
+        members = clan.participants
+        if uid["id"] in members:
+            print("User already in group")
+            return HttpResponse('User already in group')
+        else:
+            Profile.objects(user_id=uid["id"]).update_one(push__clans_registered=clanid)
+            print("Profile Updated")
+            community.objects(id=clanid).update_one(push__participants=uid["id"])
+            print("Clan Participant Added")
+            community.objects(id=clanid).update_one(set__no_of_participants=clan.no_of_participants+1)
+            print("clan num participants changed")
+            text = a_uid_prof.name
+            text += " added " 
+            text += uid_prof.name
+            print("Message: ", text)
+            message = GroupMessage(msg=text,sender=a_uid['id'],group=clanid)
+            message.save()
+            print("message saved")
+            print(message['id'])
+            community.objects(id=clanid).update_one(push__messages = message['id'])
+            return HttpResponse('User added into group')
         
         
 
