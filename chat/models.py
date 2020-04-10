@@ -7,13 +7,13 @@ class Message(Document):
     msg = StringField()
     sender = ObjectIdField()
     reciever = ObjectIdField()
-    isRead = BooleanField()
+    isRead = BooleanField(default=False)
     createdAt = DateTimeField(default=datetime.now())
 
 class GroupMessage(Document):
     msg = StringField()
     sender = ObjectIdField()
     group = ObjectIdField()
-    isRead = BooleanField()
+    isRead = BooleanField(default=False)
     createdAt = DateTimeField(default=datetime.now())
 

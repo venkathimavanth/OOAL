@@ -6,5 +6,8 @@ app_name = "community"
 urlpatterns = [
     path('create_clan/', views.create_clan ,name='create-clan'),
     path('clans/', views.clanHome ,name='clan-home'),
-    path('clan/<clan_id>', views.clan, name='clan-show')
+    path('clan/<clan_id>', views.clan_show, name='clan-show'),
+    path('clan/adduser/<clan_id>', views.add_clan_user, name='add-clan-user'),
+    path('clan/add/user', views.add_user, name='add-user'),
+    path('clan/search/', views.search, name='search'),
 ]
