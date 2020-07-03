@@ -1,8 +1,8 @@
 from mongoengine import connect,ObjectIdField,DateTimeField,StringField,IntField,ListField,ImageField,Document
 from datetime import datetime
 
-connect('EAD_OOAL')
-
+DB_URI = "mongodb+srv://ead118:myclan#2@ead.epyex.mongodb.net/EAD?retryWrites=true&w=majority"
+connect(host=DB_URI)
 
 class community(Document):
     name=StringField(max_length=200)
@@ -33,4 +33,3 @@ class Comment(Document):
     owner = ObjectIdField()
     reports = IntField(default=0)
     reportedBy = ListField(ObjectIdField())
-

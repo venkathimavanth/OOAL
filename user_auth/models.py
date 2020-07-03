@@ -1,6 +1,7 @@
 from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
 
-connect('EAD_OOAL')
+DB_URI = "mongodb+srv://ead118:myclan#2@ead.epyex.mongodb.net/EAD?retryWrites=true&w=majority"
+connect(host=DB_URI)
 
 
 class User(Document):
@@ -34,4 +35,3 @@ class Profile(Document):
     completed=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
     messages = ListField(ObjectIdField())
-

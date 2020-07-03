@@ -1,7 +1,8 @@
 from mongoengine import connect,ObjectIdField,BooleanField,DateTimeField,StringField,IntField,ListField,ImageField,Document
 from datetime import datetime
 
-connect('EAD_OOAL')
+DB_URI = "mongodb+srv://ead118:myclan#2@ead.epyex.mongodb.net/EAD?retryWrites=true&w=majority"
+connect(host=DB_URI)
 
 class Message(Document):
     msg = StringField()
@@ -16,4 +17,3 @@ class GroupMessage(Document):
     group = ObjectIdField()
     isRead = BooleanField(default=False)
     createdAt = DateTimeField(default=datetime.now())
-
