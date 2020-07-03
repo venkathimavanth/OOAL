@@ -1,0 +1,75 @@
+<html>
+<style>
+    .full {
+        width: 100%;
+    }
+    .box-full {
+        height: 732.5px;
+    }
+</style>
+<div class="col-lg-8 col-md-12 pd-right-none pd-left-none full">
+    <div class="conversation-box">
+        <div class="conversation-header">
+            <div class="user-message-details">
+                <div class="user-message-img">
+                    <img data-src="{{ group_details.photo }}" src="data:image/jpeg;base64,{{ group_details.photo }}" class="img-responsive img-circle" alt="">
+                </div>
+                <div class="user-message-info">
+                    <h4>{{ group_details.name }}</h4>
+                    <p>Online</p>
+                </div><!--/ user-message-info -->
+            </div><!--/ user-message-details -->
+            <a href="#" title=""><i class="fa fa-ellipsis-v"></i></a>
+        </div><!--/ conversation-header -->
+
+        <div class="conversation-container box-full">
+            {% for c in group_msgs %}
+            {% if c.sender == uid %}
+                <div class="convo-box pull-right">
+                    <div class="convo-area">
+                        <div class="convo-message">
+                            <p>{{ c.msg }}</p>
+                        </div><!--/ convo-message-->
+                        <span>{{ c.createdAt }}</span>
+                    </div><!--/ convo-area -->
+                    <div class="convo-img">
+                        <img  src="data:image/jpeg;base64,{{ group_details.photo }}" class="img-responsive img-circle" alt="">
+                    </div><!--/ convo-img -->
+                </div><!--/ convo-box -->
+            
+            {% else %}
+
+                <div class="convo-box convo-left">
+                    <div class="convo-area convo-left">
+                        <div class="convo-message">
+                            <p>{{ c.msg }}</p>
+                        </div><!--/ convo-message-->
+                        <span>{{ c.createdAt }}</span>
+                    </div><!--/ convo-area -->
+                    <div class="convo-img">
+                        <img  src="data:image/jpeg;base64,{{ group_details.photo }}" class="img-responsive img-circle" alt="">
+                    </div><!--/ convo-img -->
+                </div><!--/ convo-box -->
+            {% endif %}
+                {% endfor %}
+        </div><!--/ conversation-container -->
+            
+
+        <form id="compose_msg_form">
+            <div class="type_messages">  
+                <div class="input-field">
+                    <textarea id="msg" placeholder="Type something &amp; press enter" onkeyup="manage(this)" ></textarea>
+                    <ul class="imoji">
+                        <button id="send_btn" type="submit" class="send-btn" disabled ><i class="fa fa-paper-plane"></i></button>
+                        <button id="send_btn" class="send-btn" ><i class="fa fa-smile" ></i></button>
+                        <button id="send_btn" class="send-btn" ><i class="fa fa-image"></i></button>
+                        <button id="send_btn" class="send-btn" ><i class="fa fa-paperclip"></i></button>
+                    </ul><!--/ imoji -->
+                </div><!--/ input-field -->
+            </div><!--/ type_messages -->	
+        </form>
+                        
+    </div><!--main-conversation-box end-->
+</div><!--/ col-lg-8 -->
+
+</html>

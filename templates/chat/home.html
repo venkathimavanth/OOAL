@@ -2,6 +2,81 @@
 
 {% load static %}
 {% load staticfiles %}
+{% block extra_head_content %}
+	<style>
+		.tab {
+		overflow: hidden;
+		border: 1px solid #ccc;
+		background-color: #f1f1f1;
+		}
+
+		.tab button {
+			display: block;
+			width: 50%;
+			border: none;
+			background-color: #efefef;
+			padding: 14px 28px;
+			font-size: 16px;
+			cursor: pointer;
+			text-align: center;
+			color: #88898a;
+		}
+
+		.tab button:hover {
+			background-color: #848484;
+			color: #efefef;
+		}
+
+		.tab button.active {
+			background-color: #848484;
+			color: #efefef;
+		}
+
+		.tabcontent {
+		display: none;
+		border-top: none;
+		}
+
+		.tabcontent {
+			animation: fadeEffect 1s; /* Fading effect takes 1 second */
+		}
+
+		
+		@keyframes fadeEffect {
+			from {opacity: 0;}
+			to {opacity: 1;}
+		}
+		.tablinks {
+			font-family: 'Abhaya Libre', serif;
+			font-size: 20px;
+			font-weight: 700;
+		}
+		img.center { display: block; margin-left: auto; margin-right: auto; margin-top:250px;}
+        img.send {
+            height: 200px;
+            width: 200px;
+            
+        }
+        p.msg-head {
+            text-align: center;
+            font-size: 25px;
+            font-family: 'Abhaya Libre', serif;
+
+        }
+        p.msg-caption {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #848484
+        }
+        .conv-msg-home {
+            height: 626px;
+            width: 100%;
+
+        }
+
+	</style>
+
+{% endblock %}
 {% block content %}
 
 	 <!-- ==============================================
@@ -27,231 +102,70 @@
               </div>
              </div><!--/ search-area-->			 
 			</div><!--/ message-header-->
-								
 			<div class="messages-list">
+			<div class="tab">
+				<button id="defaultOpen" class="tablinks" style="float: left;" onclick="view(event, 'Friends')" >Friends</button>
+				<button class="tablinks" style="float: right;"onclick="view(event, 'Groups')">Groups</button>
+			</div>
+			<div id="Friends" class="tabcontent">
 			  <ul>
-			   <li class="active">
+			  {% if friends_list %}
+			  {% for i in friends_list %}
+			  
+			   <li class="friends" data-value="{{ i.email }}" onclick="msg_frnd(this)">
 				<div class="user-message-details">
 				 <div class="user-message-img">
-				  <img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="">
+				  <img data-src="{{ i.photo }}" src="data:image/jpeg;base64,{{ i.photo }}" class="img-responsive img-circle" alt="">
 				  <span class="user-online"></span>
 				 </div>
-				 <div class="user-message-info">
-				  <h4>Anthony McCartney</h4>
+				 <div data-name="{{ i.name }}"class="user-message-info">
+				  <h4>{{ i.name }}</h4>
 				  <p>Lorem ipsum dolor ...</p>
 				  <span class="time-posted">1:55 PM</span>
 			     </div><!--/ user-message-info -->
 				 <span class="message-notification">1</span>
 			    </div><!--/ user-message-details -->
 			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/10.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Sean Coleman</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/3.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Vanessa Wells</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/4.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Clifford Graham</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/5.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Grace Karen</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/14.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Alex Grantte</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/7.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Anna Morgan</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/8.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Francis Long</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-			   <li>
-				<div class="user-message-details">
-				 <div class="user-message-img">
-				  <img src="assets/img/users/9.jpg" class="img-responsive img-circle" alt="">
-				 </div>
-				 <div class="user-message-info">
-				  <h4>Eleanor Harper</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
-			     </div><!--/ user-message-info -->
-			    </div><!--/ user-message-details -->
-			   </li>
-										
+			   
+			   {% endfor %}
+			   {% endif %}										
 			  </ul>
+			  </div>
+			<div id="Groups" class="tabcontent">
+			  <ul>
+			  {% if groups_list %}
+			  {% for i in groups_list %}
+			   <li class="active" data-value="{{ i.id }}" onclick="msg_group(this)">
+				<div class="user-message-details">
+				 <div class="user-message-img">
+				  <img data-src="{{ i.photo }}" src="data:image/jpeg;base64,{{ i.photo }}" class="img-responsive img-circle" alt="">
+				  <span class="user-online"></span>
+				 </div>
+				 <div data-name="{{ i.name }}" class="user-message-info">
+				  <h4>{{ i.name }}</h4>
+				  <p>Lorem ipsum dolor ...</p>
+				  <span class="time-posted">1:55 PM</span>
+			     </div><!--/ user-message-info -->
+				 <span class="message-notification">1</span>
+			    </div><!--/ user-message-details -->
+			   </li>
+			   {% endfor %}
+			   {% endif %}										
+			  </ul>
+			  </div>
 			</div><!--/ messages-list -->
 			
 		   </div><!--/ messages-container-->
 		  </div><!--/ col-lg-4 -->
 		  
 		  <div class="col-lg-8 col-md-12 pd-right-none pd-left-none">
-		   <div class="conversation-box">
+		   <div class="conversation-box" id="conv-box">
 		   
-			<div class="conversation-header">
-			 <div class="user-message-details">
-			  <div class="user-message-img">
-			   <img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="">
-			  </div>
-			  <div class="user-message-info">
-			   <h4>John Doe</h4>
-			   <p>Online</p>
-			  </div><!--/ user-message-info -->
-			 </div><!--/ user-message-details -->
-			 <a href="#" title=""><i class="fa fa-ellipsis-v"></i></a>
-			</div><!--/ conversation-header -->
-			
-			<div class="conversation-container">
-
-			 <div class="convo-box pull-right">
-			  <div class="convo-area">
-			   <div class="convo-message">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
-			   </div><!--/ convo-message-->
-			   <span>Sat, Aug 23, 1:08 PM</span>
-			  </div><!--/ convo-area -->
-			  <div class="convo-img">
-			   <img src="assets/img/users/2.jpg" alt="" class="img-responsive img-circle">
-			  </div><!--/ convo-img -->
-			 </div><!--/ convo-box -->
-
-			 <div class="convo-box convo-left">
-			  <div class="convo-area convo-left">
-			   <div class="convo-message">
-				<p>Cras ultricies ligula.</p>
-			   </div><!--/ convo-message-->
-			   <span>5 minutes ago</span>
-			  </div><!--/ convo-area -->
-			  <div class="convo-img">
-			   <img src="assets/img/users/6.jpg" alt="" class="img-responsive img-circle">
-			  </div><!--/ convo-img -->
-			 </div><!--/ convo-box -->
-
-			 <div class="convo-box pull-right">
-			  <div class="convo-area">
-			   <div class="convo-message">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
-			   </div><!--/ convo-message-->
-			   <span>Sat, Aug 23, 1:08 PM</span>
-			  </div><!--/ convo-area -->
-			  <div class="convo-img">
-			   <img src="assets/img/users/2.jpg" alt="" class="img-responsive img-circle">
-			  </div><!--/ convo-img -->
-			 </div><!--/ convo-box -->
-
-			 <div class="convo-box convo-left">
-			  <div class="convo-area convo-left">
-			   <div class="convo-message">
-				<p>Lorem ipsum dolor sit amet</p>
-			   </div><!--/ convo-message-->
-			   <span>2 minutes ago</span>
-			  </div><!--/ convo-area -->
-			  <div class="convo-img">
-			   <img src="assets/img/users/6.jpg" alt="" class="img-responsive img-circle">
-			  </div><!--/ convo-img -->
-			 </div><!--/ convo-box -->
-
-			 <div class="convo-box pull-right">
-			  <div class="convo-area">
-			   <div class="convo-message">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
-			   </div><!--/ convo-message-->
-			   <span>Sat, Aug 23, 1:08 PM</span>
-			  </div><!--/ convo-area -->
-			  <div class="convo-img">
-			   <img src="assets/img/users/2.jpg" alt="" class="img-responsive img-circle">
-			  </div><!--/ convo-img -->
-			 </div><!--/ convo-box -->
-
-			 <div class="convo-box convo-left">
-			  <div class="convo-area convo-left">
-			   <div class="convo-message">
-				<p>Typing...</p>
-			   </div><!--/ convo-message-->
-			   <span>2 minutes ago</span>
-			  </div><!--/ convo-area -->
-			  <div class="convo-img">
-			   <img src="assets/img/users/6.jpg" alt="" class="img-responsive img-circle">
-			  </div><!--/ convo-img -->
-			 </div><!--/ convo-box -->
-									
-			</div><!--/ conversation-container -->
-			<form id="compose_msg_form">
-            <div class="type_messages">  
-             <div class="input-field">
-              <textarea id="msg" placeholder="Type something &amp; press enter" onkeyup="manage(this)" ></textarea>
-			  <ul class="imoji">
-			   <button id="send_btn" type="submit" class="send-btn" disabled ><i class="fa fa-paper-plane"></i></button>
-			   <button id="send_btn" class="send-btn" ><i class="fa fa-smile" ></i></button>
-			   <button id="send_btn" class="send-btn" ><i class="fa fa-image"></i></button>
-			   <button id="send_btn" class="send-btn" ><i class="fa fa-paperclip"></i></button>
-			  </ul><!--/ imoji -->
-             </div><!--/ input-field -->
-            </div><!--/ type_messages -->	
-			</form>
-								
+				<div class="conv-msg-home">
+                    <img class="center send" src={% static "assets/img/compose-001.png"%}>
+                    <p class='msg-head'>Your Messages</p>
+                    <p class="msg-caption">Send private photos and messages to a friend or group.</p>
+                </div> 								
            </div><!--main-conversation-box end-->
 		  </div><!--/ col-lg-8 -->
 		  
@@ -276,24 +190,104 @@
 			}
 		}    
 	</script>
-	<script type="text/javascript">
-
-		$(document).on('submit','#compose_msg_form', function(e){
-			e.preventDefault();
-
+	<script>
+		function msg_frnd(frndId) {
+			console.log("msg_frnd(frndId)");
+			console.log(frndId);
+			var frnd_id = frndId.getAttribute("data-value");
+			var f_src = frndId.getAttribute("data-src");
+			var f_name = frndId.getAttribute("data-name");
+			console.log(f_src);
+			console.log(f_name);
 			$.ajax({
-				type: 'POST',
-				url: '/chat/send/',
-				data:{
-					msg: $('#msg').val()
+                    type: "GET",
+                    url: "/chat/getMsg/",
+                    data: { 
+                        'f_id': frnd_id,
+                    },
+                    success: display,
+					dataType: 'html',
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+		}
+		function display(data,textStatus,jqXHR) {
+			console.log("display")
+        	$('#conv-box').html(data)
+		}
+	</script>
+	<script>
+		function msg_group(grpId) {
+			console.log("msg_group(grpId)");
+			var grp_id = grpId.getAttribute("data-value");
+			$.ajax({
+                    type: "GET",
+                    url: "/chat/getGrpMsg/",
+                    data: { 
+                        'clan_id': grp_id,
+                    },
+                    success: display,
+					dataType: 'html',
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+			
+		}
+		function display(data,textStatus,jqXHR) {
+			console.log("display")
+			console.log(data)
+        	$('#conv-box').html(data)
+		}
+	</script>
 
-				},
-				success:function(){
-					
-				}
-			});
-		});
+	<script>
+		function msg_re_group(grpId) {
+			console.log("msg_re_group(grpId)");
+			var grp_id = grpId;
+			$.ajax({
+                    type: "GET",
+                    url: "/chat/getGrpMsg/",
+                    data: { 
+                        'clan_id': grp_id,
+                    },
+                    success: display,
+					dataType: 'html',
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+		}
+	</script>
 
+	<script type="text/javascript">
+		function view(evt, tabName) {
+			console.log(tabName);
+			// Declare all variables
+			var i, tabcontent, tablinks;
+
+			// Get all elements with class="tabcontent" and hide them
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+
+			// Get all elements with class="tablinks" and remove the class "active"
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+
+			// Show the current tab, and add an "active" class to the button that opened the tab
+			document.getElementById(tabName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+	</script>
+	
+	<script>
+		{% comment %} // Get the element with id="defaultOpen" and click on it {% endcomment %}
+		document.getElementById("defaultOpen").click();
 	</script>
 
 	<script src="assets/js/jquery.min.js"></script>
