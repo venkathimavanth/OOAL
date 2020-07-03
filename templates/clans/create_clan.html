@@ -41,10 +41,40 @@
 
 
         		<script src={% static  "assets/js/modernizr-custom.html" %}></script>
-            {% block extra_head_content %}{% endblock %}
+            <style>
+              .upload-btn-wrapper {
+                position: relative;
+                overflow: hidden;
+                display: inline-block;
+              }
+
+              .btn {
+                border: 2px solid gray;
+                color: gray;
+                background-color: white;
+                padding: 8px 20px;
+                border-radius: 8px;
+                font-size: 20px;
+                font-weight: bold;
+              }
+
+              .upload-btn-wrapper input[type=file] {
+                font-size: 100px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                opacity: 0;
+              }
+            </style>
+
+            <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+            <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+            <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+            <meta charset=utf-8 />
+
   </head>
 
-<body style="background-color:#F8F8F8">
+<body>
 
      <!-- ==============================================
      Navigation Section
@@ -59,7 +89,7 @@
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		 </button>
-		 <a class="navbar-brand" href="{% url 'user_auth:managementhome' %}">OOAL-Management</a>
+		 <a class="navbar-brand" href="{% url 'user_auth:loggedinhome' %}">OOAL</a>
 		</div><!-- /.navbar-header -->
 		<div class="navbar-left">
 		 <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -71,14 +101,14 @@
 		 <ul class="nav navbar-nav">
 
 
-			 <li class="dropdown mega-avatar">
-			  <a href="{% url 'management:dailychallanges' %}" aria-expanded="true">
-			 	<span class="hidden-xs">
-			 			 Challanges
-			 	</span>
-			  </a>
-			 </li><!-- /navbar-item -->
 
+     <li class="dropdown mega-avatar">
+		  <a href="#" aria-expanded="true">
+		   <span class="hidden-xs">
+			      About
+		   </span>
+		  </a>
+		 </li><!-- /navbar-item -->
 
      <li class="dropdown mega-avatar">
 		  <a href="{% url 'user_auth:logout' %}" aria-expanded="true">
@@ -95,10 +125,70 @@
       </nav><!-- /.navbar -->
      </header><!-- Page Header -->
 
+	<section class="nav-sec" style="height:20px">
+	  <div class="d-flex justify-content-between">
+	  </div>
+	</section>
 
 
-  {% block content %}
-  {% endblock %}
+
+
+  <section class="single-post" style="height:1200px">
+
+    <div class="container">
+     <div class="row">
+
+       <div class="modal-dialog">
+        <div class="modal-content">
+         <div class="modal-body">
+           <center>
+           <h2>Create Clan<h2><br>
+
+             <form method="post" action="{% url 'community:create-clan' %}" class="form-signin" style="width:100%" id="addchallenge" enctype="multipart/form-data">
+                {% csrf_token %}
+
+								<div class="form-group">
+								 <input name="name" type="text" class="form-control" placeholder="Full Name" required >
+								</div>
+
+								<div class="form-group">
+                 <textarea rows="4" cols="50" class="form-control" name="discription" form="addchallenge" placeholder="Discription" required></textarea>
+                </div>
+
+
+
+
+              <div class="upload-btn-wrapper" class="form-group">
+                <button class="btn">Upload a photo</button>
+                <input  type="file" id="img" name="photo"  accept="image/*" onchange="readURL(this);" required>
+              </div>
+
+
+
+              <button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="submit">Submit</button>
+              <br/>
+
+
+
+
+              {% if warning %}
+                 <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
+              {% endif %}
+             </form>
+
+             </center>
+         </div><!--/ modal-body -->
+
+        </div><!--/ modal-content -->
+       </div><!--/ modal-dialog -->
+
+       </div><!--/ modal-dialog -->
+       </div><!--/ modal-dialog -->
+      </section><!--/ modal -->
+
+
+
+
 
   	<script src={% static  "assets/js/jquery.min.js" %}></script>
   	<script src={% static  "assets/js/bootstrap.min.js" %}></script>

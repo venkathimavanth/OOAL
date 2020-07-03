@@ -23,6 +23,9 @@ function send_friend_req(exe){
   else if (exe.id == 3) {
     r = confirm("Are You Sure You Want Accept This Friend Request ?");
   }
+  else if (exe.id == 4) {
+    r = confirm("Are You Sure You Want Reject This Friend Request ?");
+  }
   if ( r == true ){
     console.log(r)
  $.ajax({
@@ -100,7 +103,8 @@ User Profile Section
     <div class="col-lg-3">
         <div class="follow-box">
 
-          {% if friends == 3 %}<a  onclick="send_friend_req(this)" id="{{ friends }}" class="kafe-btn kafe-btn-mint">Accept Friend Request</a> {% endif %}
+          {% if friends == 3 %}<a  onclick="send_friend_req(this)" id="{{ friends }}" class="kafe-btn kafe-btn-mint">Accept Friend Request</a>
+          <a  onclick="send_friend_req(this)" id="4" class="kafe-btn kafe-btn-mint">Reject</a> {% endif %}
           {% if friends == 2 %}<a onclick="send_friend_req(this)" id="{{ friends }}"  class="kafe-btn kafe-btn-mint"><i class="fa fa-check"></i> Friends </a> {% endif %}
           {% if friends == 1 %}<a onclick="send_friend_req(this)" id="{{ friends }}"  class="kafe-btn kafe-btn-mint">Friend Request sent</a> {% endif %}
           {% if friends == 0 %}<a  onclick="send_friend_req(this)" id="{{ friends }}" class="kafe-btn kafe-btn-mint">Send Friend Request</a> {% endif %}

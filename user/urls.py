@@ -1,4 +1,4 @@
-from django.urls import path,include
+from django.urls import path,include,re_path
 from . import views
 
 app_name = "user"
@@ -11,5 +11,11 @@ urlpatterns = [
     path('pendingrequests/', views.pendingrequests ,name='pendingrequests'),
     path('findfriends/', views.findfriends ,name='findfriends'),
     path('pendingrequests/<email>/', views.viewfullprofile ,name='viewfullprofile'),
+    path('pendingrequests/<email>/<type>/', views.add_deop_req ,name='add_deop_req'),
+    path('friends/<email>/', views.viewfullprofile ,name='viewfullprofile'),
+    path('findfriends/<email>/', views.viewfullprofile ,name='viewfullprofile'),
+    path('articles/search/', views.autocompleteModel,name="autocompleteModel"),
+    path('viewmyprofile/', views.viewmyprofile ,name='viewmyprofile'),
+    path('challanges/', views.challanges ,name='challanges'),
 
 ]

@@ -25,3 +25,12 @@ class Challange(Document):
     number_of_reports = IntField(default=0)
     age_restricted=BooleanField(default=False)
     discription = StringField(max_length=1000)
+
+
+class DailyChallanges(Document):
+    name = StringField(max_length=200)
+    created_date=DateTimeField()
+    posted_date=DateTimeField(unique=True)
+    number_of_reports = IntField(default=0)
+    age_restricted=BooleanField(default=False)
+    discription = StringField(max_length=1000)

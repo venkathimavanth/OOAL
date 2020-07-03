@@ -1,0 +1,153 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"> </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<style>
+input[type=text] {
+  width: 30%;
+  box-sizing: border-box;
+  border: 2px solid  #1CD8D2;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,700');
+h1 {
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+}
+
+img {
+  height: 200px;
+  width: 1000px;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.btn {
+  color: #ffffff;
+  padding: 0.8rem;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-weight: 400;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  background: linear-gradient(to bottom left,  #1CD8D2 40%,#93EDC7 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* background: transparent; */
+}
+
+.btn:hover {
+  /* background: linear-gradient(to bottom left,  #93EDC7 40%,#1CD8D2 100%); */
+  color: grey;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards_item {
+  display: flex;
+  padding: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .cards_item {
+    width: 50%;
+  }
+}
+
+@media (min-width: 56rem) {
+  .cards_item {
+    width: 33.3333%;
+  }
+}
+
+.card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 40px 50px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card_content {
+  padding: 1rem;
+   background: #e5e5e5;
+  /* background: linear-gradient(to bottom left, #EF8D9C 40%, #FFC39E 100%); */
+}
+
+.card_title {
+  color: black;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  margin: 0px;
+}
+
+.card_text {
+  color: black;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+}
+.made_by{
+  font-weight: 400;
+  font-size: 13px;
+  margin-top: 35px;
+  text-align: center;
+}
+
+
+@keyframes slideInFromRight {
+  0% {
+    transform : translateX(20%);
+  }
+  100%{
+    transform : translateX(0%);
+  }
+}
+
+.litrans{
+  animation:0.3s ease-in-out 0s 1 slideInFromRight;
+}
+
+</style>
+</html>
+{% if content %}
+{% for c in content %}
+
+<li class="cards_item litrans">
+  <div class="card">
+    <div class="card_image" ><img style="height:150px" src="data:image/jpeg;base64,{{ c.photo }}"></div>
+    <div class="card_content">
+      <h2 class="card_title">{{ c.name }}</h2>
+      <p class="card_text">{{ c.discription }}</p>
+      <button class="btn card_btn" id="{{ c.email }}" onclick="fun1(this)">View Profile</button>
+    </div>
+  </div>
+</li>
+
+{% endfor %}
+{% endif %}

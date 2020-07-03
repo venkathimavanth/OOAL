@@ -681,8 +681,7 @@ a.navbar-brand:hover {
     position: relative;
     display: block;
 }
-.cardbox .cardbox-item img{
-}
+
 .img-responsive{
     display: block;
     max-width: 100%;
@@ -990,7 +989,7 @@ a.navbar-brand:hover {
    ========================================================================== */
 .storybox {
   color: #fff;
-  height: 60px !important;
+  height: 200px;
   width: 100%;
 
   border-radius: 3px;
@@ -1341,7 +1340,7 @@ a.navbar-brand:hover {
 }
 .stories .storybox {
   color: #fff;
-  height: 60px !important;
+  height: 360px !important;
   width: 100%;
 
   border-radius: 3px;
@@ -1457,7 +1456,7 @@ a.navbar-brand:hover {
 
 @media (max-width: 768px){
 	.details .col-lg-3{
-	  float: left !important
+	  float: left !important;
       margin-bottom: 20px;
 	}
 }
@@ -1781,6 +1780,35 @@ a.navbar-brand:hover {
  color: #88898a;
  font-weight: 700;
 }
+.search {
+  padding: 10px 20px 20px 20px;
+ }
+ .search .input-field {
+  background: #f4f4f4;
+  margin: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 0 20px;
+  position: relative;
+ }
+ .search .input-field input {
+  font-family: 'Abhaya Libre', serif;
+  width: 95%; 
+  margin: 0;
+  border: 0;
+  background: #f4f4f4;
+  color: #848484 !important;
+  padding: 10px 0px;
+ }
+ .search .input-field i {
+  font-size: 25px;
+  color: #848484 !important;
+  float: right;
+  position: relative;
+  top: 10px;
+  cursor: pointer;
+ }
+ 
 .search-area {
  padding: 10px 20px 20px 20px;
 }
@@ -1809,7 +1837,6 @@ a.navbar-brand:hover {
  top: 10px;
  cursor: pointer;
 }
-
 
 .messages-list {
  float: left;
@@ -1895,9 +1922,10 @@ a.navbar-brand:hover {
 .message-notification {
  position: absolute;
  top: 2px;
- right: 0;
+ right: 5px;
  width: 25px;
  height: 25px;
+
 
  -webkit-border-radius: 100px;
  -moz-border-radius: 100px;
@@ -1912,6 +1940,7 @@ a.navbar-brand:hover {
  font-size: 13px;
  color: #fff;
 }
+
 
 
 .pd-right-none {
@@ -2040,7 +2069,7 @@ a.navbar-brand:hover {
  border: 0;
  box-shadow: none;
  color: #beced7;
- width: 80%;
+ width: 75%;
 }
 .type_messages .input-field .imoji {
  position: absolute;
@@ -2051,11 +2080,27 @@ a.navbar-brand:hover {
  display: inline-block;
  padding-left: 17px;
 }
+.type_messages .input-field .imoji button {
+  background-color: white;
+  border: none;
+  display: inline-block;
+  padding-left: 8px;
+  padding-right: 8px;
+ }
 .type_messages .input-field .imoji li a {
  font-size: 25px;
  color: #0fc19e;
 }
+.type_messages .input-field .imoji button i {
+  font-size: 25px;
+  color: #0fc19e;
+ }
 
+ .type_messages .input-field .imoji button:disabled i {
+  font-size: 25px;
+  color: #666666;
+ }
+ 
 
 .message-send-area {
     float: left;

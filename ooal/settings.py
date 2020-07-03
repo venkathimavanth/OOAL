@@ -49,10 +49,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cron',
     'rest_framework',
     'user_auth',
     'management',
     'user',
+    'clans',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +67,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CRON_CLASSES = [
+    "user_auth.cron.MyCronJob",
+]
+
+
 
 ROOT_URLCONF = 'ooal.urls'
 
