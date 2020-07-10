@@ -95,3 +95,48 @@ def management_required(func):
             return func(request,*args,**kwargs)
 
     return wrap_func
+
+
+def business_required(func):
+    print("called management_required dec func")
+    def wrap_func(request,*args,**kwargs):
+        if not request.session.has_key('username'):
+            return redirect('user_auth:login')
+        elif request.session.has_key('username'):
+
+            us=User.objects.filter(email=request.session['username'])
+            if us:
+                u=None
+                for u in us:
+                    pass
+                if u["email_verified"]:
+                    if u["user_type"] == "2" :
+                        return func(request,*args,**kwargs)
+                    if request.session.has_key('username'):
+                        print("logoutd1")
+                        try:
+                            del request.session["username"]
+                        except:
+                            pass
+                    return redirect('user_auth:login')
+                else:
+                    if request.session.has_key('username'):
+                        print("logoutd1")
+                        try:
+                            del request.session["username"]
+                        except:
+                            pass
+                    return redirect('user_auth:verify_email')
+            else:
+                if request.session.has_key('username'):
+                    print("logoutd1")
+                    try:
+                        del request.session["username"]
+                    except:
+                        pass
+                return redirect('user_auth:login')
+
+        else:
+            return func(request,*args,**kwargs)
+
+    return wrap_func

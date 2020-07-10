@@ -2,7 +2,7 @@ from user_auth.models import User,Profile
 import datetime,bcrypt,hashlib
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from .decorators import login_required,management_required
+from .decorators import login_required,management_required,business_required
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
 
@@ -28,6 +28,8 @@ def check_loggedin(request):
         if e:
             if u["user_type"] == "1":
                 return redirect('user_auth:managementhome')
+            elif u["user_type"] == "2":
+                return redirect('user_auth:businesshome')
             return redirect('user_auth:loggedinhome')
         else:
             print("logout1")
@@ -92,6 +94,9 @@ def login(request):
                     request.session['username'] = request.POST["name"]
                     if u["user_type"] == "1":
                         return redirect('user_auth:managementhome')
+                    if u["user_type"] == "2":
+                        return redirect('user_auth:businesshome')
+
                     return redirect('user_auth:loggedinhome')
                 else:
                     return render(request,'registration/login.html',{'warning':"Incorrect Password"})
@@ -112,7 +117,10 @@ def managementhome(request):
     print("called managementhome view func")
     return render(request,'management/managementhome.html',{'warning':"Logged in successfully"})
 
-
+@business_required
+def businesshome(request):
+    print("called businesshome view func")
+    return render(request,'business/businesshome.html',{'warning':"Logged in successfully"})
 
 @login_required
 def logout(request):

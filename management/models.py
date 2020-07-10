@@ -1,7 +1,6 @@
 from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
 
-DB_URI = "mongodb+srv://ead118:myclan#2@ead.epyex.mongodb.net/EAD?retryWrites=true&w=majority"
-connect(host=DB_URI)
+connect("EAD_OOAL")
 
 class CategoryModel(Document):
     category_name = StringField(max_length=200,unique=True)

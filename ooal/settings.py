@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'user_auth',
     'management',
     'user',
+    'business',
     'clans',
     'chat',
 ]
