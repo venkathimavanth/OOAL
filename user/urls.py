@@ -17,5 +17,5 @@ urlpatterns = [
     path('articles/search/', views.autocompleteModel,name="autocompleteModel"),
     path('viewmyprofile/', views.viewmyprofile ,name='viewmyprofile'),
     path('challanges/', views.challanges ,name='challanges'),
-
+    path('userhome/', views.userhome ,name='userhome'),
 ]

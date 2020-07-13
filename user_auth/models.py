@@ -34,3 +34,5 @@ class Profile(Document):
     completed=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
     messages = ListField(ObjectIdField())
+    myposts=ListField(ObjectIdField())
+    myfeed=ListField(ObjectIdField())

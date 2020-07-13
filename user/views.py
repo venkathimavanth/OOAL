@@ -24,6 +24,10 @@ def get_userprofile(request,id):
         got=True
     return (got,prof)
 
+@login_required
+def userhome(request):
+    print("called userhome view func")    
+    return render(request,'registration/loginhome.html',{'warning':"Logged in successfully"})
 
 
 @login_required
