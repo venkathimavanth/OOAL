@@ -2,110 +2,54 @@
 {% load static %}
 {% load staticfiles %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
     {% block extra_head_content %}
     <meta charset="UTF-8">
-    <title>Limited offer coupons</title>
+    <title>Limited Coupons</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
     <style>
-        body{
-            height: 700px;
-            background-color: white !important;
-        }
-        #banner-image,#img2{
-                box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
-                {#border-radius:100%#}
-        }
-        .file-upload{
-            float:left;
-            margin-top: 25%;
-            {#margin-right: 30    %;#}
-            margin-left: 15%;
-            width: 35%;
-        }
-        .upload-btn-wrapper{
-            width: 35%;
-            float: left;
-            margin-top: 25%;
-            {#margin-right: 5%;#}
-            margin-left: 15%;
-            height: 270px;
-        }
-        .preview-wrapper{
-            float: right;
-            {#background-color: #0fc19e;#}
-            margin-right: 2.5%;
-            height: 600px;
-            width:40%;
-            padding: 1.5%;
-        }
-        .preview{
-            float: right;
-            background-color: #f4f5f7;
+        #preview{
             border-radius: 2rem;
-            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
         }
-       .form{
-           float: left;
-           {#background-color: #0fc19e;#}
-           {#padding-top: 5%;#}
-           width: 50%;
-           height: 620px;
-           padding-left: 15%;
-       }
-       .submit-div{
-           padding-top: 50%;
-           padding-left: 23%;
-       }
-       .submit-btn{
-            color: #fff;
-            background-color: #11cdef;
+        .submit-btn{
             border-color: transparent;
             {#box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);#}
-           box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
             border-radius: .50rem;
             transition: all .15s ease;
             text-align: center;
             vertical-align: center;
-            width: 30%;
+            width: 105px;
             height: 35px;
-           margin-left: -5%;
-           {#margin-top: 10%;#}
+            font-family: "Open Sans",sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #fff;
+            background-color: #172b4d;
 
        }
-
+       .btn:hover{
+        background-color: #101e35;
+            border-color: #101e35;
+            color:#fff;
+        }
        .submit-btn2{
             color: #fff;
             background-color: #11cdef;
             border-color: transparent;
             {#box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);#}
-           box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
             border-radius: .50rem;
             transition: all .15s ease;
             text-align: center;
             vertical-align: center;
-            width: 60%;
+            width: 105px;
             height: 35px;
-           margin-top: 5%;
-           {#padding-top: 50%;#}
-            margin-left: 8%;
        }
-
-       .message-wrapper{
-           {#background-color: #0fc19e;#}
-           width:100%;
-           height:50px;
-           margin-bottom: 5%;
-       }
-
        #message_div{
            {#margin: 2.5%;#}
            {#margin-top: 1%;#}
@@ -113,8 +57,8 @@
            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
             border-radius: .50rem;
            vertical-align: center;
-           float: right;
-           width: 100%;
+           {#float: right;#}
+           {#width: 100%;#}
            height:50px;
            color: white;
            font-weight: 600;
@@ -128,71 +72,35 @@
        }
        .alert-success{
             background-color: #15c39a;
+            border-color: #15c39a;
        }
        .alert{
            padding: 0px;
        }
-        input[type=file]{
-        color:transparent;
+       input[type=file]{
+            color:transparent;
             background-color: transparent;
-    }
-    input[id = file-upload-button]{
-        background-color: #000000;
-        color: transparent;
-    }
-    #img1{
-        box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
-        border-radius:100%;
-    }
+        }
     </style>
-    {% endblock %}
-</head>
-{#<body>#}
+{% endblock %}
+
 
 {% block content %}
-            <div class="form" >
-                <form method="post" enctype="multipart/form-data" action="{% url 'business:coupon_upload' %}" >
-                    {% csrf_token %}
-                    <div class="upload-btn-wrapper" >
-{#                        <input id="banner-image" type="image" src="{% static 'business/img-icon.png' %}" width="150px" required>#}
-                        <img id="img2" src="{% static 'business/img-icon.png' %}" width="150px">
-                        <button class="submit-btn2" type="button">
-                        <input  type="file" id="banner_img"    name="banner"  accept="image/*"  ></button>
-                        <p style="margin-top: 2.5%;">upload a offer banner image</p>
-                    </div>
-                    <div class = 'file-upload'>
-{#                        <input id="file-image" type="image" src="{% static 'business/csv-icon.png' %}" width="150px" >#}
-                        <img id="img1" src="{% static 'business/csv-icon.png' %}" width="150px">
-                        <button class="submit-btn2" type="button">
-                        <input type="file" name="file" id="my_file"  required></button>
-                        <p style="margin-top: 5%;">Only upload a csv file</p>
-                    </div>
-                    <div class="submit-div">
-                        <button class="submit-btn" type="submit">Upload</button>
-                    </div>
-                </form>
-            </div>
-            <div class="preview-wrapper">
-                <div class="message-wrapper">
-
-{#                    <div class="alert alert-success" id="message_div2">#}
-{#                        <span class="message-icon">#}
-{#                            <img src="{% static 'business/tick-icon.png' %}" style="width: 45px;margin-left: 5%">#}
-{#                        </span>#}
-{#                                        This is danger#}
-{#                    </div>#}
-
-
-
-                    {% if messages %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container" style="margin-top: 2.5% ; width: 35%;">
+            <div class="row" >
+                <div class="col-12">
+                    <div class="message-wrapper text-wrap"  >
+                        {% if messages %}
 
                             {% for message in messages %}
                                 {% if message.tags == 'error' %}
                                     <div class="alert alert-danger" id="message_div">
-                                    <span class="message-icon">
-                                        <img src="{% static 'business/danger-icon.png' %}" style="width: 50px;margin-left: 5%">
-                                    </span>
-                                    {{ message|safe }}
+                                        <span class="message-icon">
+                                            <img src="{% static 'business/danger-icon.png' %}" style="width: 50px;margin-left: 5%">
+                                        </span>
+                                        {{ message|safe }}
                                     </div>
                                 {% endif %}
                                 {% if message.tags == 'success' %}
@@ -200,45 +108,59 @@
                                         <span class="message-icon">
                                             <img src="{% static 'business/tick-icon.png' %}" style="width: 45px;margin-left: 5%">
                                         </span>
-                                    {{ message|safe }}
+                                        {{ message|safe }}
                                     </div>
                                 {% endif %}
                             {% endfor %}
 
-                    {% endif %}
+                        {% endif %}
+                    </div>
+
                 </div>
-
-            <div class="preview">
-
-                <center>
-                <h3>Preview CSV file</h3>
-                <p>Click on the image to download it:<p></center>
-                <a href="{% static "business/preview.csv" %}" download>
-                    <img src="{% static 'business/preview_pic.PNG' %}" style="width: 100%">
-                </a>
             </div>
+            <center>
+                <div class="row" >
+                    <div class="col-lg-6" style="height: 230px;margin-top: 2.5%">
+                        <img id="img2" src="{% static 'business/img-icon.png' %}" width="150px">
+                        <button class="submit-btn2" type="button">
+                        <input  type="file" id="banner_img"    name="banner"  accept="image/*"  ></button>
+                        <p style="margin-top: 2.5%;">upload a offer banner image</p>
+                    </div>
+
+                    <div class="col-lg-6" style="height: 230px;margin-top: 2.5%">
+                        <img id="img1" src="{% static 'business/csv-icon.png' %}" width="150px">
+                        <button class="submit-btn2" type="button">
+                        <input type="file" name="file" id="my_file"  required></button>
+                        <p style="margin-top: 5%;">Only upload a csv file</p>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <center>
+                            <button class="btn btn-default submit-btn" type="submit">Upload</button>
+                        </center>
+                    </div>
+                </div>
+            </center>
+        </div>
+        <div class="container" style="margin-top: 5% ;width: 60%;height: 800px;">
+                <div class="col-lg-12 modal-content" id="preview" style="background-color: #f9f9f9;">
+                    <center>
+                    <h3>Preview CSV file</h3>
+                    <p>Click on the image to download it:<p></center>
+                    <a href="{% static "business/preview.csv" %}" download>
+                        <img src="{% static 'business/preview_pic.PNG' %}" style="width: 100%">
+                    </a>
+                </div>
             </div>
-
-{#    <p>Click on the image to download it:<p>#}
-{#    <a href="{% static "business/preview.csv" %}" download>#}
-{#        <button>Download</button>#}
-{#    </a>#}
-
-
-    <script>
-        $("input[type='image']").click(function() {
-            $("input[id='my_file']").click();
-        });
-        $("input[id='banner-image']").click(function() {
-            $("input[id='banner_image']").click();
-        });
-    </script>
+        </div>
+    </form>
 
     <script>
         setTimeout(function() {
         $('#message_div').fadeOut('slow ');
-        }, 5000); // <-- time in milliseconds
+        }, 3000); // <-- time in milliseconds
     </script>
 {% endblock %}
 {#</body>#}
-</html>
+{#</html>#}

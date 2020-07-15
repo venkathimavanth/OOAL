@@ -1,0 +1,192 @@
+{% extends 'businessuserbase.html' %}
+{% load static %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block extra_head_content %}
+    <meta charset="UTF-8">
+    <title>Perimenent coupons</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{#    <link rel="stylesheet" href="https://demos.creative-tim.com/argon-design-system-angular/styles.e898230e9f1e1b8af363.css">#}
+    <style>
+        #input1,#input2 {
+            margin-top: 30px;
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            {#margin-right: 40px;#}
+        }
+        #input1{
+            margin-right: 40px;
+        }
+        {#.form-control, label {#}
+        {#    font-size: .875rem;#}
+        {#}#}
+        #form-id{
+
+            margin-top: 0.5%;
+            margin-right: 5%;
+            float: right;
+            {#padding-top: -5%;#}
+            {#background-color: #0fc19e;#}
+            width: 900px;
+            height:500px;
+            background-color: #8be6bf;
+            border-color: #8be6bf;
+            border-radius: 2rem;
+            {#box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);#}
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+        }
+        .submit-btn2{
+            color: #fff;
+            background-color: #11cdef;
+            border-color: transparent;
+            {#box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);#}
+           box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            border-radius: .50rem;
+            transition: all .15s ease;
+            text-align: center;
+            vertical-align: center;
+            width: 13%;
+            height: 35px;
+       }
+
+        input[type=file]{
+            color:transparent;
+            background-color: transparent;
+        }
+
+        .btn-default{
+            {#padding-top: 10%;#}
+            margin-top: 20px;
+            {#box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);#}
+            font-family: "Open Sans",sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.5;
+            color: #fff;
+            background-color: #172b4d;
+            border-color: #172b4d;
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+            width: 120px;
+            height:36px;
+        }
+        .btn:hover{
+        background-color: #101e35;
+            border-color: #101e35;
+            color:#fff;
+        }
+        body{
+            height: 700px;
+        }
+        }
+
+        .row{
+        padding-bottom: 1%;
+        }
+        .message-wrapper{
+            float: right;
+            {#background-color: #0fc19e;#}
+            width:40%;
+            height:40px;
+            {#margin-bottom: 5%;#}
+            margin-top: 0.5%;
+            margin-right: 5%;
+
+       }
+       .alert{
+
+           font-weight: 600;
+           font-family: "Open Sans",sans-serif;
+           height: 50px;
+           box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+           border-radius: .50rem;
+           font-size: larger;
+           padding: 2.5px;
+           vertical-align: center;
+
+       }
+       .alert-danger{
+           {#color: #f5365c;#}
+            background-color: #f75676;
+            border-color: #f75676
+       }
+       .alert-success{
+            background-color: #15c39a;
+       }
+    </style>
+    {% endblock %}
+</head>
+{#<body>#}
+{% block content %}
+    <div class="message-wrapper">
+{#        <div class="alert alert-success" id="message_div2">#}
+{#            <span class="message-icon">#}
+{#                <img src="{% static 'business/tick-icon.png' %}" style="width: 45px;margin-left: 5%">#}
+{#            </span>#}
+{#                            This is danger#}
+{#        </div>#}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger" id="message_div">
+                    <span class="message-icon">
+                        <img src="{% static 'business/danger-icon.png' %}" style="width: 50px;margin-left: 5%">
+                    </span>
+                    {{ message|safe }}
+                    </div>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                    <div class="alert alert-success" id="message_div">
+                        <span class="message-icon">
+                            <img src="{% static 'business/tick-icon.png' %}" style="width: 45px;margin-left: 5%">
+                        </span>
+                    {{ message|safe }}
+                    </div>
+                {% endif %}
+        {% endfor %}
+
+        {% endif %}
+    </div>
+
+    <form  method="post" class="form-inline" id="form-id" enctype="multipart/form-data" action="{% url 'business:add_coupon' %}">
+        <center>
+            <img src="{% static 'business/img-icon.png' %}" style="width: 150px;margin-top: 5%;">
+            <p style="color: whitesmoke">Upload banner image</p>
+        </center>
+
+        <center>
+            <button class="submit-btn2" type="button">
+            <input  type="file" id="banner_img"    name="banner"  accept="image/*" required></button>
+        </center>
+        <center>
+
+        <input type="text" class="form-control form-control-alternative" id="input1" name="code" placeholder="Coupon code" required>
+
+
+        <input type="text" class="form-control form-control-alternative" id="input2" name="discription" placeholder="Description" required>
+        </center>
+        <center>
+        <input type="submit" class="btn btn-default" value="Add coupon">
+        </center>
+    </form>
+
+    <script>
+        setTimeout(function() {
+        $('#message_div').fadeOut('slow ');
+        }, 5000); // <-- time in milliseconds
+    </script>
+
+{#    <script>#}
+{#         $("input[id='banner-image']").click(function() {#}
+{#            $("input[id='banner_image']").click();#}
+{#        });#}
+{#    </script>#}
+{% endblock %}
+{#</body>#}
+</html>
