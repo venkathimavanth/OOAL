@@ -121,3 +121,5 @@ management/__pycache__
 chat/migrations
 OOAL/db.sqlite3
 db.sqlite3
+.idea
+
