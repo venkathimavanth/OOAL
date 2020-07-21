@@ -42,7 +42,9 @@ def clanHome(request):
     username = request.session["username"]
     user = User.objects(email=username)[0]
     profile = Profile.objects(user_id=user["id"])[0]
+    print(profile)
     clans = []
+
     for i in profile["clans_registered"]:
         clan = community.objects(id=i)
         clans.append(clan)

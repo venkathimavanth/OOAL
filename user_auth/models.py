@@ -34,4 +34,3 @@ class Profile(Document):
     accepted_chall=ListField(ObjectIdField())
     completed=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
-
