@@ -4,7 +4,12 @@ from business.models import *
 from user_auth.decorators import business_required
 import csv,io,datetime
 from django.contrib import messages
-
+from django.http import HttpResponse
+import base64
+from django.utils.encoding import smart_text
+from pymongo import MongoClient
+mongo_client = MongoClient()
+db = mongo_client.EAD_OOAL
 # Create your views here.
 
 
@@ -75,3 +80,61 @@ def perminent_coupons(request):
             return render(request,template)
     else:
         return render(request,template)
+
+@business_required
+def video_check(request):
+    template = 'business/video_upload.html'
+    if request.method == 'POST':
+        print('\nPOST')
+        if 'file' in request.FILES and 'name' in request.POST and 'content' in request.POST:
+            print('Correct request')
+            name = request.POST['name']
+            content = request.POST['content']
+            file = request.FILES['file']
+            if content == 'image':
+                content_type = 'image/jpeg'
+                is_image = True
+            else:
+                content_type = 'video/mp4'
+                is_image = False
+            instance = Video_Check(video_name = name).save()
+            instance.video.put(file,content_type=content_type,is_image=is_image)
+            instance.save()
+            return HttpResponse('Content Uploaded sucessfully :) !!!!!!!!!')
+        else:
+            print('Wrong request')
+    else:
+        return render(request,template)
+# @business_required
+def video_view(request):
+    pass
+    # template = 'business/video_view.html'
+    # # video_instance = Video_Check.objects.filter(video_name = 'first').first()
+    # # video_instance = Video_Check.objects.all()
+    # all_content=[]
+    # content=''
+    # # print("\n All objects")
+    # for video_instance in Video_Check.objects:
+    #     dict={}
+    #     print(video_instance.video_name)
+    #     dict['content_type']=video_instance.video.content_type
+    #     print('ct')
+    #     dict['is_image'] = video_instance.video.is_image
+    #     print('isimg')
+    #     content = video_instance.video.read()
+    #     base64EncodedStr = base64.b64encode(content)
+    #     video = base64EncodedStr.decode('utf-8')
+    #     dict['content'] = video
+    #     print('cnt')
+    #     all_content.append(dict)
+    #     print("DONEEE!!! \n")
+    # #     all_content.append({'content':video,'content_type':video_instance.video.content_type,'is_image':video_instance.video.is_image})
+    # # print("\nReady to render\n")
+    # # content_type = video_instance.video.content_type
+    # # is_image = video_instance.video.is_image
+    # # content = video_instance.video.read()
+    # # base64EncodedStr = base64.b64encode(content)
+    # # video = base64EncodedStr.decode('utf-8')
+    # # print('done')
+    # # return render(request,template,{"all_content":all_content})
+
