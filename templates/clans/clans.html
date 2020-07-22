@@ -89,31 +89,34 @@
 		
             <div class="followers-box full-width">
                 <div class="followers-list">
-                {% for i in clans %}
+                {% for i in clans1 %}
                     <div class="followers-body" >
-                    <img class="img-responsive img-circle" src={% static "assets/img/users/1.jpg"%} alt="">
+                    <img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ i.clan_photo}}" alt="">
                     <div class="name-box">
-                    <h4>{{ i.0.name }}</h4>
-                    <span>@{{ username }}</span>
+                    <h4>{{ i.name }}</h4>
+                    <span>{{ i.description }}</span>
                     <div class="followers-base">
                     <ul class="list-group">
                         <li class="list-group-item full-width">
                         <div class="pull-left" style="margin-right: 20px;">
-                        <img src={% static "assets/img/users/1.jpg"%} alt="" class="img-circle max-w-40 ">
-                        <img src={% static "assets/img/users/2.jpg"%} alt="" class="img-circle max-w-40 ">
-                        <img src={% static "assets/img/users/3.jpg"%} alt="" class="img-circle max-w-40 ">
-                        <img src={% static "assets/img/users/4.jpg"%} alt="" class="img-circle max-w-40 ">
+                            {% for j in i.members_photos %}
+                                <img class="img-responsive img-circle" src="data:image/jpeg;base64,{{j }}" alt="">>
+                            {% endfor %}
                         </div><!--/ pull-left -->
                         </li> 
                     </ul>
                     </div><!--/ followers-base -->
                     </div><!--/ name-box -->
+<<<<<<< Updated upstream
                     <span><a href="#" class="kafe-btn kafe-btn-mint-small"> Add participants </a></span>
+=======
+                    <span><a href={% url 'community:clan-show' i.clan_id %} class="kafe-btn kafe-btn-mint-small"> Open </a></span>
+>>>>>>> Stashed changes
                     </div><!--/ followers-body -->
-                    {% endfor %}
-                
-                
-                
+                            {% endfor %}
+
+
+
                     
                     
                 </div><!--suggestions-list end-->

@@ -40,10 +40,12 @@ def check_loggedin(request):
 def signup(request):
     print("called signup view func")
     if request.method=='GET':
+        print(1)
         r=check_loggedin(request)
         if r:
             return r
     elif request.method=='POST':
+        print(1)
         if "name" in request.POST and "password" in request.POST and "repassword" in request.POST  :
             if request.POST["password"] == request.POST["repassword"]:
                 if not check_user_exists(request,request.POST["name"])[0]:#check unique user or not
@@ -57,18 +59,19 @@ def signup(request):
                     hashed=temp
                     message = str("Please click the link below \n\n") + "http://127.0.0.1:8000/email_verified" + "/" + str(request.POST["name"]) + "/"+ hashed
                     to_email = request.POST["name"]
-                    email = EmailMessage(
-                                mail_subject, message, to=[request.POST["name"]]
-                                )
-                    email.send()
+                    # email = EmailMessage(
+                    #             mail_subject, message, to=[request.POST["name"]]
+                    #             )
+                    # email.send()
 
                     password=str(request.POST["password"]).encode("utf-8")
                     hashed = bcrypt.hashpw(password,bcrypt.gensalt())
                     hashed=hashed.decode('ascii')
-                    user = User(email=request.POST["name"], password=hashed,created_date=datetime.datetime.now(),user_type="0")
+                    user = User(email=request.POST["name"], password=hashed,created_date=datetime.datetime.now(),user_type="0",email_verified = True)
                     user.save()
                     #request.session['username'] = request.POST["name"]
-                    return verify_email(request)
+                    #return verify_email(request)
+                    return redirect('user_auth:create_profile')
                 else:
                     return render(request,'registration/signup.html',{'warning':"User alderady exist"})
             else:
@@ -208,6 +211,7 @@ def change_password(request,email,hash):
 def email_verified(request,email,hash):
     print("called email_verified view func")
     if request.method == 'GET':
+        print(1)
         mail=str(email).encode("utf-8")
         hash=hash[:len(hash)-1]
         hash=hash.split('_')
@@ -219,6 +223,7 @@ def email_verified(request,email,hash):
                 return render(request,'home.html')
         hash=temp
         if bcrypt.checkpw( mail , hash.encode("utf-8") ):
+            print(1)
             e,u=check_user_exists(request,email)
             if e:
                 u["email_verified"] = True
