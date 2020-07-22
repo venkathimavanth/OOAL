@@ -3,7 +3,6 @@ from datetime import datetime
 
 connect('EAD_OOAL')
 
-
 class community(Document):
     name=StringField(max_length=200)
     discription=StringField(max_length=200)
@@ -33,4 +32,3 @@ class Comment(Document):
     owner = ObjectIdField()
     reports = IntField(default=0)
     reportedBy = ListField(ObjectIdField())
-

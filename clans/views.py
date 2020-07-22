@@ -1,3 +1,4 @@
+import clans
 from user_auth.models import User,Profile
 import datetime,bcrypt,hashlib
 from django.shortcuts import render,redirect, render_to_response, HttpResponse
@@ -6,7 +7,7 @@ from user_auth.decorators import login_required,management_required
 from user_auth.views import check_user_exists
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
-from .models import community
+from .models import community,Post
 from chat.models import Message, GroupMessage
 
 
@@ -19,6 +20,74 @@ import datetime,json
 from pymongo import MongoClient
 mongo_client = MongoClient()
 db = mongo_client.EAD_OOAL
+
+
+
+@login_required
+def like_post(request,post_id):
+    username = request.session["username"]
+    user = User.objects(email=username)[0]
+    profile = Profile.objects.get(user_id=user["id"])
+    post = Post.objects.get(id=post_id)
+    post.likes += 1
+    post.likedBy.append(user["id"])
+    post.save()
+    clan = community.objects.all()
+    print(len(clan))
+    for c in clan:
+        print(c.community_blog)
+        print(post.id)
+        if post.id in c.community_blog:
+            return redirect('community:clan-show',clan_id = c.id)
+
+
+
+@login_required
+def unlike_post(request,post_id):
+    username = request.session["username"]
+    user = User.objects(email=username)[0]
+    profile = Profile.objects.get(user_id=user["id"])
+    post = Post.objects.get(id=post_id)
+    post.likes -= 1
+    post.likedBy.remove(user["id"])
+    post.save()
+    clan = community.objects.all()
+    print(len(clan))
+    for c in clan:
+        print(c.community_blog)
+        print(post.id)
+        if post.id in c.community_blog:
+            return redirect('community:clan-show',clan_id = c.id)
+
+
+
+
+
+
+@login_required
+def post(request,clan_id):
+    print("uploading a post")
+    if request.method == 'POST':
+        print("got into clan_post POST")
+        if "photo" in request.FILES :
+            username = request.session["username"]
+            uid = User.objects(email=username)[0]
+            print("uid",uid["id"])
+            photo=request.FILES["photo"]
+            description = request.POST["discription"]
+
+            post=Post(description=description)
+            post.image.put(photo, content_type = 'image/jpeg')
+            post.owner = uid["id"]
+            post.save()
+            community.objects(id=clan_id).update_one(push__community_blog=post["id"])
+
+            return redirect('community:clan-show',clan_id = clan_id)
+        else:
+            return render(request,'clans/clans.html',{"warning":"Please fill all the blanks"})
+    print('hiii')
+    return redirect('community:clan-show',clan_id = clan_id)
+
 
 
 @login_required
@@ -51,16 +120,35 @@ def create_clan(request):
 
 @login_required
 def clanHome(request):
+    print('I am in clan home')
     username = request.session["username"]
     user = User.objects(email=username)[0]
     profile = Profile.objects(user_id=user["id"])[0]
     clans = []
     for i in profile["clans_registered"]:
-        clan = community.objects(id=i)
-        clans.append(clan)
-    print(clans)
+        clan1 = community.objects.get(id=i)
+        temp = dict()
+        temp['name'] = clan1['name']
+        temp['clan_id'] = clan1['id']
+        temp['description'] = clan1['discription']
+        photo= clan1["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp['clan_photo'] = my_string.decode('utf-8')
+        list = []
+        for j in clan1['participants']:
+            p =  Profile.objects.get(user_id=j)
+            photo1= p["photo"].grid_id
+            col1 = db.images.chunks.find({"files_id":photo1})
+            my_string1 = base64.b64encode(col1[0]["data"])
+            list.append(my_string1.decode('utf-8'))
+
+        temp['members_photos'] = list
+
+        clans1.append(temp)
+    #print(clans)
     
-    return render(request,'clans/clans.html',{"clans": clans, "username": profile["name"]})
+    return render(request,'clans/clans.html',{"clans1": clans1})
 
 @login_required
 def clan_show(request, clan_id):
@@ -102,6 +190,95 @@ def add_clan_user(request, clan_id):
 
 def search(request):
     print("ASDFGFDSASDF")
+@login_required
+def clan_show(request, clan_id):
+    username = request.session["username"]
+    user = User.objects(email=username)[0]
+    profile = Profile.objects.get(user_id=user["id"])
+    clan = community.objects.get(id=clan_id)
+    clan_id = clan['id']
+    clan_members = []
+    for j in clan['participants']:
+        temp1 = dict()
+        p =  Profile.objects.get(user_id=j)
+        photo1= p["photo"].grid_id
+        col1 = db.images.chunks.find({"files_id":photo1})
+        my_string1 = base64.b64encode(col1[0]["data"])
+        temp1['photo'] = my_string1.decode('utf-8')
+        print(p['name'])
+        temp1['name'] = p['name']
+        temp1['discription'] = p['discription']
+        temp1['is_friends'] = False
+        u = User.objects.get(id = p['user_id'])
+        temp1['email'] = u['email']
+        if user['id'] in p['friends'] :
+            temp1['is_friends'] = True
+
+        clan_members.append(temp1)
+
+    clan_posts = []
+    photo= profile["photo"].grid_id
+    col1 = db.images.chunks.find({"files_id":photo})
+    my_string1 = base64.b64encode(col1[0]["data"])
+
+    for c in clan['community_blog']:
+        temp = dict()
+        post = Post.objects.get(id = c)
+        temp['id'] = post['id']
+        temp['owner'] = profile['name']
+
+        temp['createdAt'] = post['createdAt']
+        temp['likes'] = post['likes']
+        temp['likedBy'] = post['likedBy']
+        temp['is_liked_by_curr_user'] = False
+
+        if user['id'] in post['likedBy']:
+            temp['is_liked_by_curr_user'] = True
+
+        temp['comments'] = post['comments']
+        temp['description'] = post['description']
+        photo= post["image"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp["photo"] = my_string.decode('utf-8')
+        temp["owner_photo"] = my_string1.decode('utf-8')
+        clan_posts.append(temp)
+
+
+
+    #print(clan)
+    return render(request, 'clans/clan_show.html', {'clan_members':clan_members,'clan_posts':clan_posts, "clan_id":clan_id})
+
+
+@login_required
+def add_clan_user(request, clan_id):
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+    content=list()
+    for h in User.objects.all()[:16]:
+        if h["id"] == user["id"]:
+            continue
+        f = h["id"]
+        temp=dict()
+        reqby = User.objects.get(id=f)
+        reqbyprof = Profile.objects.get(user_id=f)
+        temp["name"] = reqbyprof["name"]
+        temp["discription"] = reqbyprof["discription"]
+        try:
+            temp["discription"] = temp["discription"][:40] + "....."
+        except:
+            pass
+        temp["email"] = reqby["email"]
+        photo= reqbyprof["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp["photo"] = my_string.decode('utf-8')
+        content.append(temp)
+    return render(request, 'clans/clan_add_user.html',{"content":content, "clan_id":clan_id})
+
+
+def search(request):
+    print("clan search")
     if request.method == "POST":
         search_text= request.POST['search_text']
     else:

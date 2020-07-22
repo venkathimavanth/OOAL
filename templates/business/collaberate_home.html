@@ -1,0 +1,98 @@
+{% extends 'businessuserbase.html' %}
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block extra_head_content %}
+    <meta charset="UTF-8">
+    <title>Collaberate</title>
+
+    <style>
+        body{
+            background-color: wheat;
+            height: 1400px;
+
+        }
+        .card-wrapper{
+            margin-top: 5%;
+            background-color: white;
+            width: 950px;
+            height: 530px;
+            margin-left: 300px;
+            {#border-radius: 2rem;#}
+            {#box-shadow: 0 10px 12p  x rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);#}
+            -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,.5);
+            padding: 1.5%;
+        }
+
+        .img-wrapper{
+            float: left;
+            margin-left: -5px ;
+            width: 500px;
+        }
+        .text-wrapper{
+            float: right;
+            {#background-color: #929394;#}
+            {#padding-left: 10px;#}
+            height:500px;
+            width: 400px;
+            border-left:4px solid #aaabac;
+            z-index: 999;
+        }
+        .heading-wrapper{
+            font-weight: 600;
+            font-size: xx-large;
+            margin-left: 15px;
+            text-align: center;
+        }
+        .text-content-wrapper{
+            margin-left: 15px;
+            margin-top: 30px;
+        }
+        a{
+            color: black;
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+
+    <div class="card-wrapper">
+        <a href="{% url 'business:coupon_upload' %}">
+            <div class="img-wrapper">
+                <img src="{% static 'business/limited-offer-icon-with-shadow.jpg' %}" style="width: 500px;height: 500px">
+            </div>
+            <div class="text-wrapper">
+                <div class="heading-wrapper">
+                    LIMITED OFFER COUPONS
+                </div>
+                <div class="text-content-wrapper">
+                    You can upload multiple limited offer coupons using a csv file
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="card-wrapper">
+        <a href="{% url 'business:add_coupon' %}">
+            <div class="img-wrapper">
+                <img src="{% static 'business/coupon-flat-vector-21709215.jpg' %}" style="width: 500px;height: 500px">
+            </div>
+            <div class="text-wrapper">
+                <div class="heading-wrapper">
+                    UNLIMITED VALIDITY COUPONS
+                </div>
+                <div class="text-content-wrapper">
+                    You can add coupons of unlimited validity and use
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+            </div>
+        </a>
+    </div>
+{% endblock %}
+</body>
+</html>

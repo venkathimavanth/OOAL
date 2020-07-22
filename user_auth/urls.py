@@ -14,6 +14,7 @@ urlpatterns = [
     path('forgot_password/', views.forgot_password ,name='forgot_password'),
     path('change_password/<email>/<hash>/', views.change_password ,name='change_password'),
     path('managementhome/', views.managementhome ,name='managementhome'),
+    path('businesshome/', views.businesshome ,name='businesshome'),
     path('create_profile/', views.create_profile ,name='create_profile'),
 
 

@@ -1,7 +1,6 @@
-from mongoengine import *
+from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
 
-connect('EAD_OOAL')
-
+connect("EAD_OOAL")
 
 class CategoryModel(Document):
     category_name = StringField(max_length=200,unique=True)

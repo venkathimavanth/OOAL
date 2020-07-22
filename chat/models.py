@@ -16,4 +16,3 @@ class GroupMessage(Document):
     group = ObjectIdField()
     isRead = BooleanField(default=False)
     createdAt = DateTimeField(default=datetime.now())
-

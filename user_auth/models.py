@@ -1,6 +1,6 @@
 from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
 
-connect('EAD_OOAL')
+connect("EAD_OOAL")
 
 
 class User(Document):
@@ -34,4 +34,3 @@ class Profile(Document):
     completed=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
     messages = ListField(ObjectIdField())
-

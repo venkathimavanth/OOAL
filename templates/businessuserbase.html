@@ -41,20 +41,6 @@
 
 
         		<script src={% static  "assets/js/modernizr-custom.html" %}></script>
-
-						<style>
-						.sticky {
-						  position: fixed;
-						  top: 0px;
-						  width: 100%;
-							z-index: 9999;
-							transition: 1s;
-						}
-
-						.sticky + .content {
-						  padding-top: 60px;
-						}
-						</style>
             {% block extra_head_content %}{% endblock %}
   </head>
 
@@ -73,7 +59,7 @@
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		 </button>
-		 <a class="navbar-brand" href="{% url 'user_auth:loggedinhome' %}">OOAL</a>
+		 <a class="navbar-brand" href="{% url 'user_auth:managementhome' %}">OOAL-Business</a>
 		</div><!-- /.navbar-header -->
 		<div class="navbar-left">
 		 <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -85,14 +71,39 @@
 		 <ul class="nav navbar-nav">
 
 
+   			 <li class="dropdown mega-avatar">
+   			  <a href="{% url 'business:collaberate' %}" aria-expanded="true">
+   			 	<span class="hidden-xs">
+   			 			 Colabrate
+   			 	</span>
+   			  </a>
+   			 </li><!-- /navbar-item -->
 
-     <li class="dropdown mega-avatar">
-		  <a href="#" aria-expanded="true">
-		   <span class="hidden-xs">
-			      About
-		   </span>
-		  </a>
-		 </li><!-- /navbar-item -->
+  			 <li class="dropdown mega-avatar">
+  			  <a href="#" aria-expanded="true">
+  			 	<span class="hidden-xs">
+  			 			 STATS
+  			 	</span>
+  			  </a>
+  			 </li><!-- /navbar-item -->
+
+   			 <li class="dropdown mega-avatar">
+   			  <a href="#" aria-expanded="true">
+   			 	<span class="hidden-xs">
+   			 			 T&C
+   			 	</span>
+   			  </a>
+   			 </li><!-- /navbar-item -->
+
+
+			 <li class="dropdown mega-avatar">
+			  <a href="#" aria-expanded="true">
+			 	<span class="hidden-xs">
+			 			 Profile
+			 	</span>
+			  </a>
+			 </li><!-- /navbar-item -->
+
 
      <li class="dropdown mega-avatar">
 		  <a href="{% url 'user_auth:logout' %}" aria-expanded="true">
@@ -102,6 +113,7 @@
 		  </a>
 		 </li><!-- /navbar-item -->
 
+
 		 </ul><!-- /.sign-in -->
 		</div><!-- /.nav-right -->
        </div><!-- /.container -->
@@ -109,46 +121,6 @@
      </header><!-- Page Header -->
 
 
-
-
-		 <section class="nav-sec" id="navbar"  style="overflow:hidden;">
-		   <div class="d-flex justify-content-between">
-		    <div class="p-2 nav-icon-lg dark-black" >
-		    <a class="nav-icon" href="{% url 'user_auth:loggedinhome' %}"><em class="fa fa-home" ></em>
-		   <span>Home</span>
-		    </a>
-		    </div>
-		    <div class="p-2 nav-icon-lg clean-black" style="background-color:grey" >
-		    <a class="nav-icon" href="{% url 'user:challanges' %}"><em class="fa fa-crosshairs"></em>
-		   <span>Challanges</span>
-		    </a>
-		    </div>
-		    <div class="p-2 nav-icon-lg dark-black" >
-		    <a class="nav-icon" href="{% url 'user:friends' %}"><em class="fas fa-handshake" ></em>
-		   <span>Friends</span>
-		    </a>
-		    </div>
-		    <div class="p-2 nav-icon-lg clean-black" style="background-color:grey">
-		    <a class="nav-icon" href="{% url 'community:clan-home' %}"><em class="fa fa-users"></em>
-		   <span>Clans</span>
-		    </a>
-		    </div>
-		    <div class="p-2 nav-icon-lg dark-black" >
-		    <a class="nav-icon" href="#"><em class="fa fa-bell"></em>
-		   <span>Notifications</span>
-		    </a>
-		    </div>
-		    <div class="p-2 nav-icon-lg dark-black" style="background-color:grey">
-		    <a class="nav-icon" href="{% url 'user:viewmyprofile' %}"><em class="fa fa-user"></em>
-		   <span>Profile</span>
-		    </a>
-		    </div>
-		   </div>
-		 </section>
-
-
-	  </div>
-	</section>
 
   {% block content %}
   {% endblock %}
@@ -166,23 +138,6 @@
 			size:"8px",
 		});
 	</script>
-
-	<script>
-	window.onscroll = function() {myFunction()};
-
-	var navbar = document.getElementById("navbar");
-	var sticky = navbar.offsetTop;
-
-	function myFunction() {
-	  if (window.pageYOffset >= sticky) {
-	    navbar.classList.add("sticky")
-	  } else {
-	    navbar.classList.remove("sticky");
-	  }
-	}
-	</script>
-
-
 
   </body>
 
