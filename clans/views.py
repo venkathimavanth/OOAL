@@ -54,9 +54,7 @@ def clanHome(request):
     username = request.session["username"]
     user = User.objects(email=username)[0]
     profile = Profile.objects(user_id=user["id"])[0]
-    print(profile)
     clans = []
-
     for i in profile["clans_registered"]:
         clan = community.objects(id=i)
         clans.append(clan)
@@ -166,14 +164,3 @@ def add_user(request):
         
 
 
-
-def add_participants(request,slug):
-    if request.method == 'POST':
-                id = request.POST["users"]
-                print(id)
-                Profile.objects(id = id).update_one(push__pending_clan_requests = slug)
-
-                return redirect('user_auth:loggedinhome')
-    else:
-            prof = Profile.objects.all()
-            return render(request, 'clans/add_participant.html', {'prof': prof, "warning":"Please fill all the blanks"})

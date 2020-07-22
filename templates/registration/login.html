@@ -54,16 +54,6 @@
 		   <a class="btn btn-dark " href="{% url 'user_auth:forgot_password' %}" role="button">Forgot Password?</a>
 		  </form>
 
-        {% if user.is_authenticated %}
-      <p>Welcome, {{ user.username }} !</p>
-
-      {% else %}
-      <h1>My Google Login Project</h1>
-      <a href="{% provider_login_url 'google' %}">Login with Google</a>
-      {% endif %}
-
-
-
        </div><!--/. banner-content -->
       </div><!-- /.container -->
      </section>
