@@ -7,12 +7,6 @@ app_name = "community"
 urlpatterns = [
     path('create_clan/', views.create_clan ,name='create-clan'),
     path('clans/', views.clanHome ,name='clan-home'),
-<<<<<<< Updated upstream
-    path('createclan/', views.create_clan ,name='create_clan'),
-    path('add_participants/<slug:slug>/', views.add_participants ,name='add_participants'),
-    #path('clanshome/', views.clanshome ,name='clanshome'),
-
-=======
     path('clan/<clan_id>', views.clan_show, name='clan-show'),
     path('clan/like/<post_id>', views.like_post, name='clan-like'),
     path('clan/unlike/<post_id>', views.unlike_post, name='clan-unlike'),
@@ -21,5 +15,4 @@ urlpatterns = [
     path('clan/add/user', views.add_user, name='add-user'),
     path('clan/search/', views.search, name='search'),
     #url(r'^likepost/$', views.likePost, name='likepost')
->>>>>>> Stashed changes
 ]

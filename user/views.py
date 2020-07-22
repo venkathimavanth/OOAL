@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,render_to_response
 from user_auth.decorators import *
-from user_auth.models import *
+from user_auth.models import User, Profile
+from management.models import *
 from user_auth.views import check_user_exists
 from user.models import *
 from django.http import JsonResponse
 import base64
-import datetime
+import datetime,json
 # Create your views here.
 # import the MongoClient class from the library
 from pymongo import MongoClient
@@ -85,7 +86,7 @@ def findfriends(request):
     ae,user=check_user_exists(request,request.session["username"])
     profile = Profile.objects.get(id = user["profileid"])
     content=list()
-    for h in User.objects.all():
+    for h in User.objects.all()[:16]:
         if h["id"] == user["id"]:
             continue
         f = h["id"]
@@ -144,8 +145,68 @@ def viewprofile(request,email):
     return redirect("user:friends")
 
 
+def autocompleteModel(request):
+    print("ASDFGFDSASDF")
+    if request.method == "POST":
+        search_text= request.POST['search_text']
+    else:
+        search_text=""
+    profile = Profile.objects.filter(name__startswith=search_text)[:16]
+    content=list()
+    for p in profile:
+        temp=dict()
+        temp["name"] = p["name"]
+        temp["discription"] = p["discription"]
+        us = User.objects.get(id=p["user_id"])
+        temp["email"] = us["email"]
+
+        photo= p["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        my_string=my_string.decode('utf-8')
+        temp["photo"] = my_string
+
+
+        content.append(temp)
+    # print(content)
+    return render_to_response('user/li.html',{"content":content})
+
+@login_required
+def viewmyprofile(request):
+    ae,user=check_user_exists(request,request.session["username"])
+    if ae:
+        pe,profile=get_userprofile(request,user["id"])
+        if pe:
+            return render(request,"user/viewmyprofile.html",{"profile":profile,"email":user["email"]})
+    return redirect("user_auth:loggedinhome")
+
+
+@login_required
+def challanges(request):
+    ae,user=check_user_exists(request,request.session["username"])
+    if ae:
+        pe,profile=get_userprofile(request,user["id"])
+        if pe:
+            dc=None
+            try:
+                dc=DailyChallanges.objects.get(posted_date=datetime.date.today())
+            except:
+                pass
+            return render(request,"user/challanges.html",{"profile":profile,"email":user["email"],"dc":dc})
+    return redirect("user_auth:loggedinhome")
+
+
+
+
 def viewfullprofile(request,email):
     return redirect("user:viewprofile",email)
+
+
+def add_deop_req(request,email,type):
+    if type == "1":
+        return redirect("user:friend_req_handle",email,"5")
+    elif type=="0":
+        return redirect("user:friend_req_handle",email,"4")
 
 
 def friend_req_handle(request,email,test):
@@ -185,7 +246,6 @@ def friend_req_handle(request,email,test):
                 pass
         elif test =="3" and friends == "3":
             try:
-                print("yes")
                 profile2["pending_friend_requests"].remove(u["id"])
                 profile2["friends"].append(u["id"])
                 profile2.save()
@@ -193,6 +253,23 @@ def friend_req_handle(request,email,test):
                 profile1.save()
             except:
                 pass
+        elif test =="5" and friends == "3":
+            try:
+                profile2["pending_friend_requests"].remove(u["id"])
+                profile2["friends"].append(u["id"])
+                profile2.save()
+                profile1["friends"].append(user["id"])
+                profile1.save()
+                return redirect('user:pendingrequests')
+            except:
+                pass
+        elif test =="4" and friends == "3":
+            try:
+                profile2["pending_friend_requests"].remove(u["id"])
+                profile2.save()
+                return redirect('user:pendingrequests')
+            except:
+                pass
 
-        return viewprofile(request,email)
+        return redirect('user:viewprofile',email)
     return redirect("user_auth:loggedinhome")

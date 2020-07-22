@@ -1,0 +1,134 @@
+{% extends 'management/managementloggedinhome.html' %}
+
+
+{% block extra_head_content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 90%;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: black;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a grey background color */
+.prev:hover, .next:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+</style>
+
+{% endblock %}
+{% block content %}
+
+
+<script>
+  function func1(t)
+  {
+    var d = document.getElementById("da").name;
+    console.log(d);
+    $.ajax({
+       type:"POST",
+       url:"/find/prev/",
+       data:{
+         'search_text': d,
+         'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+       },
+       success : func2,
+       dataType:'html',
+    });
+  };
+
+  function func3(t)
+  {
+    var d = document.getElementById("da").name;
+    console.log(d);
+    $.ajax({
+       type:"POST",
+       url:"/find/next/",
+       data:{
+         'search_text': d,
+         'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+       },
+       success : func2,
+       dataType:'html',
+    });
+  };
+
+  function func2(data,textStatus,jqXHR){
+    $('#box').html(data)
+  };
+
+
+
+</script>
+
+
+<form  method="post">
+  {% csrf_token %}
+  <a class="prev" onclick="func1(this)" id="prev" name="{{ date }}">&#10094;</a>
+</form>
+<form  method="post">
+  {% csrf_token %}
+  <a class="next" onclick="func3(this)" id="next" name="{{ date }}">&#10095;</a>
+</form>
+
+
+<div id="box">
+<section class="single-post" style="height:900px">
+  <div class="container">
+   <div class="row">
+
+     <div class="slideshow-container" style="height:80px">
+       <center><div>
+         <form  method="post">
+          <h1><a id="da" name="{{ date }}" value="{{ date }}" style="color:black">{{ date }}</a></h1>
+        </form>
+       </div></center>
+     </div>
+{% if obj %}
+     <div class="modal-dialog" style="filter:blur(1.5px);">
+      <div class="modal-content">
+       <div class="modal-body">
+         <center>
+
+               <h1>{{ obj.name }}</h1>
+              <h1>{{ obj.posted_date }}</h1>
+              <h1>{{ obj.created_date }}</h1>
+              <h1>{{ obj.discription }}</h1>
+
+         </center>
+       </div>
+      </div>
+    </div>
+    {% endif %}
+   </div>
+  </div>
+</section>
+ </div>
+{% endblock %}

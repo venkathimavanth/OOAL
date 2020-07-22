@@ -71,14 +71,14 @@
 		 <ul class="nav navbar-nav">
 
 
+			 <li class="dropdown mega-avatar">
+			  <a href="{% url 'management:dailychallanges' %}" aria-expanded="true">
+			 	<span class="hidden-xs">
+			 			 Challanges
+			 	</span>
+			  </a>
+			 </li><!-- /navbar-item -->
 
-     <li class="dropdown mega-avatar">
-		  <a href="{% url 'management:addchallenge' %}" aria-expanded="true">
-		   <span class="hidden-xs">
-			      Add Challange
-		   </span>
-		  </a>
-		 </li><!-- /navbar-item -->
 
      <li class="dropdown mega-avatar">
 		  <a href="{% url 'user_auth:logout' %}" aria-expanded="true">
@@ -97,11 +97,6 @@
 
 
 
-	<section class="nav-sec" style="height:20px">
-	  <div class="d-flex justify-content-between">
-
-	  </div>
-	</section>
   {% block content %}
   {% endblock %}
 

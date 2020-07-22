@@ -1,7 +1,6 @@
-from mongoengine import *
+from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
 
-connect('EAD_OOAL')
-
+connect("EAD_OOAL")
 
 class CategoryModel(Document):
     category_name = StringField(max_length=200,unique=True)
@@ -22,6 +21,15 @@ class Challange(Document):
     challange_type=ObjectIdField()
     type_of_submission=ObjectIdField()
     hours_to_complete = IntField(default=0)
+    number_of_reports = IntField(default=0)
+    age_restricted=BooleanField(default=False)
+    discription = StringField(max_length=1000)
+
+
+class DailyChallanges(Document):
+    name = StringField(max_length=200)
+    created_date=DateTimeField()
+    posted_date=DateTimeField(unique=True)
     number_of_reports = IntField(default=0)
     age_restricted=BooleanField(default=False)
     discription = StringField(max_length=1000)

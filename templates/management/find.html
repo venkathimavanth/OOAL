@@ -1,0 +1,36 @@
+
+
+
+<div id="box">
+
+<section class="single-post" style="height:900px">
+  <div class="container">
+   <div class="row">
+
+     <div class="slideshow-container" style="height:80px">
+       <center><div>
+         <form  method="post">
+          <h1><a id="da" name="{{ date }}" value="{{ date }}" style="color:black">{{ date }}</a></h1>
+        </form>
+       </div></center>
+     </div>
+{% if obj %}
+     <div class="modal-dialog" style="filter:blur(1.5px);">
+      <div class="modal-content">
+       <div class="modal-body">
+         <center>
+
+               <h1>{{ obj.name }}</h1>
+              <h1>{{ obj.posted_date }}</h1>
+              <h1>{{ obj.created_date }}</h1>
+              <h1>{{ obj.discription }}</h1>
+
+         </center>
+       </div>
+      </div>
+    </div>
+    {% endif %}
+   </div>
+  </div>
+</section>
+ </div>

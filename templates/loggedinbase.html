@@ -58,7 +58,7 @@
             {% block extra_head_content %}{% endblock %}
   </head>
 
-<body>
+<body style="background-color:#F8F8F8">
 
      <!-- ==============================================
      Navigation Section
@@ -119,12 +119,12 @@
 		    </a>
 		    </div>
 		    <div class="p-2 nav-icon-lg clean-black" style="background-color:grey" >
-		    <a class="nav-icon" href="#"><em class="fa fa-crosshairs"></em>
+		    <a class="nav-icon" href="{% url 'user:challanges' %}"><em class="fa fa-crosshairs"></em>
 		   <span>Challanges</span>
 		    </a>
 		    </div>
 		    <div class="p-2 nav-icon-lg dark-black" >
-		    <a class="nav-icon" href="#"><em class="fas fa-handshake" ></em>
+		    <a class="nav-icon" href="{% url 'user:friends' %}"><em class="fas fa-handshake" ></em>
 		   <span>Friends</span>
 		    </a>
 		    </div>
@@ -139,7 +139,7 @@
 		    </a>
 		    </div>
 		    <div class="p-2 nav-icon-lg dark-black" style="background-color:grey">
-		    <a class="nav-icon" href="#"><em class="fa fa-user"></em>
+		    <a class="nav-icon" href="{% url 'user:viewmyprofile' %}"><em class="fa fa-user"></em>
 		   <span>Profile</span>
 		    </a>
 		    </div>

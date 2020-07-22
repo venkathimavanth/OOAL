@@ -1,17 +1,12 @@
 import clans
 from user_auth.models import User,Profile
 import datetime,bcrypt,hashlib
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, render_to_response, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from user_auth.decorators import login_required,management_required
+from user_auth.views import check_user_exists
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
-<<<<<<< Updated upstream
-from .models import community
-
-# Create your views here.
-
-=======
 from .models import community,Post
 from chat.models import Message, GroupMessage
 
@@ -95,7 +90,6 @@ def post(request,clan_id):
 
 
 
->>>>>>> Stashed changes
 @login_required
 def create_clan(request):
     print("got into create_clan")
@@ -128,17 +122,9 @@ def create_clan(request):
 def clanHome(request):
     print('I am in clan home')
     username = request.session["username"]
-<<<<<<< Updated upstream
-    user = User.objects(email=username)[0]
-    profile = Profile.objects(user_id=user["id"])[0]
-    print(profile)
-    clans = []
-
-=======
     user = User.objects.get(email=username)
     profile = Profile.objects.get(user_id=user["id"])
     clans1 = []
->>>>>>> Stashed changes
     for i in profile["clans_registered"]:
         clan1 = community.objects.get(id=i)
         temp = dict()
@@ -165,8 +151,6 @@ def clanHome(request):
     return render(request,'clans/clans.html',{"clans1": clans1})
 
 
-<<<<<<< Updated upstream
-=======
 @login_required
 def clan_show(request, clan_id):
     username = request.session["username"]
@@ -252,20 +236,8 @@ def add_clan_user(request, clan_id):
         temp["photo"] = my_string.decode('utf-8')
         content.append(temp)
     return render(request, 'clans/clan_add_user.html',{"content":content, "clan_id":clan_id})
->>>>>>> Stashed changes
 
-def add_participants(request,slug):
-    if request.method == 'POST':
-                id = request.POST["users"]
-                print(id)
-                Profile.objects(id = id).update_one(push__pending_clan_requests = slug)
 
-<<<<<<< Updated upstream
-                return redirect('user_auth:loggedinhome')
-    else:
-            prof = Profile.objects.all()
-            return render(request, 'clans/add_participant.html', {'prof': prof, "warning":"Please fill all the blanks"})
-=======
 def search(request):
     print("clan search")
     if request.method == "POST":
@@ -327,4 +299,3 @@ def add_user(request):
             community.objects(id=clanid).update_one(push__messages = message['id'])
             return HttpResponse('User added into group')
 
->>>>>>> Stashed changes

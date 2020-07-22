@@ -106,16 +106,18 @@ media/
 *.pyc
 *.db
 *.pid
-<<<<<<< HEAD
-# django migrations
-=======
 # django migrations 
->>>>>>> origin/rajeshwar
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
 
 clans/__pycache__
 clans/migrations
-.idea
 
+user/__pycache__
+user_auth/__pycache__
+ooal/__pycache__
+management/__pycache__
+chat/migrations
+OOAL/db.sqlite3
+db.sqlite3
