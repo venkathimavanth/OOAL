@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>video play</title>
+</head>
+<body>
+    {% for content in all_content %}
+        {% if content['is_image'] %}
+            image
+            <img src="data:{{ content['content_type'] }};base64,{{ content['content'] }}" style="height: 100px;width: 100px;">
+        {% else %}
+            <video controls>
+                <source src='data:{{ content['content_type'] }};base64,{{ content['content'] }}' type={{ content['content_type'] }}>
+                Your browser does not support the video tag.
+            </video>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>
