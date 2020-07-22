@@ -6,18 +6,17 @@ connect("EAD_OOAL")
 
 
 class Post(Document):
-    user_id =  ObjectIdField(unique = True)
+    user_id =  ObjectIdField()
     user_photo = ImageField()
     created_date=DateTimeField()
     reports=ListField(ObjectIdField())
 
-    istext = BooleanField(default=False)
     isimage = BooleanField(default=False)
     isvideo = BooleanField(default=False)
 
     text = StringField(max_length=200)
     image = ImageField()
-    text = StringField(max_length=200)
+    video = StringField(max_length=200)
 
     ischallenge = BooleanField(default=False)
     challegetype=StringField(max_length=200)

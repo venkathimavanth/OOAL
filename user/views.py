@@ -1,4 +1,5 @@
 from django.shortcuts import render,render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
 from user_auth.decorators import *
 from user_auth.models import User, Profile
 from management.models import *
@@ -26,9 +27,41 @@ def get_userprofile(request,id):
 
 @login_required
 def userhome(request):
-    print("called userhome view func")    
+    print("called userhome view func in user app")
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+
+    if request.method == "POST":
+        if "tought" in request.POST :
+            post=Post(
+                user_id =  user["id"],
+                # user_photo = ImageField()
+                created_date=datetime.datetime.now(),
+
+                # isimage = BooleanField(default=False)
+                # isvideo = BooleanField(default=False)
+
+                text = request.POST["tought"],
+                # image = ImageField()
+                # text = StringField(max_length=200)
+
+            )
+            post.save()
+            addThisPost(request,post,user,profile)
+        HttpResponseRedirect("user.views.userhome")
     return render(request,'registration/loginhome.html',{'warning':"Logged in successfully"})
 
+def addThisPost(request,post,user,profile):
+    profile["myposts"].append(post["id"])
+    profile["myfeed"].append(post["id"])
+    profile.save()
+    for f in profile["friends"]:
+        p=Profile.objects.filter(user_id=f)
+        print(p)
+        if p:
+            for q in p:
+                q["myfeed"].append(post["id"])
+                q.save()
 
 @login_required
 def friends(request):

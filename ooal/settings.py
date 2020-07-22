@@ -35,7 +35,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vhimareddy1999@gmail.com'
-EMAIL_HOST_PASSWORD = 'myclan#2'
+EMAIL_HOST_PASSWORD = 'bhavana@65tinku'
 
 
 

@@ -2,8 +2,34 @@
 {% extends 'loggedinbase.html' %}
 
 
+{% block extra_head_content %}
+<style>
+	.upload-btn-wrapper {
+		position: relative;
+		overflow: hidden;
+		display: inline-block;
+	}
 
+	/* .btn { */
+		/* border: 2px solid gray; */
+		/* color: gray; */
+		/* background-color: white; */
+		/* padding: 8px 20px; */
+		/* border-radius: 8px; */
+		/* font-size: 20px; */
+		/* font-weight: bold; */
+	/* } */
 
+	.upload-btn-wrapper input[type=file] {
+		font-size: 100px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		opacity: 0;
+	}
+</style>
+
+{% endblock %}
 
 {% block content %}
 
@@ -33,16 +59,35 @@
 				 	    <div class="col-lg-12">
 
 				 	     <div class="box">
-				 		  <form>
-				 		   <textarea class="form-control no-border" rows="3" placeholder="What's is on your mind !!"></textarea>
-				 		  </form>
+								 <form method="post"  enctype="multipart/form-data">
+
+	 							 {% csrf_token %}
+
+				 		   <textarea id="tought" name = "tought" class="form-control no-border" rows="3" placeholder="What's is on your mind !!" required></textarea>
+
 				 		  <div class="box-footer clearfix">
-				 		   <button class="kafe-btn kafe-btn-mint-small pull-right btn-sm">Upload</button>
+				 		   <button class="kafe-btn kafe-btn-mint-small pull-right btn-sm">Post</button>
 				 		   <ul class="nav nav-pills nav-sm">
-				 			<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-camera text-muted"></i></a></li>
-				 			<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-video text-muted"></i></a></li>
+
+	               <div class="upload-btn-wrapper" class="form-group">
+	                 <button class="btn"><li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-camera text-muted"></i></a></li></button>
+	                 <input  type="file" id="img" name="photo"  accept="image/*" onchange="readURL(this);" >
+	               </div>
+
+								 <div class="upload-btn-wrapper" class="form-group">
+								 	<button class="btn"><li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-video text-muted"></i></a></li></button>
+								 	<input  type="file" id="vid" name="photo"  accept="image/*" onchange="readURL(this);" >
+								 </div>
+								 <div class="cardbox-base" id="hblah" style="display: none;">
+								 <ul>
+								<li><a href="#"><img src="" id="blah" class="img-responsive " alt=""></a></li>
+							</ul>
+								</div>
+
+
 				 		   </ul>
 				 		  </div>
+							</form>
 				 		 </div>
 
 				 		</div>
@@ -170,7 +215,26 @@
 
 
 
+<script type="text/javascript">
+	function readURL(input) {
+					element = document.getElementById('hblah');
+					console.log(element)
+					 element.style.display = 'block';
 
+				if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
 
 {% endblock %}
