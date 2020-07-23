@@ -6,7 +6,8 @@ import csv,io,datetime
 from django.contrib import messages
 from django.http import HttpResponse
 import base64
-from django.utils.encoding import smart_text
+from django.views.generic.list import ListView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from pymongo import MongoClient
 mongo_client = MongoClient()
 db = mongo_client.EAD_OOAL
@@ -107,34 +108,57 @@ def video_check(request):
         return render(request,template)
 # @business_required
 def video_view(request):
-    pass
-    # template = 'business/video_view.html'
+    template = 'business/test.html'
+    return render(request,template)
     # # video_instance = Video_Check.objects.filter(video_name = 'first').first()
     # # video_instance = Video_Check.objects.all()
-    # all_content=[]
+    all_content=[]
     # content=''
     # # print("\n All objects")
-    # for video_instance in Video_Check.objects:
-    #     dict={}
-    #     print(video_instance.video_name)
+    for video_instance in Video_Check.objects:
+        print(video_instance.video_name)
     #     dict['content_type']=video_instance.video.content_type
     #     print('ct')
     #     dict['is_image'] = video_instance.video.is_image
     #     print('isimg')
-    #     content = video_instance.video.read()
-    #     base64EncodedStr = base64.b64encode(content)
-    #     video = base64EncodedStr.decode('utf-8')
+        content = video_instance.video.read()
+        base64EncodedStr = base64.b64encode(content)
+        video = base64EncodedStr.decode('utf-8')
     #     dict['content'] = video
     #     print('cnt')
     #     all_content.append(dict)
     #     print("DONEEE!!! \n")
-    # #     all_content.append({'content':video,'content_type':video_instance.video.content_type,'is_image':video_instance.video.is_image})
-    # # print("\nReady to render\n")
+        all_content.append({'content':video,'content_type':video_instance.video.content_type,'is_image':video_instance.video.is_image})
+    print("\nReady to render\n")
     # # content_type = video_instance.video.content_type
     # # is_image = video_instance.video.is_image
     # # content = video_instance.video.read()
     # # base64EncodedStr = base64.b64encode(content)
     # # video = base64EncodedStr.decode('utf-8')
     # # print('done')
-    # # return render(request,template,{"all_content":all_content})
+    return render(request,template,{"all_content":all_content})
 
+
+def fun(request):
+    # numbers_list = range(1, 1000)
+    all_content = []
+
+    for video_instance in Video_Check.objects:
+        content = video_instance.video.read()
+        base64EncodedStr = base64.b64encode(content)
+        video = base64EncodedStr.decode('utf-8')
+        all_content.append({'content': video, 'content_type': video_instance.video.content_type,
+                            'is_image': video_instance.video.is_image})
+
+    # return render(request, template, {"all_content": all_content})
+    print("\nReady to render\n")
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_content, 2)
+    try:
+        all_content = paginator.page(page)
+    except PageNotAnInteger:
+        all_content = paginator.page(1)
+    except EmptyPage:
+        all_content = paginator.page(paginator.num_pages)
+    # return render(request, 'business/test.html', {'all_content': all_content})
+    return render(request, 'business/fun_view.html', {'all_content': all_content})
