@@ -1,4 +1,4 @@
-from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
+from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document,FileField
 
 connect("EAD_OOAL")
 
@@ -15,8 +15,7 @@ class Post(Document):
     isvideo = BooleanField(default=False)
 
     text = StringField(max_length=200)
-    image = ImageField()
-    video = StringField(max_length=200)
+    content =  FileField()
 
     ischallenge = BooleanField(default=False)
     challegetype=StringField(max_length=200)

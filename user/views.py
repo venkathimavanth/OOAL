@@ -49,7 +49,60 @@ def userhome(request):
             post.save()
             addThisPost(request,post,user,profile)
         HttpResponseRedirect("user.views.userhome")
-    return render(request,'registration/loginhome.html',{'warning':"Logged in successfully"})
+
+    context={'warning':"Logged in successfully"}
+    try:
+        daily_challange=DailyChallanges.objects.get(posted_date=datetime.date.today())
+        context['daily_challange']=daily_challange
+    except:
+        pass
+
+    feed=profile["myfeed"]
+    posts=[]
+    for f in feed:
+        try:
+            p=Post.objects.get(id=f)
+            po=dict()
+            po["user_id"]=p["user_id"]
+            profile1=Profile.objects.get(user_id=p["user_id"])
+            po["username"]=profile1["name"]
+
+            photo= profile1["photo"].grid_id
+            col = db.images.chunks.find({"files_id":photo})
+            my_string = base64.b64encode(col[0]["data"])
+            po["user_photo"]=my_string.decode('utf-8')
+            # print(my_string.decode('utf-8'))
+            po["created_date"]=p["created_date"]#
+            po["isimage"]=p["isimage"]
+            po["isvideo"]=p["isvideo"]
+            po["text"]=p["text"]
+
+            content = p.content.read()
+            base64EncodedStr = base64.b64encode(content)
+            content = base64EncodedStr.decode('utf-8')
+            po["content"] =content
+
+            po["ischallenge"]=p["ischallenge"]
+
+            if p["ischallenge"]:
+                po["challegetype"]=p["challegetype"]
+                po["challengeid"]=p["challengeid"]
+
+
+            po["isad"]=p["isad"]
+
+            if p["isad"]:
+                po["adid"]=p["adid"]
+
+            po["likes"]=p["likes"]
+            po["comments"]=p["comments"]
+            posts.append(po)
+        except:
+            pass
+    context["posts"]=posts
+    # print(context)
+    context["sfriends"]=returnSuggestedFriends(request)
+    return render(request,'registration/loginhome.html',context)
 
 def addThisPost(request,post,user,profile):
     profile["myposts"].append(post["id"])
@@ -62,6 +115,48 @@ def addThisPost(request,post,user,profile):
             for q in p:
                 q["myfeed"].append(post["id"])
                 q.save()
+
+def dsc(request):
+    context=dict()
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+    if request.method == "POST":
+        if 'file' in request.FILES:
+            file = request.FILES['file']
+            content_type = 'video/mp4'
+            daily_challange=DailyChallanges.objects.get(posted_date=datetime.date.today())
+            post=Post(
+                user_id =  user["id"],
+                user_photo = profile["photo"],
+                created_date=datetime.datetime.now(),
+
+                isimage = False,
+                isvideo = True,
+
+                text = daily_challange["discription"],
+                ischallenge = True,
+                challegetype="Daily Single Challange",
+                challengeid=daily_challange["id"],
+            ).save()
+            post.content.put(file,content_type=content_type)
+            post.save()
+            addThisPost(request,post,user,profile)
+            profile["completed"].append(daily_challange["id"])
+            profile.save()
+
+
+    try:
+        daily_challange=DailyChallanges.objects.get(posted_date=datetime.date.today())
+        context['daily_challange']=daily_challange
+        context["completed"] = False
+        if daily_challange["id"] in profile["completed"]:
+            context["completed"] =True
+        print("-----------------",context["completed"],profile["completed"])
+    except:
+        pass
+
+    return render(request,'user/dsc.html',context)
+
 
 @login_required
 def friends(request):
@@ -124,7 +219,7 @@ def findfriends(request):
     profile = Profile.objects.get(id = user["profileid"])
     content=list()
     for h in User.objects.all()[:16]:
-        if h["id"] == user["id"]:
+        if h["id"] == user["id"] or h["id"] in profile["friends"]:
             continue
         f = h["id"]
         temp=dict()
@@ -146,6 +241,30 @@ def findfriends(request):
     return render(request,"user/findfriends.html",{"content":content})
 
 
+def returnSuggestedFriends(request):
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+    content=list()
+    for h in User.objects.all()[:8]:
+        if h["id"] == user["id"] or h["id"] in profile["friends"]:
+            continue
+        f = h["id"]
+        temp=dict()
+        reqby = User.objects.get(id=f)
+        reqbyprof = Profile.objects.get(user_id=f)
+        temp["name"] = reqbyprof["name"]
+        temp["discription"] = reqbyprof["discription"]
+        try:
+            temp["discription"] = temp["discription"][:40] + "....."
+        except:
+            pass
+        temp["email"] = reqby["email"]
+        photo= reqbyprof["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp["photo"] = my_string.decode('utf-8')
+        content.append(temp)
+    return content
 
 @login_required
 def viewprofile(request,email):

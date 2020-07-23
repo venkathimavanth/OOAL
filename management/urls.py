@@ -10,5 +10,7 @@ urlpatterns = [
     # path('temp/', views.temp ,name='temp'),
     path('find/prev/', views.findprev ,name='findprev'),
     path('find/next/', views.findnext ,name='findnext'),
+    path('addcatogries', views.addcatogries ,name='addcatogries'),
+
 
 ]
