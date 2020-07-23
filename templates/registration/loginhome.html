@@ -30,21 +30,53 @@
 		top: 0;
 		opacity: 0;
 	}
-</style>
+	@keyframes spinneran {
+			0% {
+					transform: translate3d(-50%, -50%, 0) rotate(0deg);
+			}
+			100% {
+					 transform: translate3d(-50%, -50%, 0) rotate(360deg);
+			}
+	}
+	.spinner1 {
+
+			height: 60px;
+			opacity: 1;
+			position: relative;
+			transition: opacity linear 0.1s;
+
+	}
+	.spinner1::before {
+					animation: 2s linear infinite spinneran;
+					border: solid 3px white;
+					border-bottom-color: #EF6565;
+					border-radius: 50%;
+					content: "";
+					height: 40px;
+					left: 50%;
+					opacity: inherit;
+					position: absolute;
+					top: 50%;
+					transform: translate3d(-50%, -50%, 0);
+					transform-origin: center;
+					width: 40px;
+					will-change: transform;
+			}
+	</style>
+
 
 {% endblock %}
 
 {% block content %}
 
 <section class="newsfeed">
-{% if daily_challange %}
 	  <div class="container-fluid">
 	   <div class="row">
-
-	    <div class="col-lg-3">
+			 <div class="col-lg-3">
+{% if daily_challange %}
 				<a href="{% url 'user:dsc' %}">
 		 <div class="storybox"
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/2.gif' %}) no-repeat;
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif' %}) no-repeat;
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
@@ -56,8 +88,29 @@
           </div>
 		 </div>
 		 </a>
-			</div><!--/ col-lg-3 -->
 {% endif %}
+
+{% if ftf %}
+	{% for f in ftf %}
+				<a href="{% url 'user:ftf' id=f.id %}">
+		 <div class="storybox"
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/2.gif' %}) no-repeat;
+		          background-size: cover;
+                  background-position: center center;
+                  -webkit-background-size: cover;
+                  -moz-background-size: cover;
+                  -o-background-size: cover;">
+          <div class="story-body text-center">
+           <h4>{{ f.name }}</h4>
+           <p>Friendly Challange</p>
+          </div>
+		 </div>
+		 </a>
+		 {% endfor %}
+{% endif %}
+
+</div><!--/ col-lg-3 -->
+
 			<div class="col-lg-6">
 
 					<div class="row">
@@ -98,9 +151,11 @@
 				 		</div>
 				 	   </div>
 
+
 						{% if posts %}
+						<div class="infinite-container" >
 						{% for p in posts %}
-						 <div class="cardbox">
+						 <div class="cardbox infinite-item" >
 
 				          <div class="cardbox-heading">
 				           <!-- START dropdown-->
@@ -129,17 +184,26 @@
 						  <div class="cardbox-item">
 						   <a href="#myModal" data-toggle="modal">
 						    <!-- <img class="img-responsive" src="assets/img/posts/1.jpg" alt="MaterialImg"> -->
+								{% if p.isvideo %}
 								<video controls style="height:100%;width:100%">
 		                <source src='data:video/mp4;base64,{{ p.content }}' type=video/mp4>
 		                Your browser does not support the video tag.
 		            </video>
+								{% endif %}
 						   </a>
 				          </div><!--/ cardbox-item -->
 					      <div class="cardbox-base">
-						   <ul>
+						   <ul style="text-align:left">
+								 <div class="media-body">
+									<p class="m-0">{{ p.text }}</p>
+									{% if p.isvideo %}
+									<small><span>{{ p.challegetype }}</span></small>
 
+									{% endif %}
+								 </div>
 						   </ul>
 						  </div><!--/ cardbox-base -->
+
 				          <div class="cardbox-like">
 						   <ul>
 							<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
@@ -150,6 +214,15 @@
 						 </div><!--/ cardbox -->
 
 						 {% endfor %}
+						 </div>
+						 {% if posts.has_next %}
+
+								 <a class="infinite-more-link" href="?page={{ posts.next_page_number }}" style="color: black;">Loading more stay tuned .......</a>
+								 <div class="spinner1 infinite-more-link"></div>
+						 {% endif %}
+						 <div class="loading justify-content-center"  style="display: none;">
+
+						 </div>
 						 {% endif %}
 
 		</div><!--/ col-lg-6 -->
@@ -184,6 +257,22 @@
 	  </div><!--/ container -->
 	 </section><!--/ newsfeed -->
 
+
+	 <script src="{% static 'assets/js/vendor/jquery-3.3.1.min.js' %}"></script>
+	 <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+	 <script src="{% static 'assets/js/infinite.min.js' %}"></script>
+
+	 <script>
+	     var infinite = new Waypoint.Infinite({
+	       element: $('.infinite-container')[0],
+	       onBeforePageLoad: function () {
+	         $('.spinner-border').show();
+	       },
+	       onAfterPageLoad: function ($items) {
+	         $('.spinner-border').hide();
+	       }
+	     });
+	 </script>
 
 	 <script>
 	 function fun1(exe){

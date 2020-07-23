@@ -26,3 +26,11 @@ class Post(Document):
 
     likes=ListField(ObjectIdField())
     comments=ListField(ObjectIdField())
+
+
+class FriendToFriend(Document):
+    user_id =  ObjectIdField()
+    created_date=DateTimeField()
+    age_restricted=BooleanField(default=False)
+    name = StringField(max_length=200)
+    discription = StringField(max_length=1000)

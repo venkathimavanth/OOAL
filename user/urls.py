@@ -20,5 +20,6 @@ urlpatterns = [
     path('challanges/', views.challanges ,name='challanges'),
     path('userhome/', views.userhome ,name='userhome'),
     path('challange/dsc/', views.dsc ,name='dsc'),
+    path('ftf/<str:id>/', views.ftf ,name='ftf'),
 
 ]

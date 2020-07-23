@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .decorators import login_required,management_required,business_required
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 def home(request):

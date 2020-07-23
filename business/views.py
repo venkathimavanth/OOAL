@@ -82,7 +82,7 @@ def perminent_coupons(request):
     else:
         return render(request,template)
 
-@business_required
+
 def video_check(request):
     template = 'business/video_upload.html'
     if request.method == 'POST':

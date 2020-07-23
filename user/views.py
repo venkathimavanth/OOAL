@@ -13,7 +13,8 @@ import datetime,json
 from pymongo import MongoClient
 mongo_client = MongoClient()
 db = mongo_client.EAD_OOAL
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .ead_abusive_sentence_detector import abusive_detect_main
 
 
 
@@ -54,6 +55,16 @@ def userhome(request):
     try:
         daily_challange=DailyChallanges.objects.get(posted_date=datetime.date.today())
         context['daily_challange']=daily_challange
+    except:
+        pass
+
+
+    try:
+        ftf=profile["accepted_chall"]
+        lis=[]
+        for f in ftf:
+            lis.append(FriendToFriend.objects.get(id=f))
+        context['ftf']=lis
     except:
         pass
 
@@ -99,9 +110,20 @@ def userhome(request):
             posts.append(po)
         except:
             pass
-    context["posts"]=posts
-    # print(context)
+    context["posts"]=posts[-1:-101:-1]
     context["sfriends"]=returnSuggestedFriends(request)
+
+    # print(context)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(posts, 2)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+
     return render(request,'registration/loginhome.html',context)
 
 def addThisPost(request,post,user,profile):
@@ -151,12 +173,49 @@ def dsc(request):
         context["completed"] = False
         if daily_challange["id"] in profile["completed"]:
             context["completed"] =True
-        print("-----------------",context["completed"],profile["completed"])
+        # print("-----------------",context["completed"],profile["completed"])
     except:
         pass
 
     return render(request,'user/dsc.html',context)
 
+def ftf(request,id):
+    context=dict()
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+    if request.method == "POST":
+        if 'file' in request.FILES:
+            f=FriendToFriend.objects.get(id=id)
+            file = request.FILES['file']
+            content_type = 'video/mp4'
+            post=Post(
+                user_id =  user["id"],
+                user_photo = profile["photo"],
+                created_date=datetime.datetime.now(),
+
+                isimage = False,
+                isvideo = True,
+
+                text = f["discription"],
+                ischallenge = True,
+                challegetype="Friend to Friend Challange",
+                challengeid=f["id"],
+            ).save()
+            post.content.put(file,content_type=content_type)
+            post.save()
+            addThisPost(request,post,user,profile)
+            profile["accepted_chall"].remove(f["id"])
+            profile.save()
+            return redirect('user:userhome')
+
+    try:
+        f=FriendToFriend.objects.get(id=id)
+        if f["id"] in profile["accepted_chall"]:
+            context["ftf"]=f
+            return render(request,'user/ftf.html',context)
+    except:
+        pass
+    return redirect('user:userhome')
 
 @login_required
 def friends(request):
@@ -271,6 +330,21 @@ def viewprofile(request,email):
     print("called viewprofile view func")
     e,u = check_user_exists(request,email)
     ae,user=check_user_exists(request,request.session["username"])
+    message=""
+    if request.method == "POST":
+        x=abusive_detect_main(request.POST["discription"])
+        if int(x) in [3,4]:
+            message = "Your Challange Is Harmfull"
+        else:
+            f = FriendToFriend(
+                user_id =  user["id"],
+                created_date=datetime.datetime.now(),
+                name = request.POST["name"],
+                discription = request.POST["discription"],
+            ).save()
+            profile1=Profile.objects.get(id=u["profileid"])
+            profile1['accepted_chall'].append(f["id"])
+            profile1.save()
     if e and ae and u["profile_created"] and user["profile_created"] and ( u["id"] != user["id"] ):
         profile1=Profile.objects.get(id=u["profileid"])
         profile2=Profile.objects.get(id=user["profileid"])
@@ -296,6 +370,7 @@ def viewprofile(request,email):
             "email" : u["email"],
             "photo" : my_string.decode('utf-8'),
             "friends" : friends,
+            "message":message
         }
         return render(request,"user/viewprofile.html",context)
     return redirect("user:friends")
