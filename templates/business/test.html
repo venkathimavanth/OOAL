@@ -1,53 +1,16 @@
-{% load static %}
-{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>video play</title>
-    <script src="{% static 'assets/js/vendor/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
-    <script src="{% static 'assets/js/infinite.min.js' %}"></script>
-
+    <title>Test</title>
 </head>
 <body>
-    <div class="infinite-container">
-    {% for content in all_content %}
-        <div class="infinite-item">
-            {% if content.is_image %}
-                image
-                <img src="data:{{ content.content_type }};base64,{{ content.content }}" style="height: 100px;width: 100px;">
-            {% else %}
-                video
-                <video controls>
-                    <source src='data:{{ content.content_type }};base64,{{ content.content }}' type={{ content.content_type }}>
-                    Your browser does not support the video tag.
-                </video>
-            {% endif %}
-        </div>
-    {% endfor %}
-    </div>
-    <div class="loading1" style="background-color: red;height: 20px;">
-    Loading...
-  </div>
-    {% if all_content.has_next %}
-    <a class="infinite-more-link" href="?page={{ all_content.next_page_number }}">More</a>
-  {% endif %}
-
-
-
-
-    <script>
-        var infinite = new Waypoint.Infinite({
-          element: $('.infinite-container')[0],
-          onBeforePageLoad: function () {
-            $('.loading1').show();
-          },
-          onAfterPageLoad: function ($items) {
-            $('.loading1').hide();
-          }
-        });
-    </script>
-
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="code">
+        <input type="text" name="discription">
+        <input type="file" name="banner">
+        <input type="submit">
+    </form>
 </body>
 </html>

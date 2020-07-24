@@ -1,160 +1,98 @@
 {% extends 'businessuserbase.html' %}
 {% load static %}
 {% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block extra_head_content %}
+    <meta charset="UTF-8">
+    <title>Collaberate</title>
 
+    <style>
+        body{
+            background-color: wheat;
+            height: 1400px;
 
+        }
+        .card-wrapper{
+            margin-top: 5%;
+            background-color: white;
+            width: 950px;
+            height: 530px;
+            margin-left: 300px;
+            {#border-radius: 2rem;#}
+            {#box-shadow: 0 10px 12p  x rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);#}
+            -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,.5);
+            padding: 1.5%;
+        }
+
+        .img-wrapper{
+            float: left;
+            margin-left: -5px ;
+            width: 500px;
+        }
+        .text-wrapper{
+            float: right;
+            {#background-color: #929394;#}
+            {#padding-left: 10px;#}
+            height:500px;
+            width: 400px;
+            border-left:4px solid #aaabac;
+            z-index: 999;
+        }
+        .heading-wrapper{
+            font-weight: 600;
+            font-size: xx-large;
+            margin-left: 15px;
+            text-align: center;
+        }
+        .text-content-wrapper{
+            margin-left: 15px;
+            margin-top: 30px;
+        }
+        a{
+            color: black;
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
 {% block content %}
 
-	 <!-- ==============================================
-	 Modal Section
-	 =============================================== -->
-<center>
-    <section class="single-post">
-        <div class="container">
-            <div class="row">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <a href="{% url 'business:coupon_upload' %}">
-                            <div class="modal-body">
-                                <div class="row">
+    <div class="card-wrapper">
+        <a href="{% url 'business:coupon_upload' %}">
+            <div class="img-wrapper">
+                <img src="{% static 'business/limited-offer-icon-with-shadow.jpg' %}" style="width: 500px;height: 500px">
+            </div>
+            <div class="text-wrapper">
+                <div class="heading-wrapper">
+                    LIMITED OFFER COUPONS
+                </div>
+                <div class="text-content-wrapper">
+                    You can upload multiple limited offer coupons using a csv file
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+            </div>
+        </a>
+    </div>
 
-                                    <div class="col-md-8 modal-image">
-                                        <img class="img-responsive" src="{% static 'business/limited-offer-icon-with-shadow.jpg' %}" alt="Image"/>
-                                    </div><!--/ col-md-8 -->
-                                    <div class="col-md-4 modal-meta">
-                                        <div class="modal-meta-top">
-                                            <div class="img-poster clearfix">
-                                                <h3><strong>LIMITED OFFER COUPONS</strong></h3>
-                                            </div><!--/ img-poster -->
-
-                                            <ul class="img-comment-list">
-                                                <li>
-                                                    <div class="comment-text">
-                                                        <p style="font-size: large"><strong>You can add multiple limited offer coupons through csv file .</strong></p>
-                                                    </div>
-                                                </li><!--/ li --><br><br>
-                                                <li>
-                                                    <div class="comment-text">
-                                                        <strong>Terms and Conditions</strong>
-                                                        <p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: “Client”, “You” and “Your” refers to you, the person log on this website and compliant to the Company's terms and conditions. “The Company”, “Ourselves”, “We”, “Our” and “Us”, refers to our Company. “Party”, “Parties”, or “Us”, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
-
-                                                        Cookies
-                                                        We employ the use of cookies. By accessing Website Name, you agreed to use cookies in agreement with the Company Name's Privacy Policy.
-
-                                                        Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
-
-                                                        License
-                                                        Unless otherwise stated, Company Name and/or its licensors own the intellectual property rights for all material on Website Name. All intellectual property rights are reserved. You may access this from Website Name for your own personal use subjected to restrictions set in these terms and conditions.
-
-                                                        You must not:
-
-                                                        Republish material from Website Name
-                                                        Sell, rent or sub-license material from Website Name
-                                                        Reproduce, duplicate or copy material from Website Name
-                                                        Redistribute content from Website Name
-                                                        This Agreement shall begin on the date hereof.
-
-                                                        Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. Company Name does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of Company Name,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, Company Name shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
-
-                                                        Company Name reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
-                                                    </div>
-                                                </li><!--/ li -->
-                                            </ul><!--/ comment-list -->
-                                        </div><!--/ modal-meta-top -->
-                                    </div><!--/ col-md-4 -->
-                                </div><!--/ row -->
-                            </div><!--/ modal-body -->
-                        </a>
-                    </div><!--/ modal-content -->
-                </div><!--/ modal-dialog -->
-            </div><!--/ row -->
-        </div><!--/ container -->
-    </section><!--/ modal -->
-
-
-    <!-- ==============================================
-    Modal Section 2
-    =============================================== -->
-    <section class="single-post" style="margin-top: -5%">
-    <div class="container">
-        <div class="row">
-
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <a href="{% url 'business:add_coupon' %}">
-                    <div class="modal-body" >
-
-                        <div class="row">
-
-                            <div class="col-md-8 modal-image">
-                                <img class="img-responsive" src="{% static 'business/coupon-flat-vector-21709215.jpg' %}" alt="Image"/>
-                            </div><!--/ col-md-8 -->
-                            <div class="col-md-4 modal-meta">
-                                <div class="modal-meta-top">
-                                    <div class="img-poster clearfix">
-                                        <h3><strong>UNLIMITED TIME COUPONS</strong></h3>
-                                    </div><!--/ img-poster -->
-
-                                    <ul class="img-comment-list">
-                                        <li>
-                                            <div class="comment-text">
-                                            <p style="font-size: large"><strong>You can add a coupons which user can use with unlimited time</strong></p>
-
-                                            </div>
-                                        </li><!--/ li --><br><br>
-                                        <li>
-                                            <div class="comment-text">
-                                                <strong>Terms and Conditions</strong>
-                                                <p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: “Client”, “You” and “Your” refers to you, the person log on this website and compliant to the Company's terms and conditions. “The Company”, “Ourselves”, “We”, “Our” and “Us”, refers to our Company. “Party”, “Parties”, or “Us”, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
-
-                                                Cookies
-                                                We employ the use of cookies. By accessing Website Name, you agreed to use cookies in agreement with the Company Name's Privacy Policy.
-
-                                                Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
-
-                                                License
-                                                Unless otherwise stated, Company Name and/or its licensors own the intellectual property rights for all material on Website Name. All intellectual property rights are reserved. You may access this from Website Name for your own personal use subjected to restrictions set in these terms and conditions.
-
-                                                You must not:
-
-                                                Republish material from Website Name
-                                                Sell, rent or sub-license material from Website Name
-                                                Reproduce, duplicate or copy material from Website Name
-                                                Redistribute content from Website Name
-                                                This Agreement shall begin on the date hereof.
-
-                                                Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. Company Name does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of Company Name,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, Company Name shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
-
-                                                Company Name reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
-
-                                                </p>
-                                            </div>
-                                        </li><!--/ li -->
-                                    </ul><!--/ comment-list -->
-
-
-                                </div><!--/ modal-meta-top -->
-                            </div><!--/ col-md-4 -->
-
-                        </div><!--/ row -->
-                    </div><!--/ modal-body -->
-                </a>
-                </div><!--/ modal-content -->
-            </div><!--/ modal-dialog -->
-
-        </div><!--/ modal-dialog -->
-    </div><!--/ container -->
-    </section><!--/ modal -->
-</center>
-
-	<script>
-	$('#Slim,#Slim2').slimScroll({
-	        height:"auto",
-			position: 'right',
-			railVisible: true,
-			alwaysVisible: true,
-			size:"8px",
-		});
-	</script>
+    <div class="card-wrapper">
+        <a href="{% url 'business:add_coupon' %}">
+            <div class="img-wrapper">
+                <img src="{% static 'business/coupon-flat-vector-21709215.jpg' %}" style="width: 500px;height: 500px">
+            </div>
+            <div class="text-wrapper">
+                <div class="heading-wrapper">
+                    UNLIMITED VALIDITY COUPONS
+                </div>
+                <div class="text-content-wrapper">
+                    You can add coupons of unlimited validity and use
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+            </div>
+        </a>
+    </div>
 {% endblock %}
-
+</body>
+</html>

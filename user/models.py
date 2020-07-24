@@ -1,4 +1,4 @@
-from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document,FileField
+from django.db import models
 
 connect("EAD_OOAL")
 
