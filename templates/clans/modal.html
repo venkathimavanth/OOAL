@@ -38,10 +38,12 @@
 			 <ul>
 			  <li>
 			  		{% if post.is_liked_by_curr_user %}
-			     		<a onClick=like('{{ post.id }}') class="modal-like" href="#"><i class="fa fa-heart" ></i></a><span> {{post.likes}}</span>
+			     		<a onClick=like('{{ post.id }}') class="modal-like" href="#"><i class="fa fa-heart" ></i></a><span> {{post.likes}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					{% else %}
-			    		<a onClick=like('{{ post.id }}') class="modal-like" href="#"><i class="fa fa-heart-o" ></i></a><span> {{post.likes}}</span>
+			    		<a onClick=like('{{ post.id }}') class="modal-like" href="#"><i class="fa fa-heart-o" ></i></a><span> {{post.likes}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					{% endif %}
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
 
 			      <a class="modal-comment" href="#"><i class="fa fa-comments"></i></a><span> {{ count }}</span> </li>
 			  <li>
