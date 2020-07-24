@@ -58,6 +58,7 @@ def getMsgs(request):
         c_user = User.objects(email=cu_user)[0]
         c_u_prof = Profile.objects(user_id=c_user['id'])[0]
         msgs = c_u_prof['messages']
+
         if(msgs):
             for msg in msgs:
                 c_msg = Message.objects(id=msg)[0]
@@ -112,5 +113,31 @@ def sendGrpMsg(request):
     else:
         return HttpResponse('Failure')
 
-        
+
+
+def getPrivMsgs(request):
+    if request.method == 'GET':
+        frnd_id = request.GET['f_id']
+        return HttpResponse('success')
+    else:
+        return HttpResponse('Failure')
     
+def senPrivMsg(request):
+    if request.method == 'POST':
+        text = request.POST['msg']
+        frnd_id = request.POST['f_id']
+
+        cu_user = request.session["username"]
+        c_user = User.objects(email = cu_user)[0]
+        cu_prof = Profile.objects.get(user_id = c_user['id'])[0]
+        
+        msg = Message(msg=text, sender=c_user['id'], reciever=frnd_id)
+        msg.save()
+        print("message saved")
+
+        Profile.objects(user_id = c_user['id']).update_one(push__messages = msg['id'])
+        Profile.objects(user_id = frnd_id).update_one(push__messages = msg['id'])
+        print("Profiles changed")
+        return HttpResponse('Success')
+    else:
+        return HttpResponse('Failure')
