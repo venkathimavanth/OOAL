@@ -1,5 +1,5 @@
 from django.db import models
-from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, FileField ,BooleanField, Document
+from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
 
 connect("EAD_OOAL")
 # Create your models here.
@@ -25,7 +25,3 @@ class Unlimited_Coupons(Document):
     created_user = ObjectIdField()
     banner_image = ImageField()
     discription = StringField(max_length=1000)
-
-class Video_Check(Document):
-    video_name = StringField(max_length=100)
-    video = FileField()
