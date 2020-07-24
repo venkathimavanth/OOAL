@@ -112,7 +112,7 @@
 			  {% if friends_list %}
 			  {% for i in friends_list %}
 			  
-			   <li class="friends" data-value="{{ i.email }}" onclick="msg_frnd(this)">
+			   <li class="friends" data-value="{{ i.id }}" onclick="msg_frnd(this)">
 				<div class="user-message-details">
 				 <div class="user-message-img">
 				  <img data-src="{{ i.photo }}" src="data:image/jpeg;base64,{{ i.photo }}" class="img-responsive img-circle" alt="">
@@ -180,6 +180,17 @@
 	 Scripts document.getElementById("myTextarea").value
 	 =============================================== -->
 	 <script type="text/javascript">
+		function priv_manage(txt) {
+			var bt = document.getElementById('priv_send_btn');
+			if (txt.value != '') {
+				bt.disabled = false;
+			}
+			else {
+				bt.disabled = true;
+			}
+		}    
+	</script>
+	 <script type="text/javascript">
 		function manage(txt) {
 			var bt = document.getElementById('send_btn');
 			if (txt.value != '') {
@@ -195,13 +206,10 @@
 			console.log("msg_frnd(frndId)");
 			console.log(frndId);
 			var frnd_id = frndId.getAttribute("data-value");
-			var f_src = frndId.getAttribute("data-src");
-			var f_name = frndId.getAttribute("data-name");
-			console.log(f_src);
-			console.log(f_name);
+			console.log(frnd_id);
 			$.ajax({
                     type: "GET",
-                    url: "/chat/getMsg/",
+                    url: "/chat/getPrivMsg/",
                     data: { 
                         'f_id': frnd_id,
                     },
@@ -217,6 +225,29 @@
         	$('#conv-box').html(data)
 		}
 	</script>
+		<script>
+		function msg_re_frnd(frndId) {
+			console.log("msg_re_frnd(frndId)");
+			console.log(frndId);
+			$.ajax({
+                    type: "GET",
+                    url: "/chat/getPrivMsg/",
+                    data: { 
+                        'f_id': frndId,
+                    },
+                    success: display,
+					dataType: 'html',
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+		}
+		function display(data,textStatus,jqXHR) {
+			console.log("display")
+        	$('#conv-box').html(data)
+		}
+	</script>
+
 	<script>
 		function msg_group(grpId) {
 			console.log("msg_group(grpId)");

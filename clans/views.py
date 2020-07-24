@@ -584,12 +584,12 @@ def single_post(request):
         temp["photo"] = my_string.decode('utf-8')
         # temp["owner_photo"] = my_string1.decode('utf-8')
         o_photo= po_p["photo"].grid_id
-        o_col = db.images.chunks.find({"files_id":photo})
+        o_col = db.images.chunks.find({"files_id":o_photo})
         o_my_string = base64.b64encode(o_col[0]["data"])
         temp["ownerphoto"] = o_my_string.decode('utf-8')
 
         my_photo= profile["photo"].grid_id
-        my_col = db.images.chunks.find({"files_id":photo})
+        my_col = db.images.chunks.find({"files_id":my_photo})
         my_my_string = base64.b64encode(my_col[0]["data"])
         temp["ownerphoto"] = my_my_string.decode('utf-8')
         
