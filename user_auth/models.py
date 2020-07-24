@@ -14,11 +14,6 @@ class User(Document):
 
 
 
-class Cupon(Document):
-    offerid = ObjectIdField()
-    couponid = ObjectIdField()
-
-
 class Profile(Document):
     name=StringField(max_length=200)
     discription=StringField(max_length=200)
@@ -37,6 +32,5 @@ class Profile(Document):
     pending_friend_requests = ListField(ObjectIdField())
     accepted_chall=ListField(ObjectIdField())
     completed=ListField(ObjectIdField())
-    cupons=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
     messages = ListField(ObjectIdField())
