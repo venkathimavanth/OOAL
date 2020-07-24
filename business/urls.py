@@ -11,5 +11,7 @@ urlpatterns = [
     # path('video_upload/',views.video_check),
     path('video_view/',views.video_view),
     # path('fun/',views.Fun_View.as_view(),name='fun'),
-    path('fun/',views.fun,name='fun')
+    path('fun/',views.fun,name='fun'),
+    path('stats/',views.stats,name='stats'),
+
 ]

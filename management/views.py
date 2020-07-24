@@ -6,6 +6,7 @@ import datetime,base64
 from django.contrib import messages
 from user.models import Post
 from datetime import date
+
 # Create your views here.
 
 @management_required
@@ -176,9 +177,43 @@ def fun_upload(request):
 @management_required
 def report_portal(request):
     template = 'management/report_portal.html'
-    return render(request,template)
+    # return  render(request,template)
+    if request.method == 'POST':
+        id=request.POST['id']
+        button = request.POST['button']
+        # print("\n",id,button)
+        if button == 'delete':
+            report=Report.objects.filter(post_id=id).first()
+            report.delete()
+            post=Post.objects.filter(id=id).first()
+            post.delete()
 
+            return redirect('management:report_view')
+        if button == 'accept':
+            report = Report.objects.filter(post_id=id).first()
+            report.delete()
+            return redirect('management:report_view')
+    else:
+        context={}
+        all_context=[]
+        all_reports = Report.objects.all()
+        for report in all_reports:
+            user_id = report.user_id
+            prof = Profile.objects.filter(user_id=user_id).first()
+            post_id = report.post_id
+            post = Post.objects.filter(id=post_id).first()
+            img = post.content.read()
+            imgbase64EncodedStr = base64.b64encode(img)
+            img = imgbase64EncodedStr.decode('utf-8')
+            context['name']=prof.name
+            context['time']=report.time
+            context['problem']=report.problem
+            context['img']=img
+            context['post_id']=post_id
+            all_context.append(context)
 
+        return render(request, template, {'all_context':all_context})
+      
 def addcatogries(request):
     if request.method == "POST":
         category_name=request.POST["category"]
@@ -193,25 +228,41 @@ def addcatogries(request):
         elif category_name == "TypeOfSubmissionModel":
                 c=TypeOfSubmissionModel(type_of_submission=name)
                 c.save()
-    return render(request,'management/addcatogries.html',{})
+        return render(request,'management/addcatogries.html',{})  
 
 
 def report(request):
+    template = 'management/get_report.html'
     if request.method == 'POST':
-        if 'problem' in request.POST:
-            pass
-        else:
-            messages.error('Please fill all feilds')
-            return
+        if 'problem' in request.POST :#and 'post_id' in request.POST:
+            post_id = request.GET.get('post')
+            post = Post.objects.filter(id=post_id).first()
+            # print('\ngot1234', post_id)
+            problem = request.POST['problem']
+            # post_id = request.POST['post_id']
+            created_date = datetime.datetime.now()
+            created_user = User.objects.get(email=request.session["username"])["id"]
+            # print("\n",problem,post_id,created_date,created_user,"\n")
+            report = Report(problem = problem,user_id = created_user,time = created_date,post_id = post.id).save()
+            report.save()
+            # return render(request,'management/after_report.html')
+            return HttpResponse('Reported !!')
+        # else:
+        #     messages.error('Please fill all feilds')
+        #     return render(request,'management/after_report.html')
     else:
-        template='management/get_report.html'
+        
         post_id = request.GET.get('post')
+        # print('\ngot',post_id)
         post = Post.objects.filter(id = post_id).first()
-        post_img = post.user_photo.read()
+        # print('id',post.id)
+        post_img = post.content.read()
         imgbase64EncodedStr = base64.b64encode(post_img)
         post_img = imgbase64EncodedStr.decode('utf-8')
-        context = {'post_img':post_img}
-        return render(request,template,context)
+        # context = {'post_img':post_img}
+        # print(context)
+        return render(request,template,{'post_img':post_img})      
+
     # pass
 # def temp(request):
 #     print("oyyeoyye")

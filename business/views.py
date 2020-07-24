@@ -124,8 +124,7 @@ def fun(request):
         video = base64EncodedStr.decode('utf-8')
         all_content.append({'content': video, 'content_type': video_instance.video.content_type,
                             'is_image': video_instance.video.is_image})
-
-    # return render(request, template, {"all_content": all_content})
+         # return render(request, template, {"all_content": all_content})
     print("\nReady to render\n")
     page = request.GET.get('page', 1)
     paginator = Paginator(all_content, 2)
@@ -137,3 +136,41 @@ def fun(request):
         all_content = paginator.page(paginator.num_pages)
     # return render(request, 'business/test.html', {'all_content': all_content})
     return render(request, 'business/fun_view.html', {'all_content': all_content})
+
+@business_required
+def stats(request):
+    template = 'business/stats.html'
+    limited = Limited_Offer.objects.filter(created_user = User.objects.get(email=request.session["username"])["id"])
+    perminent = Unlimited_Coupons.objects.filter(created_user = User.objects.get(email=request.session["username"])["id"])
+    all_context=[]
+    context={}
+    for l in limited:
+        context['company_id'] = l.company_id
+        context['created_date'] = l.created_date
+        user = Profile.objects.filter(user_id = l.created_user).first()
+        context['created_user'] = user.name
+        context['offer_count'] = l.offer_count
+
+        coupon_ids=[]
+        coupon_dict={}
+        for id in l.coupons:
+            coupon = Limited_Offer_Coupons.objects.filter(id=id).first
+
+            coupon_ids.append(coupon)
+        context['coupons'] = coupon_ids
+        all_context.append(context)
+        print("\n",context)
+    all_context2=[]
+    context2={}
+    for p in perminent:
+        context2['company_id'] = p.company_id
+        context2['coupon_code'] = p.coupon_code
+        context2['created_date'] = p.created_date
+        user = Profile.objects.filter(user_id=p.created_user).first()
+        context2['created_user'] = user.name
+        context2['discription'] = p.discription
+        all_context2.append(context2)
+
+
+        return render(request,template,{'all_context':all_context,'all_context2':all_context2})
+

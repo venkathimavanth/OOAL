@@ -21,6 +21,7 @@ from .ead_abusive_sentence_detector import abusive_detect_main
 from datetime import date
 
 
+
 def get_userprofile(request,id):
     p=Profile.objects.filter(user_id=id)
     prof=None
@@ -46,7 +47,7 @@ def userhome(request):
                 # isvideo = BooleanField(default=False)
 
                 text = request.POST["tought"],
-                # image = ImageField()
+            # image = ImageField()
                 # text = StringField(max_length=200)
 
             )
@@ -60,7 +61,6 @@ def userhome(request):
         context['daily_challange']=daily_challange
     except:
         pass
-
     try:
         weekNumber = date.today().isocalendar()[1]
         Weekly_challange=reversed(WeeklyChallanges.objects.filter(posted_week=str(weekNumber)))
@@ -69,7 +69,9 @@ def userhome(request):
             break
 
     except:
-        pass
+        pass  
+
+
 
     try:
         ftf=profile["accepted_chall"]
@@ -79,8 +81,6 @@ def userhome(request):
         context['ftf']=lis
     except:
         pass
-
-
     try:
         lo=Limited_Offer.objects.all()
         lis=[]
@@ -91,6 +91,7 @@ def userhome(request):
         context['Limited_Offer']=lis
     except:
         pass
+  
 
 
     feed=profile["myfeed"]
@@ -275,7 +276,8 @@ def like(request):
             post.save()
         return HttpResponse('Success')
     else:
-        return HttpResponse(Failure)
+        return HttpResponse('Failure')
+
 
 
 def addThisPost(request,post,user,profile):
@@ -368,8 +370,8 @@ def ftf(request,id):
     except:
         pass
     return redirect('user:userhome')
-
-
+  
+  
 def lo(request,id):
     context=dict()
     ae,user=check_user_exists(request,request.session["username"])
@@ -425,6 +427,9 @@ def lo(request,id):
         pass
     return redirect('user:userhome')
 
+  
+  
+  
 
 @login_required
 def friends(request):
@@ -646,6 +651,7 @@ def viewmyprofile(request):
             except:
                 pass
             temp["cupons"]=cu
+
             return render(request,"user/viewmyprofile.html",temp)
     return redirect("user_auth:loggedinhome")
 

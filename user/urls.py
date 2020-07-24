@@ -23,6 +23,7 @@ urlpatterns = [
     # path('challange/dsc/', views.wsc ,name='wsc'),
     path('ftf/<str:id>/', views.ftf ,name='ftf'),
     path('lo/<str:id>/', views.lo ,name='lo'),
+
     path('userhome/model/', views.single_post ,name='single_post'),
     path('userhome/post/comment/', views.createComment ,name='createComment'),
     path('userhome/post/like/', views.like ,name='like'),

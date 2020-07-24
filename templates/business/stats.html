@@ -1,0 +1,212 @@
+{% extends 'businessuserbase.html' %}
+{% load static %}
+{% load staticfiles %}
+
+
+
+
+{% block extra_head_content %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+
+        .submit-btn2{
+            color: #fff;
+            background-color: #11cdef;
+            border-color: transparent;
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            border-radius: .50rem;
+            transition: all .15s ease;
+            text-align: center;
+            vertical-align: center;
+            width: 110px;
+            height: 35px;
+       }
+
+        input[type=file]{
+            color:transparent;
+            background-color: transparent;
+        }
+        .btn-default{
+            font-family: "Open Sans",sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.5;
+            color: #fff;
+            background-color: #172b4d;
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            width: 120px;
+            height:36px;
+        }
+        .btn:hover{
+        background-color: #101e35;
+            border-color: #101e35;
+            color:#fff;
+        }
+        .alert-danger{
+            background-color: #f75676;
+            border-color: #f75676
+       }
+       .alert-success{
+           background-color: #15c39a;
+           border: #15c39a;
+       }
+       .alert{
+           padding: 0px;
+       }
+       #message_div{
+           box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+           border-radius: .50rem;
+           vertical-align: center;
+           height:50px;
+           color: white;
+           font-weight: 600;
+           font-size: larger;
+           font-family: "Open Sans",sans-serif;
+       }
+        .message-wrapper{
+            height: 50px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+	 <!-- ==============================================
+	 Modal Section
+	 =============================================== -->
+<center>
+    {% if all_context %}
+        Limited offer coupons
+    {% for context in all_context %}
+     <section class="single-post"  style="margin-top: -40px;">
+        <div class="container">
+            <div class="modal-dialog" style="width: 1100px;" >
+                <div class="modal-content" >
+
+                    <div class="modal-body">
+                        <p style="background-color: wheat;color: black;width: 100%;height: 30px;font-weight: bold;font-size: larger;padding: 5px;">OFFER</p><br>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                Company id : {{ context.company_id }}
+                            </div>
+                            <div class="col-lg-3">
+                                created on : {{ context.created_date }}
+                            </div>
+                            <div class="col-lg-3">
+                                created by : {{ context.created_user }}
+                            </div>
+                            <div class="col-lg-3">
+                                Total coupons in this offer : {{ context.offer_count }}
+                            </div>
+                        </div><!--/ row --><br><br>
+                        <p style="background-color: #15c39a;color: black;width: 100%;height: 30px;font-weight: bold;font-size: larger;padding: 5px;">Coupons</p><br>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                 coupon_code
+                            </div>
+                            <div class="col-lg-3">
+                                 start_date
+                            </div>
+                            <div class="col-lg-3">
+                                 expiry_date
+                            </div>
+                            <div class="col-lg-3">
+                                 discription
+                            </div>
+                        </div><br>
+                        {% for coupon in context.coupons %}
+                        <div class="row">
+                            <div class="col-lg-3">
+                                 {{ coupon.coupon_code }}
+                            </div>
+                            <div class="col-lg-3">
+                                 {{ coupon.start_date }}
+                            </div>
+                            <div class="col-lg-3">
+                                 {{ coupon.expiry_date }}
+                            </div>
+                            <div class="col-lg-3">
+                                 {{ coupon.discription }}
+                            </div>
+                        </div><br>
+                        {% endfor %}
+                    </div><!--/ modal-body -->
+                </div><!--/ modal-content -->
+            </div><!--/ modal-dialog -->
+        </div><!--/ container -->
+    </section><!--/ modal -->
+    {% endfor %}
+    {% else %}
+        <p style="text-align: center;padding-top: 80px;">No reports Found</p>
+    {% endif %}
+    {% if all_context2 %}
+        Perminent coupons
+        {% for context2 in all_context2 %}
+            <section class="single-post"  style="margin-top: -40px;">
+                <div class="container">
+                    <div class="modal-dialog" style="width: 1100px;" >
+                        <div class="modal-content" >
+
+                            <div class="modal-body">
+                                <p style="background-color: #15c39a;color: black;width: 100%;height: 30px;font-weight: bold;font-size: larger;padding: 5px;">Coupons</p><br>
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        Company id : {{ context2.company_id }}
+                                    </div>
+                                    <div class="col-lg-2">
+                                        Coupon_code : {{ context2.coupon_code }}
+                                    </div>
+                                    <div class="col-lg-2">
+                                        created on : {{ context2.created_date }}
+                                    </div>
+                                    <div class="col-lg-2">
+                                        created by : {{ context2.created_user }}
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        Description : {{ context2.discription }}
+                                    </div>
+                                </div><!--/ row --><br><br>
+
+
+
+                            </div><!--/ modal-body -->
+                        </div><!--/ modal-content -->
+                    </div><!--/ modal-dialog -->
+                </div><!--/ container -->
+            </section><!--/ modal -->
+        {% endfor %}
+    {% endif %}
+</center>
+
+
+
+     <!-- ==============================================
+	 Scripts
+	 =============================================== -->
+{##}
+{#    <script>#}
+{#        setTimeout(function() {#}
+{#        $('#message_div').fadeOut('slow ');#}
+{#        }, 3000); // <-- time in milliseconds#}
+{#    </script>#}
+	<script>
+	$('#Slim,#Slim2').slimScroll({
+	        height:"auto",
+			position: 'right',
+			railVisible: true,
+			alwaysVisible: true,
+			size:"8px",
+		});
+	</script>
+{% endblock %}
+
