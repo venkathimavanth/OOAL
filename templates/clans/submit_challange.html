@@ -1,0 +1,69 @@
+{% extends 'loggedinbase.html' %}
+
+{% block extra_head_content %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+  .modal-header, h5, .close {
+    background-color: #0fc19e;
+    color:white !important;
+    text-align: center;
+    font-size: 30px;
+  }
+  .btn-sub {
+      background-color : #0fc19e;
+  }
+  .modal-footer {
+    background-color: #f9f9f9;
+  }
+  </style>
+
+{% endblock %}
+{% load static %}
+{% load staticfiles %}
+
+{% block content %}
+
+<section class="login">
+      <div class="container">
+       <div class="banner-content">
+
+		  <h1> submit challange</h1>
+<form role="form" method="post" action="{% url 'community:submit_challange' challange_id %}"  enctype="multipart/form-data" id="addchallange">
+                            {% csrf_token %}
+
+                                <div class="form-group">
+                                <textarea rows="4" cols="50" class="form-control" name="discription" form="addchallange" placeholder="Description" required></textarea>
+                                </div>
+
+                                <label for="img">Proof of completion</label>
+                                <div class="form-group">
+                                <input type="file" class="form-control" id="img" name="photo"  accept="image/*" onchange="readURL(this);" required>
+                                </div>
+
+
+                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> Add</button>
+
+                            </form>
+
+
+       </div><!--/. banner-content -->
+      </div><!-- /.container -->
+     </section>
+
+
+
+	<script src={% static  "assets/js/jquery.min.js" %}></script>
+	<script src={% static  "assets/js/bootstrap.min.js" %}></script>
+	<script src={% static  "assets/js/base.js" %}></script>
+
+  <!-- <form method="post">
+    {% csrf_token %}
+    Name : <input type="email" name="name" required>
+    Password : <input type="password" name="password" required>
+    Re-Password : <input type="password" name="repassword" required>
+    <button type="submit" name="button">Signup</button>
+  </form> -->
+{% endblock %}
+

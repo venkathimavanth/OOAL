@@ -7,7 +7,8 @@ from user_auth.decorators import login_required,management_required
 from user_auth.views import check_user_exists
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
-from .models import community,Post, Comment, clanChallange,challange
+from .models import community, Comment, clanChallange,challange
+from .models import GroupPost as Post
 from chat.models import Message, GroupMessage
 from management.models import Challange
 import datetime
@@ -22,7 +23,6 @@ import datetime,json
 from pymongo import MongoClient
 mongo_client = MongoClient()
 db = mongo_client.EAD_OOAL
-
 
 
 @login_required
@@ -85,6 +85,12 @@ def add_challange(request,clan_id):
         else:
             return render(request,'clans/clan_show.html',{"warning":"Please fill all the blanks correctly"})
     return redirect('user_auth:home')
+
+
+@login_required
+def submit_form(request,challange_id):
+    return render(request,'clans/submit_challange.html',{"challange_id":challange_id})
+
 
 @login_required
 def submit_challanges(request,challange_id):
@@ -182,6 +188,7 @@ def review_challanges(request,clan_id):
         c = clanChallange.objects.get(id = ch)
 
         for challang in c['challange']:
+            print('challange',challang)
             chall = challange.objects.get(id = challang)
             if not chall['accepted_by_head'] and chall['sent_for_review']:
                 temp = dict()
@@ -238,19 +245,22 @@ def show_challanges(request,clan_id):
     status = 'Not Completed'
     print(clan['group_challanges'])
     for ch in clan['group_challanges']:
+        status = 'Not Completed'
         c = clanChallange.objects.get(id = ch)
         strt = c['created_date'].strftime('%Y-%m-%d')
         comp = c['complete_date'].strftime('%Y-%m-%d')
         tod = datetime.date.today().strftime('%Y-%m-%d')
         for l in c['challange']:
+            print(l)
             k = challange.objects.get(id = l)
+            print(k['id'])
             if k['done_by'] == user['id']:
                 if k['sent_for_review'] and not k['accepted_by_head']:
                     status = 'being reviewed'
                 if k['sent_for_review'] and k['accepted_by_head']:
                     status = 'Completed'
 
-
+        print(status)
         if int(tod[:4]) <= int(comp[:4]):
             if int(tod[5:7]) <= int(comp[5:7]):
                 if int(tod[8:10]) <= int(comp[8:10]):
@@ -264,6 +274,8 @@ def show_challanges(request,clan_id):
                     tempc['status'] = status
                     is_owner = False
                     if c['owner'] == user['id']:
+                        print(c['owner'])
+                        print(user['id'])
                         is_owner = True
                     tempc['is_owner'] = is_owner
 
@@ -273,7 +285,7 @@ def show_challanges(request,clan_id):
                     else:
                         clan_challenges.append(tempc)
 
-    return render(request, 'clans/show_challanges.html',{"clan_challenges":clan_challenges,'clan_challenges_today':clan_challenges_today})
+    return render(request, 'clans/show_challanges.html',{"clan_challenges":clan_challenges,'clan_challenges_today':clan_challenges_today,'clan_id':clan_id})
 
 
 
@@ -285,8 +297,6 @@ def clanHome(request):
     username = request.session["username"]
     user = User.objects.get(email=username)
     profile = Profile.objects.get(user_id=user["id"])
-
-
 
     clans1 = []
     for i in profile["clans_registered"]:
@@ -303,15 +313,17 @@ def clanHome(request):
         for j in clan1['participants']:
             p =  Profile.objects.get(user_id=j)
             photo1= p["photo"].grid_id
+
             col1 = db.images.chunks.find({"files_id":photo1})
             my_string1 = base64.b64encode(col1[0]["data"])
+
             list.append(my_string1.decode('utf-8'))
 
         temp['members_photos'] = list
 
         clans1.append(temp)
     #print(clans)
-    
+
     return render(request,'clans/clans.html',{"clans1": clans1})
 
 @login_required
@@ -321,7 +333,7 @@ def clan_show(request, clan_id):
     profile = Profile.objects(user_id=user["id"])[0]
     clan = community.objects(id=clan_id)[0]
     clan_users = []
-    
+
     print(clan)
     return render(request, 'clans/clan_show.html', {"clan_id":clan_id})
 
@@ -352,6 +364,8 @@ def add_clan_user(request, clan_id):
     return render(request, 'clans/clan_add_user.html',{"content":content, "clan_id":clan_id})
 
 
+def temp(request):
+    return render(request,'clans/notifications.html')
 
 
 
@@ -523,7 +537,7 @@ def add_user(request):
             community.objects(id=clanid).update_one(set__no_of_participants=clan.no_of_participants+1)
             print("clan num participants changed")
             text = a_uid_prof.name
-            text += " added " 
+            text += " added "
             text += uid_prof.name
             print("Message: ", text)
             message = GroupMessage(msg=text,sender=a_uid['id'],group=clanid)
@@ -592,13 +606,13 @@ def single_post(request):
         my_col = db.images.chunks.find({"files_id":my_photo})
         my_my_string = base64.b64encode(my_col[0]["data"])
         temp["ownerphoto"] = my_my_string.decode('utf-8')
-        
 
 
-        
+
+
 
         comments = []
-        
+
 
 
         for k in post['comments']:
@@ -634,7 +648,7 @@ def getComments(request):
         post = Post.objects.get(id = post_id)
 
         comments = []
-        
+
 
 
         for k in post['comments']:
@@ -677,10 +691,54 @@ def like(request):
     else:
         return HttpResponse(Failure)
 
+def exitClan(request, clan_id):
+    print("exitClan")
 
 
+    username = request.session["username"]
+    user = User.objects(email=username)[0]
+    profile = Profile.objects.get(user_id=user["id"])
 
+    clan = community.objects.get(id=clan_id)
 
+    print(profile["clans_registered"])
+    print(clan["id"] in profile["clans_registered"])
 
-        
+    Profile.objects(user_id=user["id"]).update_one(pull__clans_registered=clan["id"])
+    print("success")
+    community.objects(id=clan_id).update_one(pull__participants=user["id"])
+    print("success")
+    community.objects(id=clan_id).update_one(dec__no_of_participants=1)
 
+    print("success")
+    clans1 = []
+    profile1 = Profile.objects.get(user_id=user["id"])
+
+    for i in profile1["clans_registered"]:
+        clan1 = community.objects.get(id=i)
+        temp = dict()
+        temp['name'] = clan1['name']
+        temp['clan_id'] = clan1['id']
+        temp['description'] = clan1['discription']
+        photo= clan1["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp['clan_photo'] = my_string.decode('utf-8')
+        list = []
+        for j in clan1['participants']:
+            p =  Profile.objects.get(user_id=j)
+            photo1= p["photo"].grid_id
+            col1 = db.images.chunks.find({"files_id":photo1})
+            my_string1 = base64.b64encode(col1[0]["data"])
+            list.append(my_string1.decode('utf-8'))
+
+        temp['members_photos'] = list
+
+        clans1.append(temp)
+    #print(clans)
+
+    return render(request,'clans/clans.html',{"clans1": clans1})
+
+@login_required
+def submit_form(request,challange_id):
+    return render(request,'clans/submit_challange.html',{"challange_id":challange_id})

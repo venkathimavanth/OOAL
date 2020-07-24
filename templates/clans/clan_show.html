@@ -2,6 +2,72 @@
 
 {% load static %}
 {% load staticfiles %}
+{% block extra_head_content%}
+<style>
+.tiles {
+    margin: 0;
+    padding: 0;
+}
+
+.tiles ul {
+    margin: 0;
+    padding: 5px;
+}
+
+.tiles li {
+	  text-align: center;
+    width: 31.9%;
+    margin-bottom: 3px!important;
+    background-color: #fff;
+    border: 1px solid #eee;
+    display: inline-block;
+    font-size: 10px;
+    padding:0;
+}
+
+.tiles i {
+  display: block;
+  margin: 0 auto 10px auto;
+	width: 32px;
+    height: 32px;
+    margin: 10px auto 0;
+    line-height: 32px;
+    text-align: center;
+    font-size: 20px;
+    color: #444444;
+  margin-top:0;
+  padding-top:5px;
+}
+.tiles a{
+  text-decoration:none;
+  width:100%;
+  height:100%;
+  display:block;
+  margin:0;
+  padding:0;
+}
+
+.tiles a span{
+  color:black;
+  font-size:10px;
+  padding:5px 0 10px 0;
+  display:block;
+  text-transform:uppercase;
+  font-family:'Josefin Sans';
+  letter-spacing:1px;
+}
+
+.tiles a:hover i.fa-plus { color: #0fc19e; }
+.tiles a:hover i.fa-calendar { color:#0fc19e }
+.tiles a:hover i.fa-weixin { color:#0fc19e }
+.tiles a:hover i.fa-rocket { color:#0fc19e }
+.tiles a:hover i.fa-user-plus { color:#0fc19e }
+.tiles a:hover i.fa-check-square-o { color:#0fc19e }
+
+
+
+</style>
+{% endblock %}
 
 {% block content %}
 	 <!-- ==============================================
@@ -36,60 +102,13 @@
 		 </a>
             {% endfor %}
 
-<!--		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/black.jpg'%}) no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/13.jpg"%} alt="user"></div>
-           <h4>Eleanor Harper</h4>
-           <p>4 hours ago</p>
-          </div>		  
-		 </div>
-		 </a>
-		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/4.jpg'%}) no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/12.jpg"%} alt="user"></div>
-           <h4>Sean Coleman</h4>
-           <p>5 hours ago</p>
-          </div>		  
-		 </div>
-		 </a>
-		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/15.jpg'%}) no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/15.jpg"%} alt="user"></div>
-           <h4>Vanessa Wells</h4>
-           <p>5 hours ago</p>
-          </div>		  
-		 </div>
-		 </a>
-
         <div class="trending-box hidden-xs hidden-md">
 		 <div class="row">
 		  <div class="col-lg-12">
-		    <a href="photo_stories.html"><h4>More stories</h4></a>
+		    <a href="{% url 'community:show_challanges' clan_id %}"><h4>More challanges</h4></a>
 		  </div>
 		 </div>
         </div>
-        -->
 		</div><!--/ col-lg-3 -->
 	    <div class="col-lg-6">
 
@@ -134,20 +153,6 @@
 		    <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" alt="MaterialImg">
 		   </a> 
           </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src={% static "assets/img/users/1.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/2.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/3.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/4.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/5.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/6.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/7.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/8.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/9.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/10.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
 		  </div>
           <div class="cardbox-like">
 		   <ul>
@@ -282,10 +287,15 @@
 
 			<div class="trending-box">
 				<div class="row">
-					<div class="col-lg-12">
-						<!--a href="{% url 'community:clan-post' clan_id%}">make a post</a-->
+					<div class="col-lg-12 tiles">
 
-						<button type="button" class="kafe-btn kafe-btn-mint" id="createClan"><i class="fa fa-file-image-o" aria-hidden="true"></i> make a post</button>
+						<ul>
+							<li><a  id="createClan"><i class="fa fa-plus" aria-hidden="true"></i><span>Create</span></a></li>
+							<li><a  id="clanCalendar"><i class="fa fa-calendar" aria-hidden="true"></i><span>Calender</span></a></li>
+							<li><a href="{% url 'chat:chat-home' %}"><span><i class="fa fa-weixin" aria-hidden="true"></i>&nbsp;Chat</span></a></li>
+
+						</ul>
+
                     <!-- Modal -->
                     <div class="modal fade" id="myModal1" role="dialog">
                         <div class="modal-dialog">
@@ -325,10 +335,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="trending-box">
-				<div class="row">
-					<div class="col-lg-12">
-						<button type="button" class="kafe-btn kafe-btn-mint" id="clanCalendar"><i class="fa fa-calendar" aria-hidden="true"></i> Community Calendar</button>
                     <!-- Modal -->
                     <div class="modal fade" id="calendarModal" role="dialog">
                         <div class="modal-dialog">
@@ -348,19 +354,9 @@
                         </div>
                     </div>
 
-					</div>
-				</div>
-			</div>
-
 
 			{% if is_head %}
 
-			<div class="trending-box">
-				<div class="row">
-					<div class="col-lg-12">
-						<!--a href="{% url 'community:clan-post' clan_id%}">make a post</a-->
-
-						<button type="button" class="kafe-btn kafe-btn-mint" id="add_challange"><i class="fa fa-file-image-o" aria-hidden="true"></i> add_challange </button>
                     <!-- Modal -->
                     <div class="modal fade" id="myModal2" role="dialog">
                         <div class="modal-dialog">
@@ -405,38 +401,37 @@
                         </div>
                     </div>
 
-					</div>
-				</div>
-			</div>
 
 			{% endif %}
 
-			<div class="trending-box">
-				<div class="row">
-					<div class="col-lg-12">
-						<a href="{% url 'chat:chat-home' %}">Messages<span class="badge badge-success badge-pill noti-icon-badge">4</span></a>
-					</div>
-				</div>
-			</div>
 
 			{% if is_head %}
 			<div class="trending-box">
 				<div class="row">
-					<div class="col-lg-12">
-						<a href="{% url 'community:add-clan-user' clan_id%}">Add Friends<span><i class="fa fa-plus"></i></span></a>
+					<div class="col-lg-12 tiles">
+						<ul>
+							<li><a  id="add_challange"><i class="fa fa-rocket" aria-hidden="true"></i><span>Create Challenge</span></a></li>
+							<li><a href="{% url 'community:review_challanges' clan_id%}" id="clanCalendar"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Review Challenge</span></a></li>
+							<li><a href="{% url 'community:add-clan-user' clan_id%}"><span><i class="fa fa-user-plus" aria-hidden="true"></i>Add Clan Member</span></a></li>
+
+						</ul>
+
 					</div>
 				</div>
 			</div>
 
-            <div class="trending-box">
+			{% endif %}
+			{% if not is_head%}
+			<div class="trending-box">
 				<div class="row">
 					<div class="col-lg-12">
-						<a href="{% url 'community:review_challanges' clan_id%}">review challanges<span><i class="fa fa-plus"></i></span></a>
+					<a href="{% url 'community:exit-clan' clan_id %}"><i class="fa fa-sign-out" style="color:red"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#88898a">Exit from the group</span></a>
+
 					</div>
 				</div>
 			</div>
 			{% endif %}
-			
+
 
 		{% for f in clan_members %}
          <div class="suggestion-box full-width">
@@ -469,41 +464,6 @@
 
 
 
-
-
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-12">
-		    <h4>Trending Photos</h4>
-		  </div>
-		 </div>
-        </div>
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/17.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/12.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/21.gif"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/23.gif"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/11.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/20.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-        </div>
 
 
 		</div>
