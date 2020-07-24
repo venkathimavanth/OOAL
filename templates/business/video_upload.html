@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Upload</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        Name:<input type="text" name="name"><br>
+        <input type="radio" name="content" value="image">
+        <label for="image">Image</label><br>
+        <input type="radio" name="content" value="video">
+        <label for="video">Video</label><br>
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>

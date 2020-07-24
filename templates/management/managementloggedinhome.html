@@ -71,6 +71,18 @@
 		 <ul class="nav navbar-nav">
 
 
+ 		 <li class="dropdown mega-avatar">
+ 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+ 		   <span class="hidden-xs">
+ 		Add Challange
+ 		   </span>
+ 		  </a>
+ 		  <div class="dropdown-menu w dropdown-menu-scale pull-right">
+ 		   <a class="dropdown-item" href="{% url 'management:addchallenge' %}"><span>Daily Challange</span></a>
+		 </div>
+ 		 </li><!-- /navbar-item -->
+
+
 			 <li class="dropdown mega-avatar">
 			  <a href="{% url 'management:dailychallanges' %}" aria-expanded="true">
 			 	<span class="hidden-xs">
@@ -78,6 +90,15 @@
 			 	</span>
 			  </a>
 			 </li><!-- /navbar-item -->
+
+			 <li class="dropdown mega-avatar">
+				<a href="{% url 'management:addcatogries' %}" aria-expanded="true">
+				<span class="hidden-xs">
+						 Add Category
+				</span>
+				</a>
+			 </li><!-- /navbar-item -->
+
 
 
      <li class="dropdown mega-avatar">
