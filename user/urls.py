@@ -24,6 +24,6 @@ urlpatterns = [
     path('userhome/model/', views.single_post ,name='single_post'),
     path('userhome/post/comment/', views.createComment ,name='createComment'),
     path('userhome/post/like/', views.like ,name='like'),
-
-
+    path('fun/',views.fun_view, name='fun'),
+  
 ]

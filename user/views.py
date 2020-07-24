@@ -5,9 +5,11 @@ from user_auth.models import User, Profile
 from management.models import *
 from user_auth.views import check_user_exists
 from user.models import *
+from management.models import FunContent
 from django.http import JsonResponse
 import base64
 import datetime,json
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 # import the MongoClient class from the library
 from pymongo import MongoClient
@@ -640,3 +642,39 @@ def friend_req_handle(request,email,test):
 
         return redirect('user:viewprofile',email)
     return redirect("user_auth:loggedinhome")
+
+@login_required
+def fun_view(request):
+    all_content = []
+
+    for fun_instance in FunContent.objects:
+        content = fun_instance.content.read()
+        base64EncodedStr = base64.b64encode(content)
+        content = base64EncodedStr.decode('utf-8')
+        user_id=fun_instance.created_user
+        profile = Profile.objects.filter(user_id=user_id).first()
+        user = profile.name
+        pic=profile.photo.read()
+        picbase64EncodedStr = base64.b64encode(pic)
+        pic = picbase64EncodedStr.decode('utf-8')
+
+        print("\n",user)
+        all_content.append({'content': content,
+                            'user':user,
+                            'pic': pic,
+                            'content_type': fun_instance.content.content_type,
+                            'description':fun_instance.description,
+                            'is_image': fun_instance.content.is_image})
+
+    # return render(request, template, {"all_content": all_content})
+    print("\nReady to render\n")
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_content, 2)
+    try:
+        all_content = paginator.page(page)
+    except PageNotAnInteger:
+        all_content = paginator.page(1)
+    except EmptyPage:
+        all_content = paginator.page(paginator.num_pages)
+    # return render(request, 'business/test.html', {'all_content': all_content})
+    return render(request, 'user/fun_view.html', {'all_content': all_content})

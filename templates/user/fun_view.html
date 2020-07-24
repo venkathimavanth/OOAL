@@ -60,6 +60,13 @@
             width: 40px;
             will-change: transform;
         }
+    .description{
+        font-family: 'Abhaya Libre', serif;
+        font-weight: 700 !important;
+        font-size: 20px;
+        color: #88898a;
+        padding: 10px;
+    }
 </style>
 
 {% endblock %}
@@ -92,11 +99,11 @@
            <!-- END dropdown-->
            <div class="media m-0">
             <div class="d-flex mr-3">
-                <a href="#"><img class="img-responsive img-circle" src="{% static "assets/img/users/9.jpg" %}" alt="User"></a>
+                <a href="#"><img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ content.pic }}" alt="User"></a>
 
             </div>
             <div class="media-body">
-             <p class="m-0">Anna Morgan</p>
+             <p class="m-0">{{ content.user }}</p>
 			 <small><span>13 hours ago</span></small>
             </div>
            </div><!--/ media -->
@@ -120,6 +127,10 @@
           </div><!--/ cardbox-item -->
 
           <div class="cardbox-like">
+              <div class="description">
+                    <span >{{ content.user }} : {{ content.description }}</span>
+{#                  <small><span>13 hours ago</span></small>#}
+              </div>
 		   <ul>
 			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
 		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>

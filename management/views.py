@@ -2,7 +2,10 @@ from django.shortcuts import render,render_to_response
 from user_auth.decorators import *
 from management.models import *
 from user_auth.models import *
-import datetime
+import datetime,base64
+from django.contrib import messages
+from user.models import Post
+
 # Create your views here.
 
 @management_required
@@ -95,8 +98,41 @@ def managementhome(request):
     print("called management:managementhome view func")
     return render(request,'management/managementhome.html',{'warning':"Logged in successfully"})
 
+@management_required
+def fun_upload(request):
+    template = 'management/fun_upload.html'
+    if request.method == 'POST':
+        print('\nPOST')
+        if 'file' in request.FILES and 'content' in request.POST and 'description' in request.POST:
+            print('Correct request')
+            description = request.POST['description']
+            content = request.POST['content']
+            file = request.FILES['file']
+            if content == 'image':
+                content_type = 'image/jpeg'
+                is_image = True
+            else:
+                content_type = 'video/mp4'
+                is_image = False
+            created_date = datetime.datetime.now()
+            created_user = User.objects.get(email=request.session["username"])["id"]
+            instance = FunContent(description = description,created_date=created_date,created_user=created_user).save()
+            instance.content.put(file,content_type=content_type,is_image=is_image)
+            instance.save()
+            messages.success(request, 'Post sucessfully uploaded')
+            return render(request,template)
+        else:
+            messages.error(request, 'Please fill all the feilds')
+            return render(request, template)
+    else:
+        return render(request,template)
 
 @management_required
+def report_portal(request):
+    template = 'management/report_portal.html'
+    return render(request,template)
+
+  
 def addcatogries(request):
     if request.method == "POST":
         category_name=request.POST["category"]
@@ -111,11 +147,26 @@ def addcatogries(request):
         elif category_name == "TypeOfSubmissionModel":
                 c=TypeOfSubmissionModel(type_of_submission=name)
                 c.save()
-    return render(request,'management/addcatogries.html',{})
+    return render(request,'management/addcatogries.html',{})  
 
 
-
-
+def report(request):
+    if request.method == 'POST':
+        if 'problem' in request.POST:
+            pass
+        else:
+            messages.error('Please fill all feilds')
+            return
+    else:
+        template='management/get_report.html'
+        post_id = request.GET.get('post')
+        post = Post.objects.filter(id = post_id).first()
+        post_img = post.user_photo.read()
+        imgbase64EncodedStr = base64.b64encode(post_img)
+        post_img = imgbase64EncodedStr.decode('utf-8')
+        context = {'post_img':post_img}
+        return render(request,template,context)
+    # pass
 # def temp(request):
 #     print("oyyeoyye")
 #     obj=DailyChallanges(
