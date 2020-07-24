@@ -74,6 +74,7 @@ def userhome(request):
         try:
             p=Post.objects.get(id=f)
             po=dict()
+            po["id"]=p["id"]
             po["user_id"]=p["user_id"]
             profile1=Profile.objects.get(user_id=p["user_id"])
             po["username"]=profile1["name"]
@@ -125,6 +126,132 @@ def userhome(request):
 
 
     return render(request,'registration/loginhome.html',context)
+
+
+
+@login_required
+def single_post(request):
+    if request.method == "GET":
+        print("came into single_post")
+        post_id = request.GET["postId"]
+
+        username = request.session["username"]
+        user = User.objects(email=username)[0]
+        profile = Profile.objects.get(user_id=user["id"])
+
+        po=dict()
+
+        p=Post.objects.get(id=post_id)
+
+        po["id"]=p["id"]
+        po["user_id"]=p["user_id"]
+        profile1=Profile.objects.get(user_id=p["user_id"])
+        po["username"]=profile1["name"]
+
+        photo= profile1["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        po["user_photo"]=my_string.decode('utf-8')
+        # print(my_string.decode('utf-8'))
+        po["created_date"]=p["created_date"]#
+        po["isimage"]=p["isimage"]
+        po["isvideo"]=p["isvideo"]
+        po["text"]=p["text"]
+
+        content = p.content.read()
+        base64EncodedStr = base64.b64encode(content)
+        content = base64EncodedStr.decode('utf-8')
+        po["content"] =content
+
+        po["ischallenge"]=p["ischallenge"]
+
+        if p["ischallenge"]:
+            po["challegetype"]=p["challegetype"]
+            po["challengeid"]=p["challengeid"]
+
+
+        po["isad"]=p["isad"]
+
+        if p["isad"]:
+            po["adid"]=p["adid"]
+
+        po['likedBy'] = p['likes']
+        po['is_liked_by_curr_user'] = False
+
+        if user['id'] in po['likedBy']:
+            po['is_liked_by_curr_user'] = True
+        po['likes'] = len(po['likedBy'])
+
+
+        po["comments"]=p["comments"]
+        try:
+            pass
+        except:
+            pass
+
+        my_photo= profile["photo"].grid_id
+        my_col = db.images.chunks.find({"files_id":my_photo})
+        my_my_string = base64.b64encode(my_col[0]["data"])
+        po["ownerphoto"] = my_my_string.decode('utf-8')
+        comments = []
+
+        for k in po["comments"]:
+            comm = Comment.objects.get(id = k)
+            print(comm)
+            temp1 = dict()
+            temp1['comment'] = comm['message']
+            temp1['reports'] = comm['message']
+            o = comm['owner']
+            own = User.objects(id = o)[0]
+            own_p = Profile.objects.get(user_id = o)
+            temp1['owner'] = own_p['name']
+            photo= own_p["photo"].grid_id
+            ph = db.images.chunks.find({"files_id":photo})
+            ph_string = base64.b64encode(ph[0]["data"])
+            temp1["photo"] = ph_string.decode('utf-8')
+
+            comments.append(temp1)
+        count = len(comments)
+        print('-------------------------',po["is_liked_by_curr_user"])
+        return render(request, 'registration/modal.html', {'myphoto': my_photo,'post': po, 'comments': comments, 'count': count})
+    else:
+        return HttpResponse("failure")
+
+
+def createComment(request):
+    print("create comment")
+    if request.method == "POST":
+        ad_user = request.session["username"]
+        post_id  =  request.POST["p_id"]
+        cmnt = request.POST["msg"]
+        a_uid = User.objects(email=ad_user)[0]
+
+        comnt = Comment(message = cmnt, owner= a_uid['id'])
+        comnt.save()
+        Post.objects(id=post_id).update_one(push__comments=comnt["id"])
+        return HttpResponse('Added comment to the post')
+    else:
+        return HttpResponse('Failure')
+
+
+def like(request):
+    if request.method == 'GET':
+        post_id = request.GET['postId']
+        username = request.session["username"]
+        user = User.objects(email=username)[0]
+        profile = Profile.objects.get(user_id=user["id"])
+        post = Post.objects.get(id = post_id)
+
+        if user['id'] not in post['likes']:
+            post.likedBy.append(user["id"])
+            post.save()
+        else:
+            post.likedBy.remove(user["id"])
+            post.save()
+        return HttpResponse('Success')
+    else:
+        return HttpResponse(Failure)
+
 
 def addThisPost(request,post,user,profile):
     profile["myposts"].append(post["id"])

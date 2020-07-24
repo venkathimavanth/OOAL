@@ -27,6 +27,12 @@ class Post(Document):
     likes=ListField(ObjectIdField())
     comments=ListField(ObjectIdField())
 
+class Comment(Document):
+    message = StringField()
+    owner = ObjectIdField()
+    reports = IntField(default=0)
+    reportedBy = ListField(ObjectIdField())
+
 
 class FriendToFriend(Document):
     user_id =  ObjectIdField()
