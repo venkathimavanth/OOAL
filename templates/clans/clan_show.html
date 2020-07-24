@@ -13,25 +13,32 @@
 	  <div class="container-fluid">
 	   <div class="row">
 	    <div class="col-lg-3">
-		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/2.gif'%}) no-repeat;
+
+         {% for ch in clan_challenges_today %}
+		 <a href="{% url 'community:show_challanges' clan_id %}">
+		 <div class="storybox"
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/black.jpg'%}) no-repeat;
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
                   -moz-background-size: cover;
                   -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/10.jpg" %} alt="user"></div>
-           <h4>Clifford Graham</h4>
-           <p>2 hours ago</p>
-          </div>
-		 </div>
-		 </a>
+         <!--  <div class=""><img class="img-circle" src={% static "assets/img/users/10.jpg" %} alt="user"></div> -->
+             <div class="story-body ">
 
-		 <a href="#">
+
+           <h6>{{ ch.discription }}</h6>
+
+
+             </div>
+          </div>
+
+		 </a>
+            {% endfor %}
+
+<!--		 <a href="#">
 		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif'%}) no-repeat;
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/black.jpg'%}) no-repeat;
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
@@ -82,7 +89,7 @@
 		  </div>
 		 </div>
         </div>
-
+        -->
 		</div><!--/ col-lg-3 -->
 	    <div class="col-lg-6">
 
@@ -346,6 +353,63 @@
 			</div>
 
 
+			{% if is_head %}
+
+			<div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--a href="{% url 'community:clan-post' clan_id%}">make a post</a-->
+
+						<button type="button" class="kafe-btn kafe-btn-mint" id="add_challange"><i class="fa fa-file-image-o" aria-hidden="true"></i> add_challange </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal2" role="dialog">
+                        <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h5><span class="glyphicon glyphicon-plus"></span> Add Challange </h5>
+                            </div>
+                            <div class="modal-body" style="padding:40px 50px;">
+                            <form role="form" method="post" action="{% url 'community:add_challange' clan_id%}"  enctype="multipart/form-data" id="addchallange">
+                            {% csrf_token %}
+                                <!--<div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Full Name" required >
+                                </div> -->
+								<div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Full Name" required >
+                                </div>
+
+                                <div class="form-group">
+                                <textarea rows="4" cols="50" class="form-control" name="discription" form="addchallange" placeholder="Description" ></textarea>
+                                </div>
+
+                                <label for="cdate">Target date of completion:</label>
+                                <div class="form-group">
+                                <input name="date" id="cdate" type="date" class="form-control" placeholder="" required >
+                                </div>
+
+
+                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> Add</button>
+                                {% if warning %}
+                                    <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
+                                {% endif %}
+                            </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+					</div>
+				</div>
+			</div>
+
+			{% endif %}
 
 			<div class="trending-box">
 				<div class="row">
@@ -354,6 +418,8 @@
 					</div>
 				</div>
 			</div>
+
+			{% if is_head %}
 			<div class="trending-box">
 				<div class="row">
 					<div class="col-lg-12">
@@ -362,6 +428,14 @@
 				</div>
 			</div>
 
+            <div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<a href="{% url 'community:review_challanges' clan_id%}">review challanges<span><i class="fa fa-plus"></i></span></a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
 			
 
 		{% for f in clan_members %}
@@ -373,9 +447,7 @@
 						<h4>{{f.name}}</h4>
 						<span>{{f.discription}}</span>
 					</div>
-					{% if not f.is_friends %}
-					<a href="{% url 'user:viewprofile' f.email%}">plus<span><i class="fa fa-plus"></i></span></a>
-					{% endif %}
+
 				</div>
 			</div><!--suggestions-list end-->
 		</div>	
@@ -540,6 +612,14 @@
 	<script>
         $(document).ready(function(){
         $("#clanCalendar").click(function(){
+            $("#myModal2").modal();
+        });
+        });
+    </script>
+
+	<script>
+        $(document).ready(function(){
+        $("#add_challange").click(function(){
             $("#myModal2").modal();
         });
         });
