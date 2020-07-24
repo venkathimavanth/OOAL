@@ -7,7 +7,8 @@ from user_auth.decorators import login_required,management_required
 from user_auth.views import check_user_exists
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
-from .models import community,Post, Comment, clanChallange,challange
+from .models import community, Comment, clanChallange,challange
+from .models import GroupPost as Post
 from chat.models import Message, GroupMessage
 from management.models import Challange
 import datetime

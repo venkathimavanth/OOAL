@@ -38,7 +38,7 @@ class challange(Document):
 
 
 
-class Post(Document):
+class GroupPost(Document):
     description = StringField()
     image = ImageField()
     likes = IntField(default=0)
