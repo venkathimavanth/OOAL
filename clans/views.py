@@ -678,6 +678,56 @@ def like(request):
     else:
         return HttpResponse(Failure)
 
+def exitClan(request, clan_id):
+    print("exitClan")
+    
+    
+    username = request.session["username"]
+    user = User.objects(email=username)[0]
+    profile = Profile.objects.get(user_id=user["id"])
+
+    clan = community.objects.get(id=clan_id)
+
+    print(profile["clans_registered"])
+    print(clan["id"] in profile["clans_registered"])
+
+    Profile.objects(user_id=user["id"]).update_one(pull__clans_registered=clan["id"])
+    print("success")
+    community.objects(id=clan_id).update_one(pull__participants=user["id"])
+    print("success")
+    community.objects(id=clan_id).update_one(dec__no_of_participants=1)
+
+    print("success")
+    clans1 = []
+    profile1 = Profile.objects.get(user_id=user["id"])
+
+    for i in profile1["clans_registered"]:
+        clan1 = community.objects.get(id=i)
+        temp = dict()
+        temp['name'] = clan1['name']
+        temp['clan_id'] = clan1['id']
+        temp['description'] = clan1['discription']
+        photo= clan1["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp['clan_photo'] = my_string.decode('utf-8')
+        list = []
+        for j in clan1['participants']:
+            p =  Profile.objects.get(user_id=j)
+            photo1= p["photo"].grid_id
+            col1 = db.images.chunks.find({"files_id":photo1})
+            my_string1 = base64.b64encode(col1[0]["data"])
+            list.append(my_string1.decode('utf-8'))
+
+        temp['members_photos'] = list
+
+        clans1.append(temp)
+    #print(clans)
+    
+    return render(request,'clans/clans.html',{"clans1": clans1})
+
+
+
 
 
 

@@ -1999,6 +1999,7 @@ a.navbar-brand:hover {
  width: 100%;
 }
 .convo-message > p {
+  right: 35px;
  float: right;
  width: 60%;
  background-color: #0fc19e;
@@ -2006,7 +2007,7 @@ a.navbar-brand:hover {
  color: #848484;
  font-size: 15px;
  line-height: 22px;
- padding: 10px 35px 10px 35px;
+ padding: 10px 15px 10px 35px;
  color: #fff;
  -webkit-border-radius: 15px;
  -moz-border-radius: 15px;

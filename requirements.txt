@@ -12,3 +12,4 @@ sklearn==0.0
 django_cron==0.5.1
 keras==2.4.3
 tensorflow
+pycryptodome
