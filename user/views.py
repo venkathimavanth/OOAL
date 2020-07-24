@@ -1,10 +1,11 @@
 from django.shortcuts import render,render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from user_auth.decorators import *
-from user_auth.models import User, Profile
+from user_auth.models import *
 from management.models import *
 from user_auth.views import check_user_exists
 from user.models import *
+from business.models import *
 from management.models import FunContent
 from django.http import JsonResponse
 import base64
@@ -17,7 +18,7 @@ mongo_client = MongoClient()
 db = mongo_client.EAD_OOAL
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .ead_abusive_sentence_detector import abusive_detect_main
-
+from datetime import date
 
 
 def get_userprofile(request,id):
@@ -60,6 +61,15 @@ def userhome(request):
     except:
         pass
 
+    try:
+        weekNumber = date.today().isocalendar()[1]
+        Weekly_challange=reversed(WeeklyChallanges.objects.filter(posted_week=str(weekNumber)))
+        for w in Weekly_challange:
+            context['weekly_challange']=w
+            break
+
+    except:
+        pass
 
     try:
         ftf=profile["accepted_chall"]
@@ -69,6 +79,19 @@ def userhome(request):
         context['ftf']=lis
     except:
         pass
+
+
+    try:
+        lo=Limited_Offer.objects.all()
+        lis=[]
+        for l in lo :
+            loc=Limited_Offer_Coupons.objects.get(id=l["coupons"][0])
+            if datetime.datetime.now() < loc["expiry_date"]:
+                lis.append(l)
+        context['Limited_Offer']=lis
+    except:
+        pass
+
 
     feed=profile["myfeed"]
     posts=[]
@@ -346,6 +369,63 @@ def ftf(request,id):
         pass
     return redirect('user:userhome')
 
+
+def lo(request,id):
+    context=dict()
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+    if request.method == "POST":
+        if 'file' in request.FILES:
+            f=Limited_Offer.objects.get(id=id)
+            loc=Limited_Offer_Coupons.objects.get(id=f["coupons"][0])
+
+            file = request.FILES['file']
+            content_type = 'video/mp4'
+            post=Post(
+                user_id =  user["id"],
+                user_photo = profile["photo"],
+                created_date=datetime.datetime.now(),
+
+                isimage = False,
+                isvideo = True,
+
+                text = loc["discription"],
+                ischallenge = True,
+                challegetype="Limited Offer",
+                challengeid=f["id"],
+            ).save()
+            post.content.put(file,content_type=content_type)
+            post.save()
+            addThisPost(request,post,user,profile)
+
+            cupon=Cupon(
+                offerid = f["id"],
+                couponid = loc["id"]
+            )
+            cupon.save()
+            profile["cupons"].append(cupon["id"])
+            profile.save()
+            return redirect('user:userhome')
+
+    try:
+        context=dict()
+        f=Limited_Offer.objects.get(id=id)
+        loc=Limited_Offer_Coupons.objects.get(id=f["coupons"][0])
+        if datetime.datetime.now() < loc["expiry_date"]:
+            context['offer']=f
+            context['cupon']=loc
+        completed=False
+        for c in profile["cupons"]:
+            cou=Cupon.objects.get(id=c)
+            if f.id == cou.offerid:
+                completed=True
+        context["completed"]=completed
+        return render(request,'user/lo.html',context)
+    except:
+        pass
+    return redirect('user:userhome')
+
+
 @login_required
 def friends(request):
     print("called friends view func")
@@ -546,6 +626,26 @@ def viewmyprofile(request):
             temp["posts_count"] = len(profile["myposts"])
             temp["friends"] = len(profile["friends"])
             temp["sfriends"]=returnSuggestedFriends(request)
+            cu=[]
+            y=0
+            try:
+                x=[]
+                for c in profile["cupons"][::-1]:
+                    print("--")
+                    t=dict()
+                    cupon=Cupon.objects.get(id=c)
+                    t["offer"]=Limited_Offer.objects.get(id=cupon.offerid)
+                    t["cupon"]=Limited_Offer_Coupons.objects.get(id=cupon.couponid)
+                    x.append(t)
+                    if y%2 == 1:
+                        cu.append(x)
+                        x=[]
+                    y=y+1
+                if x:
+                    cu.append(x)
+            except:
+                pass
+            temp["cupons"]=cu
             return render(request,"user/viewmyprofile.html",temp)
     return redirect("user_auth:loggedinhome")
 

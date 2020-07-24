@@ -12,6 +12,7 @@ urlpatterns = [
     path('find/next/', views.findnext ,name='findnext'),
     path('addcatogries', views.addcatogries ,name='addcatogries'),
     path('fun_upload/', views.fun_upload,name='fun_upload'),
+    path('addweeklychallenge/', views.addweeklychallenge ,name='addweeklychallenge'),
 
 
 ]

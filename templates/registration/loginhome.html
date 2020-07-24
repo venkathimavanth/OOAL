@@ -89,6 +89,22 @@
 		 </div>
 		 </a>
 {% endif %}
+{% if weekly_challange %}
+				<a href="{% url 'user:dsc' %}">
+		 <div class="storybox"
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/21.gif' %}) no-repeat;
+		          background-size: cover;
+                  background-position: center center;
+                  -webkit-background-size: cover;
+                  -moz-background-size: cover;
+                  -o-background-size: cover;">
+          <div class="story-body text-center">
+           <h4>{{ weekly_challange.name }}</h4>
+           <p>Weekly Challange</p>
+          </div>
+		 </div>
+		 </a>
+{% endif %}
 
 {% if ftf %}
 	{% for f in ftf %}
@@ -108,6 +124,28 @@
 		 </a>
 		 {% endfor %}
 {% endif %}
+
+
+{% if Limited_Offer %}
+{% for l in Limited_Offer %}
+<a href="{% url 'user:lo' id=l.id %}">
+<div class="storybox"
+style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/23.gif' %}) no-repeat;
+					background-position: center center;
+					-webkit-background-size: cover;
+					background-size: cover;
+					-moz-background-size: cover;
+					-o-background-size: cover;">
+	<div class="story-body text-center">
+	 <h4>{{ l.company_id }}</h4>
+	 <p>Limited Offer</p>
+	</div>
+</div>
+</a>
+{% endfor %}
+
+{% endif %}
+
 
 </div><!--/ col-lg-3 -->
 
