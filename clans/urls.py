@@ -14,5 +14,9 @@ urlpatterns = [
     path('clan/like/<post_id>', views.like_post, name='clan-like'),
     path('clan/unlike/<post_id>', views.unlike_post, name='clan-unlike'),
     path('clan/post/<clan_id>', views.post, name='clan-post'),
+    path('clan/post/comment/', views.createComment, name='post-comment'),
+    path('clan/post/single/', views.single_post, name='modal-post'),
+    path('clan/post/getcomments/', views.getComments, name='get-comments'),
+    path('clan/post/like/', views.like, name='modal-like-post'),
     #url(r'^likepost/$', views.likePost, name='likepost')
 ]

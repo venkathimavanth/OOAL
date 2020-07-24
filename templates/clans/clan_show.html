@@ -120,9 +120,10 @@
 				</div>
 
           </div><!--/ cardbox-heading -->
+		  <div onClick=modal('{{ c.id }}')>
 
 		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
+		   <a href="#myModal"   data-toggle="modal">
 		    <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" alt="MaterialImg">
 		   </a> 
           </div><!--/ cardbox-item -->
@@ -140,6 +141,7 @@
 		    <li><a href="#"><img src={% static "assets/img/users/10.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
 		   </ul>
 		  </div><!--/ cardbox-base -->
+		  </div>
           <div class="cardbox-like">
 		   <ul>
 
@@ -155,7 +157,114 @@
 		   </ul>
           </div><!--/ cardbox-like -->
 
-		 </div><!--/ cardbox -->	
+		 </div><!--/ cardbox -->
+	<div id="myModal" class="modal fade">
+      <div id='loadModal' class="modal-dialog">
+       <div class="modal-content">
+        <div class="modal-body">
+		
+         <div class="row">
+		 
+          <div class="col-md-8 modal-image">
+           <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" alt="Image"/>
+          </div><!--/ col-md-8 -->
+          <div class="col-md-4 modal-meta">
+           <div class="modal-meta-top">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			 <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+			</button><!--/ button -->
+            <div class="img-poster clearfix">
+             <a href="#"><img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ c.owner_photo }}" alt="User"/></a>
+             <strong><a href="#">{{ c.owner }}</a></strong>
+             <span>12 minutes ago</span><br/>
+		     <a href="#" class="kafe kafe-btn-mint-small"><i class="fa fa-check-square"></i> Following</a>
+            </div><!--/ img-poster -->
+			  
+            <ul class="img-comment-list">
+             <li>
+              <div class="comment-img">
+               <img src={% static "assets/img/users/17.jpg"%} class="img-responsive img-circle" alt="Image"/>
+              </div>
+              <div class="comment-text">
+               <strong><a href="#">Anthony McCartney</a></strong>
+               <p>Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
+              </div>
+             </li><!--/ li -->
+             <li>
+              <div class="comment-img">
+               <img src={% static "assets/img/users/15.jpg"%} class="img-responsive img-circle" alt="Image"/>
+              </div>
+              <div class="comment-text">
+               <strong><a href="#">Vanessa Wells</a></strong>
+               <p>Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span>on December 5th, 2016</span>
+              </div>
+             </li><!--/ li -->
+             <li>
+              <div class="comment-img">
+               <img src={% static "assets/img/users/14.jpg"%} class="img-responsive img-circle" alt="Image"/>
+              </div>
+              <div class="comment-text">
+               <strong><a href="#">Sean Coleman</a></strong>
+               <p class="">Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
+              </div>
+             </li><!--/ li -->
+             <li>
+              <div class="comment-img">
+               <img src={% static "assets/img/users/13.jpg"%} class="img-responsive img-circle" alt="Image"/>
+              </div>
+              <div class="comment-text">
+               <strong><a href="#">Anna Morgan</a></strong>
+               <p class="">Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
+              </div>
+             </li><!--/ li -->
+             <li>
+              <div class="comment-img">
+               <img src={% static "assets/img/users/3.jpg"%} class="img-responsive img-circle" alt="Image"/>
+              </div>
+              <div class="comment-text">
+               <strong><a href="#">Allison Fowler</a></strong>
+               <p class="">Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
+              </div>
+             </li><!--/ li -->
+            </ul><!--/ comment-list -->
+			  
+            <div class="modal-meta-bottom">
+			 <ul>
+			  <li>
+			  		{% if c.is_liked_by_curr_user %}
+			     		<a class="modal-like" href="{% url 'community:clan-unlike' c.id %}"><i class="fa fa-heart" ></i></a><span> {{c.likes}}</span>
+					{% else %}
+			    		<a class="modal-like" href="{% url 'community:clan-like' c.id %}"><i class="fa fa-heart-o" ></i></a><span> {{c.likes}}</span>
+					{% endif %}
+
+			      <a class="modal-comment" href="#"><i class="fa fa-comments"></i></a><span> 786,286</span> </li>
+			  <li>
+			   	{% comment %} <div class="comment-body">
+			   		<form id='compose-comment-form'>
+					   {% csrf_token %}
+					   
+					   <input id='comment' class="form-control input-sm" style="float:left" type="text" placeholder="Write your comment..."/>
+					   <input id="cmnt-btn" type="submit" hidden />
+					   <input id="post-id" value= {{ c.id }} hidden/>
+
+					   
+
+					</form>
+			   	</div><!--/ comment-body -->	 {% endcomment %}
+              </li>				
+             </ul>				
+            </div><!--/ modal-meta-bottom -->
+			  
+           </div><!--/ modal-meta-top -->
+          </div><!--/ col-md-4 -->
+		  
+         </div><!--/ row -->
+        </div><!--/ modal-body -->
+		
+       </div><!--/ modal-content -->
+      </div><!--/ modal-dialog -->
+     </div><!--/ modal -->
+	
 
 
 		{% endfor %}
@@ -289,100 +398,6 @@
 	 <!-- ==============================================
 	 Modal Section
 	 =============================================== -->
-     <div id="myModal" class="modal fade">
-      <div class="modal-dialog">
-       <div class="modal-content">
-        <div class="modal-body">
-		
-         <div class="row">
-		 
-          <div class="col-md-8 modal-image">
-           <img class="img-responsive" src={% static "assets/img/posts/1.jpg"%} alt="Image"/>
-          </div><!--/ col-md-8 -->
-          <div class="col-md-4 modal-meta">
-           <div class="modal-meta-top">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-			 <span aria-hidden="true">×</span><span class="sr-only">Close</span>
-			</button><!--/ button -->
-            <div class="img-poster clearfix">
-             <a href="#"><img class="img-responsive img-circle" src={% static "assets/img/users/18.jpg"%} alt="Image"/></a>
-             <strong><a href="#">Benjamin</a></strong>
-             <span>12 minutes ago</span><br/>
-		     <a href="#" class="kafe kafe-btn-mint-small"><i class="fa fa-check-square"></i> Following</a>
-            </div><!--/ img-poster -->
-			  
-            <ul class="img-comment-list">
-             <li>
-              <div class="comment-img">
-               <img src={% static "assets/img/users/17.jpg"%} class="img-responsive img-circle" alt="Image"/>
-              </div>
-              <div class="comment-text">
-               <strong><a href="#">Anthony McCartney</a></strong>
-               <p>Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
-              </div>
-             </li><!--/ li -->
-             <li>
-              <div class="comment-img">
-               <img src={% static "assets/img/users/15.jpg"%} class="img-responsive img-circle" alt="Image"/>
-              </div>
-              <div class="comment-text">
-               <strong><a href="#">Vanessa Wells</a></strong>
-               <p>Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span>on December 5th, 2016</span>
-              </div>
-             </li><!--/ li -->
-             <li>
-              <div class="comment-img">
-               <img src={% static "assets/img/users/14.jpg"%} class="img-responsive img-circle" alt="Image"/>
-              </div>
-              <div class="comment-text">
-               <strong><a href="#">Sean Coleman</a></strong>
-               <p class="">Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
-              </div>
-             </li><!--/ li -->
-             <li>
-              <div class="comment-img">
-               <img src={% static "assets/img/users/13.jpg"%} class="img-responsive img-circle" alt="Image"/>
-              </div>
-              <div class="comment-text">
-               <strong><a href="#">Anna Morgan</a></strong>
-               <p class="">Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
-              </div>
-             </li><!--/ li -->
-             <li>
-              <div class="comment-img">
-               <img src={% static "assets/img/users/3.jpg"%} class="img-responsive img-circle" alt="Image"/>
-              </div>
-              <div class="comment-text">
-               <strong><a href="#">Allison Fowler</a></strong>
-               <p class="">Hello this is a test comment.</p> <span class="date sub-text">on December 5th, 2016</span>
-              </div>
-             </li><!--/ li -->
-            </ul><!--/ comment-list -->
-			  
-            <div class="modal-meta-bottom">
-			 <ul>
-			  <li><a class="modal-like" href="#"><i class="fa fa-heart"></i></a><span class="modal-one"> 786,286</span> | 
-			      <a class="modal-comment" href="#"><i class="fa fa-comments"></i></a><span> 786,286</span> </li>
-			  <li>
-			   <span class="thumb-xs">
-				<img class="img-responsive img-circle" src="../../../www.bootdey.com/img/Content/user_3.jpg" alt="Image">
-			   </span>
-			   <div class="comment-body">
-				 <input class="form-control input-sm" type="text" placeholder="Write your comment...">
-			   </div><!--/ comment-body -->	
-              </li>				
-             </ul>				
-            </div><!--/ modal-meta-bottom -->
-			  
-           </div><!--/ modal-meta-top -->
-          </div><!--/ col-md-4 -->
-		  
-         </div><!--/ row -->
-        </div><!--/ modal-body -->
-		
-       </div><!--/ modal-content -->
-      </div><!--/ modal-dialog -->
-     </div><!--/ modal -->
 	 
 	 
      <!-- ==============================================
@@ -411,6 +426,98 @@
 		background-color: #f9f9f9;
 	  }
 	</style>
+
+
+
+	<script>
+		$("#like_btn").click(function(e){
+
+			e.preventDefault();
+			console.log('send-like_btn')
+			var c_id = '{{ c.id }}'
+			$.ajax({
+				type: 'POST',
+				url: '/clan/like/',
+				data:{
+					'c_id': c_id,
+					'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+
+				},
+				success: console.log('success')
+				error: function(result) {
+                        alert('error');
+                    }
+			});
+		});
+	</script>
+
+	<script>
+		$("#post_btn").click(function(e){
+
+			e.preventDefault();
+			console.log('post-modal_btn')
+			var c_id = '{{ c.id }}'
+			$.ajax({
+				type: 'POST',
+				url: '/clan/like/',
+				data:{
+					'post_id': c_id,
+					'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+
+				},
+				success: console.log('success')
+				error: function(result) {
+                        alert('error');
+                    }
+			});
+		});
+	</script>
+
+	<script>
+		function modal(postId) {
+			console.log("modal(",postId,")");
+			$.ajax({
+                    type: "GET",
+                    url: "post/single/",
+                    data: { 
+                        'postId': postId,
+                    },
+                    success: display,
+					dataType: 'html',
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+			
+		}
+		function display(data,textStatus,jqXHR) {
+			console.log("display")
+        	$('#loadModal').html(data)
+		}
+	</script>
+
+	{% comment %} <script>
+		function loadComments(postId) {
+			console.log("loadComments(",postId,")");
+			$.ajax({
+                    type: "GET",
+                    url: "post/single/",
+                    data: { 
+                        'postId': postId,
+                    },
+                    success: display,
+					dataType: 'html',
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+			
+		}
+		function display(data,textStatus,jqXHR) {
+			console.log("display")
+        	$('#loadComments').html(data)
+		}
+	</script> {% endcomment %}
 
 
 	<script>

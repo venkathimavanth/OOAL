@@ -7,7 +7,7 @@ from user_auth.decorators import login_required,management_required
 from user_auth.views import check_user_exists
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
-from .models import community,Post
+from .models import community,Post, Comment
 from chat.models import Message, GroupMessage
 
 
@@ -124,7 +124,7 @@ def clanHome(request):
     username = request.session["username"]
     user = User.objects(email=username)[0]
     profile = Profile.objects(user_id=user["id"])[0]
-    clans = []
+    clans1 = []
     for i in profile["clans_registered"]:
         clan1 = community.objects.get(id=i)
         temp = dict()
@@ -247,7 +247,12 @@ def clan_show(request, clan_id):
 
 
     #print(clan)
-    return render(request, 'clans/clan_show.html', {'clan_members':clan_members,'clan_posts':clan_posts, "clan_id":clan_id})
+    return render(request, 'clans/clan_show.html', {'my_string1': my_string1,'clan_members':clan_members,'clan_posts':clan_posts, "clan_id":clan_id})
+
+
+
+
+
 
 
 @login_required
@@ -337,7 +342,155 @@ def add_user(request):
             print(message['id'])
             community.objects(id=clanid).update_one(push__messages = message['id'])
             return HttpResponse('User added into group')
-        
+
+
+def createComment(request):
+    print("create comment")
+    if request.method == "POST":
+        ad_user = request.session["username"]
+        post_id  =  request.POST["p_id"]
+        cmnt = request.POST["msg"]
+        a_uid = User.objects(email=ad_user)[0]
+
+        comnt = Comment(message = cmnt, owner= a_uid['id'])
+        comnt.save()
+        Post.objects(id=post_id).update_one(push__comments=comnt["id"])
+        return HttpResponse('Added comment to the post')
+    else:
+        return HttpResponse('Failure')
+
+
+
+@login_required
+def single_post(request):
+    if request.method == "GET":
+        print("came into single_post")
+        post_id = request.GET["postId"]
+
+        username = request.session["username"]
+        user = User.objects(email=username)[0]
+        profile = Profile.objects.get(user_id=user["id"])
+
+        temp = dict()
+        post = Post.objects.get(id = post_id)
+        temp['id'] = post['id']
+        po = post['owner']
+        po_p = Profile.objects.get(user_id = po)
+        temp['owner'] = po_p['name']
+
+        temp['createdAt'] = post['createdAt']
+        temp['likes'] = post['likes']
+        temp['likedBy'] = post['likedBy']
+        temp['is_liked_by_curr_user'] = False
+
+        if user['id'] in post['likedBy']:
+            temp['is_liked_by_curr_user'] = True
+
+        temp['comments'] = post['comments']
+        temp['description'] = post['description']
+        photo= post["image"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp["photo"] = my_string.decode('utf-8')
+        # temp["owner_photo"] = my_string1.decode('utf-8')
+        o_photo= po_p["photo"].grid_id
+        o_col = db.images.chunks.find({"files_id":photo})
+        o_my_string = base64.b64encode(o_col[0]["data"])
+        temp["ownerphoto"] = o_my_string.decode('utf-8')
+
+        my_photo= profile["photo"].grid_id
+        my_col = db.images.chunks.find({"files_id":photo})
+        my_my_string = base64.b64encode(my_col[0]["data"])
+        temp["ownerphoto"] = my_my_string.decode('utf-8')
         
 
+
+        
+
+        comments = []
+        
+
+
+        for k in post['comments']:
+            comm = Comment.objects.get(id = k)
+            print(comm)
+            temp1 = dict()
+            temp1['comment'] = comm['message']
+            temp1['reports'] = comm['message']
+            o = comm['owner']
+            own = User.objects(id = o)[0]
+            own_p = Profile.objects.get(user_id = o)
+            temp1['owner'] = own_p['name']
+            photo= own_p["photo"].grid_id
+            ph = db.images.chunks.find({"files_id":photo})
+            ph_string = base64.b64encode(ph[0]["data"])
+            temp1["photo"] = ph_string.decode('utf-8')
+
+            comments.append(temp1)
+        count = len(comments)
+        print(count)
+        return render(request, 'clans/modal.html', {'myphoto': my_photo,'post': temp, 'comments': comments, 'count': count})
+    else:
+        return HttpResponse("failure")
+
+
+def getComments(request):
+    if request.method == 'GET':
+        post_id = request.GET['postId']
+        username = request.session["username"]
+        user = User.objects(email=username)[0]
+        profile = Profile.objects.get(user_id=user["id"])
+
+        post = Post.objects.get(id = post_id)
+
+        comments = []
+        
+
+
+        for k in post['comments']:
+            comm = Comment.objects.get(id = k)
+            print(comm)
+            temp1 = dict()
+            temp1['comment'] = comm['message']
+            temp1['reports'] = comm['message']
+            o = comm['owner']
+            own = User.objects(id = o)[0]
+            own_p = Profile.objects.get(user_id = o)
+            temp1['owner'] = own_p['name']
+            photo= own_p["photo"].grid_id
+            ph = db.images.chunks.find({"files_id":photo})
+            ph_string = base64.b64encode(ph[0]["data"])
+            temp1["photo"] = ph_string.decode('utf-8')
+
+            comments.append(temp1)
+        count = len(comments)
+        print(count)
+        return render('clans/comments.html', {'comments': comments, 'count':count})
+
+def like(request):
+    if request.method == 'GET':
+        post_id = request.GET['postId']
+        username = request.session["username"]
+        user = User.objects(email=username)[0]
+        profile = Profile.objects.get(user_id=user["id"])
+        post = Post.objects.get(id = post_id)
+
+        if user['id'] not in post['likedBy']:
+            post.likes += 1
+            post.likedBy.append(user["id"])
+            post.save()
+        else:
+            post.likes -= 1
+            post.likedBy.remove(user["id"])
+            post.save()
+        return HttpResponse('Success')
+    else:
+        return HttpResponse(Failure)
+
+
+
+
+
+
+        
 
