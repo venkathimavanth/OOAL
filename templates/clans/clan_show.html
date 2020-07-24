@@ -6,31 +6,39 @@
 {% block content %}
 	 <!-- ==============================================
 	 News Feed Section
-	 =============================================== --> 
+	 =============================================== -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	 <section class="newsfeed">
 	  <div class="container-fluid">
 	   <div class="row">
 	    <div class="col-lg-3">
-		
-		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/2.gif'%}) no-repeat;
+
+         {% for ch in clan_challenges_today %}
+		 <a href="{% url 'community:show_challanges' clan_id %}">
+		 <div class="storybox"
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/black.jpg'%}) no-repeat;
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
                   -moz-background-size: cover;
                   -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/10.jpg" %} alt="user"></div>
-           <h4>Clifford Graham</h4>
-           <p>2 hours ago</p>
-          </div>		  
-		 </div>
+         <!--  <div class=""><img class="img-circle" src={% static "assets/img/users/10.jpg" %} alt="user"></div> -->
+             <div class="story-body ">
+
+
+           <h6>{{ ch.discription }}</h6>
+
+
+             </div>
+          </div>
+
 		 </a>
-		
-		 <a href="#">
+            {% endfor %}
+
+<!--		 <a href="#">
 		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif'%}) no-repeat;
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/black.jpg'%}) no-repeat;
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
@@ -43,7 +51,6 @@
           </div>		  
 		 </div>
 		 </a>
-		
 		 <a href="#">
 		 <div class="storybox" 
 		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/4.jpg'%}) no-repeat;
@@ -59,7 +66,6 @@
           </div>		  
 		 </div>
 		 </a>
-		
 		 <a href="#">
 		 <div class="storybox" 
 		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/15.jpg'%}) no-repeat;
@@ -83,10 +89,13 @@
 		  </div>
 		 </div>
         </div>
-		 
+        -->
 		</div><!--/ col-lg-3 -->
 	    <div class="col-lg-6">
-		
+
+		{% for c in clan_posts %}
+
+
          <div class="cardbox">
 		 
           <div class="cardbox-heading">
@@ -104,332 +113,67 @@
            <!-- END dropdown-->
            <div class="media m-0">
             <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src={% static "assets/img/users/18.jpg"%} alt="User"></a>
+			 <a href="#"><img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ c.owner_photo }}" alt="User"></a>
 			</div>
             <div class="media-body">
-             <p class="m-0">Benjamin Robinson</p>
+             <p class="m-0">{{ c.owner }}</p>
 			 <small><span>10 hours ago</span></small>
             </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-          
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src={% static "assets/img/posts/1.jpg" %} alt="MaterialImg">
-		   </a> 
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src={% static "assets/img/users/1.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/2.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/3.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/4.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/5.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/6.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/7.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/8.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/9.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/10.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->			  
-                
-		 </div><!--/ cardbox -->	
-		
-         <div class="cardbox">
-		 
-          <div class="cardbox-heading">
-           <!-- START dropdown-->
-           <div class="dropdown pull-right">
-            <button class="btn btn-secondary btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-		     <em class="fa fa-ellipsis-h"></em>
-			</button>
-            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-	         <a class="dropdown-item" href="#">Hide post</a>
-			 <a class="dropdown-item" href="#">Stop following</a>
-			 <a class="dropdown-item" href="#">Report</a>
-            </div>
-           </div><!--/ dropdown -->
-           <!-- END dropdown-->
-           <div class="media m-0">
-            <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src={% static "assets/img/users/7.jpg"%} alt="User"></a>
-			</div>
-            <div class="media-body">
-             <p class="m-0">Vanessa Wells</p>
-			 <small><span>12 hours ago</span></small>
-            </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-          
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src={% static "assets/img/posts/5.jpg"%} alt="MaterialImg">
-		   </a> 
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src={% static "assets/img/users/1.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/2.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/3.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/4.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/5.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/6.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/7.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/8.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/9.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/10.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->			  
-                
-		 </div><!--/ cardbox -->
-		
-         <div class="cardbox">
-		 
-          <div class="cardbox-heading">
-           <!-- START dropdown-->
-           <div class="dropdown pull-right">
-            <button class="btn btn-secondary btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-		     <em class="fa fa-ellipsis-h"></em>
-			</button>
-            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-	         <a class="dropdown-item" href="#">Hide post</a>
-			 <a class="dropdown-item" href="#">Stop following</a>
-			 <a class="dropdown-item" href="#">Report</a>
-            </div>
-           </div><!--/ dropdown -->
-           <!-- END dropdown-->
-           <div class="media m-0">
-            <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src={% static "assets/img/users/2.jpg"%} alt="User"></a>
-			</div>
-            <div class="media-body">
-             <p class="m-0">Alex Grantte</p>
-			 <small><span>12 hours ago</span></small>
-            </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-          
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src={% static "assets/img/posts/14.jpg"%} alt="MaterialImg">
-		   </a> 
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src={% static "assets/img/users/1.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/2.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/3.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/4.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/5.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/6.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/7.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/8.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/9.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/10.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->			  
-                
-		 </div><!--/ cardbox -->
-		
-         <div class="cardbox">
-		 
-          <div class="cardbox-heading">
-           <!-- START dropdown-->
-           <div class="dropdown pull-right">
-            <button class="btn btn-secondary btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-		     <em class="fa fa-ellipsis-h"></em>
-			</button>
-            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-	         <a class="dropdown-item" href="#">Hide post</a>
-			 <a class="dropdown-item" href="#">Stop following</a>
-			 <a class="dropdown-item" href="#">Report</a>
-            </div>
-           </div><!--/ dropdown -->
-           <!-- END dropdown-->
-           <div class="media m-0">
-            <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src={% static "assets/img/users/9.jpg"%} alt="User"></a>
-			</div>
-            <div class="media-body">
-             <p class="m-0">Anna Morgan</p>
-			 <small><span>13 hours ago</span></small>
-            </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-          
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src={% static "assets/img/posts/18.jpg"%} alt="MaterialImg">
-		   </a> 
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src={% static "assets/img/users/1.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/2.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/3.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/4.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/5.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/6.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/7.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/8.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/9.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src={% static "assets/img/users/10.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->			  
-                
-		 </div><!--/ cardbox -->
-		
-		</div><!--/ col-lg-6 -->
-		<div class="col-lg-3">
-		    <div class="trending-box">
-				<div class="row">
-					<div class="col-lg-12">
-						<a href="{% url 'chat:chat-home' %}">Messages<span class="badge badge-success badge-pill noti-icon-badge">4</span></a>
-					</div>
-				</div>
-			</div>
-			<div class="trending-box">
-				<div class="row">
-					<div class="col-lg-12">
-						<a href="{% url 'community:add-clan-user' clan_id%}">Add Friends<span><i class="fa fa-plus"></i></span></a>
-					</div>
-				</div>
-			</div>
 
-			
+           </div><!--/ media -->
 
-		
-         <div class="suggestion-box full-width">
-			<div class="suggestions-list">
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src={% static "assets/img/users/17.jpg"%} alt="Image">
-					<div class="name-box">
-						<h4>Anthony McCartney</h4>
-						<span>@antony</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
+			  <div class="media m-0">
+			   <p class="m-0">{{ c.description }}</p>
 				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src={% static "assets/img/users/16.jpg"%} alt="Image">
-					<div class="name-box">
-						<h4>Sean Coleman</h4>
-						<span>@sean</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src={% static "assets/img/users/14.jpg"%} alt="Image">
-					<div class="name-box">
-						<h4>Francis Long</h4>
-						<span>@francis</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src={% static "assets/img/users/11.jpg"%} alt="Image">
-					<div class="name-box">
-						<h4>Vanessa Wells</h4>
-						<span>@vannessa</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src={% static "assets/img/users/9.jpg"%} alt="Image">
-					<div class="name-box">
-						<h4>Anna Morgan</h4>
-						<span>@anna</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src={% static "assets/img/users/8.jpg"%} alt="Image">
-					<div class="name-box">
-						<h4>Clifford Graham</h4>
-						<span>@clifford</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-			</div><!--suggestions-list end-->
-		</div>	
 
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-12">
-		    <h4>Trending Photos</h4>
+          </div><!--/ cardbox-heading -->
+		  <div onClick=modal('{{ c.id }}')>
+
+		  <div class="cardbox-item">
+		   <a href="#myModal"   data-toggle="modal">
+		    <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" alt="MaterialImg">
+		   </a> 
+          </div><!--/ cardbox-item -->
+	      <div class="cardbox-base">
+		   <ul>
+			<li><a href="#"><img src={% static "assets/img/users/1.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/2.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/3.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/4.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/5.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/6.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/7.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/8.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/9.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		    <li><a href="#"><img src={% static "assets/img/users/10.jpg" %} class="img-responsive img-circle" alt="User"></a></li>
+		   </ul>
+		  </div><!--/ cardbox-base -->
 		  </div>
-		 </div>
-        </div>
-		
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/17.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/12.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/21.gif"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/23.gif"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/11.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src={% static "assets/img/posts/20.jpg"%} class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-        </div>		
-		
-		
-		</div>
-		
-	   </div><!--/ row -->
-	  </div><!--/ container -->
-	 </section><!--/ newsfeed -->
-  
-	 <!-- ==============================================
-	 Modal Section
-	 =============================================== -->
-     <div id="myModal" class="modal fade">
-      <div class="modal-dialog">
+          <div class="cardbox-like">
+		   <ul>
+
+
+			{% if c.is_liked_by_curr_user %}
+			     <li><a href="{% url 'community:clan-unlike' c.id %}"><i class="fa fa-heart" ></i></a><span> {{c.likes}}</span></li>
+			{% else %}
+			    <li><a href="{% url 'community:clan-like' c.id %}"><i class="fa fa-heart-o" ></i></a><span> {{c.likes}}</span></li>
+			{% endif %}
+
+		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
+
+		   </ul>
+          </div><!--/ cardbox-like -->
+
+		 </div><!--/ cardbox -->
+	<div id="myModal" class="modal fade">
+      <div id='loadModal' class="modal-dialog">
        <div class="modal-content">
         <div class="modal-body">
 		
          <div class="row">
 		 
           <div class="col-md-8 modal-image">
-           <img class="img-responsive" src={% static "assets/img/posts/1.jpg"%} alt="Image"/>
+           <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" alt="Image"/>
           </div><!--/ col-md-8 -->
           <div class="col-md-4 modal-meta">
            <div class="modal-meta-top">
@@ -437,8 +181,8 @@
 			 <span aria-hidden="true">×</span><span class="sr-only">Close</span>
 			</button><!--/ button -->
             <div class="img-poster clearfix">
-             <a href="#"><img class="img-responsive img-circle" src={% static "assets/img/users/18.jpg"%} alt="Image"/></a>
-             <strong><a href="#">Benjamin</a></strong>
+             <a href="#"><img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ c.owner_photo }}" alt="User"/></a>
+             <strong><a href="#">{{ c.owner }}</a></strong>
              <span>12 minutes ago</span><br/>
 		     <a href="#" class="kafe kafe-btn-mint-small"><i class="fa fa-check-square"></i> Following</a>
             </div><!--/ img-poster -->
@@ -493,15 +237,27 @@
 			  
             <div class="modal-meta-bottom">
 			 <ul>
-			  <li><a class="modal-like" href="#"><i class="fa fa-heart"></i></a><span class="modal-one"> 786,286</span> | 
+			  <li>
+			  		{% if c.is_liked_by_curr_user %}
+			     		<a class="modal-like" href="{% url 'community:clan-unlike' c.id %}"><i class="fa fa-heart" ></i></a><span> {{c.likes}}</span>
+					{% else %}
+			    		<a class="modal-like" href="{% url 'community:clan-like' c.id %}"><i class="fa fa-heart-o" ></i></a><span> {{c.likes}}</span>
+					{% endif %}
+
 			      <a class="modal-comment" href="#"><i class="fa fa-comments"></i></a><span> 786,286</span> </li>
 			  <li>
-			   <span class="thumb-xs">
-				<img class="img-responsive img-circle" src="../../../www.bootdey.com/img/Content/user_3.jpg" alt="Image">
-			   </span>
-			   <div class="comment-body">
-				 <input class="form-control input-sm" type="text" placeholder="Write your comment...">
-			   </div><!--/ comment-body -->	
+			   	{% comment %} <div class="comment-body">
+			   		<form id='compose-comment-form'>
+					   {% csrf_token %}
+					   
+					   <input id='comment' class="form-control input-sm" style="float:left" type="text" placeholder="Write your comment..."/>
+					   <input id="cmnt-btn" type="submit" hidden />
+					   <input id="post-id" value= {{ c.id }} hidden/>
+
+					   
+
+					</form>
+			   	</div><!--/ comment-body -->	 {% endcomment %}
               </li>				
              </ul>				
             </div><!--/ modal-meta-bottom -->
@@ -515,15 +271,327 @@
        </div><!--/ modal-content -->
       </div><!--/ modal-dialog -->
      </div><!--/ modal -->
+	
+
+
+		{% endfor %}
+
+		</div><!--/ col-lg-6 -->
+
+		<div class="col-lg-3">
+
+			<div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--a href="{% url 'community:clan-post' clan_id%}">make a post</a-->
+
+						<button type="button" class="kafe-btn kafe-btn-mint" id="createClan"><i class="fa fa-file-image-o" aria-hidden="true"></i> make a post</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal1" role="dialog">
+                        <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h5><span class="glyphicon glyphicon-plus"></span> Make a post</h5>
+                            </div>
+                            <div class="modal-body" style="padding:40px 50px;">
+                            <form role="form" method="post" action="{% url 'community:clan-post' clan_id%}"  enctype="multipart/form-data" id="addclan">
+                            {% csrf_token %}
+                                <!--<div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Full Name" required >
+                                </div> -->
+                                <div class="form-group">
+                                <textarea rows="4" cols="50" class="form-control" name="discription" form="addclan" placeholder="Description" ></textarea>
+                                </div>
+                                <div class="form-group">
+                                <input type="file" class="form-control" id="img" name="photo"  accept="image/*" onchange="readURL(this);" required>
+                                </div>
+                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> Post</button>
+                                {% if warning %}
+                                    <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
+                                {% endif %}
+                            </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+					</div>
+				</div>
+			</div>
+			<div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<button type="button" class="kafe-btn kafe-btn-mint" id="clanCalendar"><i class="fa fa-calendar" aria-hidden="true"></i> Community Calendar</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="calendarModal" role="dialog">
+                        <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h5><span class="glyphicon glyphicon-plus"></span> Community Calendar</h5>
+                            </div>
+                            <div class="modal-body" style="padding:40px 50px;">
+								<div id="calendar"class="col-lg-18"></div>
+								<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+					</div>
+				</div>
+			</div>
+
+
+			{% if is_head %}
+
+			<div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--a href="{% url 'community:clan-post' clan_id%}">make a post</a-->
+
+						<button type="button" class="kafe-btn kafe-btn-mint" id="add_challange"><i class="fa fa-file-image-o" aria-hidden="true"></i> add_challange </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal2" role="dialog">
+                        <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h5><span class="glyphicon glyphicon-plus"></span> Add Challange </h5>
+                            </div>
+                            <div class="modal-body" style="padding:40px 50px;">
+                            <form role="form" method="post" action="{% url 'community:add_challange' clan_id%}"  enctype="multipart/form-data" id="addchallange">
+                            {% csrf_token %}
+                                <!--<div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Full Name" required >
+                                </div> -->
+								<div class="form-group">
+                                <input name="name" type="text" class="form-control" placeholder="Full Name" required >
+                                </div>
+
+                                <div class="form-group">
+                                <textarea rows="4" cols="50" class="form-control" name="discription" form="addchallange" placeholder="Description" ></textarea>
+                                </div>
+
+                                <label for="cdate">Target date of completion:</label>
+                                <div class="form-group">
+                                <input name="date" id="cdate" type="date" class="form-control" placeholder="" required >
+                                </div>
+
+
+                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> Add</button>
+                                {% if warning %}
+                                    <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
+                                {% endif %}
+                            </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+					</div>
+				</div>
+			</div>
+
+			{% endif %}
+
+			<div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<a href="{% url 'chat:chat-home' %}">Messages<span class="badge badge-success badge-pill noti-icon-badge">4</span></a>
+					</div>
+				</div>
+			</div>
+
+			{% if is_head %}
+			<div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<a href="{% url 'community:add-clan-user' clan_id%}">Add Friends<span><i class="fa fa-plus"></i></span></a>
+					</div>
+				</div>
+			</div>
+
+            <div class="trending-box">
+				<div class="row">
+					<div class="col-lg-12">
+						<a href="{% url 'community:review_challanges' clan_id%}">review challanges<span><i class="fa fa-plus"></i></span></a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			
+
+		{% for f in clan_members %}
+         <div class="suggestion-box full-width">
+			<div class="suggestions-list">
+				<div class="suggestion-body">
+					<img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ f.photo }}" alt="Image">
+					<div class="name-box">
+						<h4>{{f.name}}</h4>
+						<span>{{f.discription}}</span>
+					</div>
+
+				</div>
+			</div><!--suggestions-list end-->
+		</div>	
+		{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="trending-box">
+		 <div class="row">
+		  <div class="col-lg-12">
+		    <h4>Trending Photos</h4>
+		  </div>
+		 </div>
+        </div>
+        <div class="trending-box">
+		 <div class="row">
+		  <div class="col-lg-6">
+		   <a href="#"><img src={% static "assets/img/posts/17.jpg"%} class="img-responsive" alt="Image"/></a>
+		  </div>
+		  <div class="col-lg-6">
+		   <a href="#"><img src={% static "assets/img/posts/12.jpg"%} class="img-responsive" alt="Image"/></a>
+		  </div>
+		 </div>
+		 <div class="row">
+		  <div class="col-lg-6">
+		   <a href="#"><img src={% static "assets/img/posts/21.gif"%} class="img-responsive" alt="Image"/></a>
+		  </div>
+		  <div class="col-lg-6">
+		   <a href="#"><img src={% static "assets/img/posts/23.gif"%} class="img-responsive" alt="Image"/></a>
+		  </div>
+		 </div>
+		 <div class="row">
+		  <div class="col-lg-6">
+		   <a href="#"><img src={% static "assets/img/posts/11.jpg"%} class="img-responsive" alt="Image"/></a>
+		  </div>
+		  <div class="col-lg-6">
+		   <a href="#"><img src={% static "assets/img/posts/20.jpg"%} class="img-responsive" alt="Image"/></a>
+		  </div>
+		 </div>
+        </div>
+
+
+		</div>
+
+	   </div><!--/ row -->
+	  </div><!--/ container -->
+	 </section><!--/ newsfeed -->
+
+	 <!-- ==============================================
+	 Modal Section
+	 =============================================== -->
 	 
 	 
      <!-- ==============================================
 	 Scripts
 	 =============================================== -->
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/base.js"></script>
 	<script src="assets/plugins/slimscroll/jquery.slimscroll.js"></script>
+
+    <style>
+	  .modal-header, h5, .close {
+		background-color: #0fc19e;
+		color:white !important;
+		text-align: center;
+		font-size: 30px;
+	  }
+	  .btn-sub {
+		  background-color : #0fc19e;
+	  }
+	  .modal-footer {
+		background-color: #f9f9f9;
+	  }
+	</style>
+
+
+
+	<script>
+		$("#like_btn").click(function(e){
+
+			e.preventDefault();
+			console.log('send-like_btn')
+			var c_id = '{{ c.id }}'
+			$.ajax({
+				type: 'POST',
+				url: '/clan/like/',
+				data:{
+					'c_id': c_id,
+					'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+
+				},
+				success: console.log('success')
+				error: function(result) {
+                        alert('error');
+                    }
+			});
+		});
+	</script>
+
+
+	<script>
+		function modal(postId) {
+			console.log("modal(",postId,")");
+			$.ajax({
+                    type: "GET",
+                    url: "post/single/",
+                    data: { 
+                        'postId': postId,
+                    },
+                    success: display,
+					dataType: 'html',
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+			
+		}
+		function display(data,textStatus,jqXHR) {
+			console.log("display")
+        	$('#loadModal').html(data)
+		}
+	</script>
+
 	<script>
 	$('#Slim,#Slim2').slimScroll({
 	        height:"auto",
@@ -531,6 +599,30 @@
 			railVisible: true,
 			alwaysVisible: true,
 			size:"8px",
-		});		
+		});
 	</script>
-{% endblock content %}  
+
+	<script>
+        $(document).ready(function(){
+        $("#createClan").click(function(){
+            $("#myModal1").modal();
+        });
+        });
+    </script>
+	<script>
+        $(document).ready(function(){
+        $("#clanCalendar").click(function(){
+            $("#calendarModal").modal();
+        });
+        });
+    </script>
+
+	<script>
+        $(document).ready(function(){
+        $("#add_challange").click(function(){
+            $("#myModal2").modal();
+        });
+        });
+    </script>
+
+{% endblock content %}

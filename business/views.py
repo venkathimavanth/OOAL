@@ -80,7 +80,6 @@ def perminent_coupons(request):
     else:
         return render(request,template)
 
-# @business_required
 
 # @business_required
 def video_view(request):

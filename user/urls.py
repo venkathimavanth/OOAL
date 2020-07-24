@@ -14,9 +14,16 @@ urlpatterns = [
     path('pendingrequests/<email>/<type>/', views.add_deop_req ,name='add_deop_req'),
     path('friends/<email>/', views.viewfullprofile ,name='viewfullprofile'),
     path('findfriends/<email>/', views.viewfullprofile ,name='viewfullprofile'),
+    path('userhome/viewprofile/<email>/', views.viewfullprofile ,name='viewfullprofile'),
     path('articles/search/', views.autocompleteModel,name="autocompleteModel"),
     path('viewmyprofile/', views.viewmyprofile ,name='viewmyprofile'),
     path('challanges/', views.challanges ,name='challanges'),
     path('userhome/', views.userhome ,name='userhome'),
+    path('challange/dsc/', views.dsc ,name='dsc'),
+    path('ftf/<str:id>/', views.ftf ,name='ftf'),
+    path('userhome/model/', views.single_post ,name='single_post'),
+    path('userhome/post/comment/', views.createComment ,name='createComment'),
+    path('userhome/post/like/', views.like ,name='like'),
     path('fun/',views.fun_view, name='fun'),
+  
 ]

@@ -29,7 +29,7 @@ def chatHome(request):
         frnd = Profile.objects(user_id=friend)[0]
         frnd_u = User.objects(id=friend)[0]
         temp['name'] = frnd["name"]
-        temp['email'] = frnd_u["email"]
+        temp['id'] = frnd_u["id"]
         photo= frnd["photo"].grid_id
         col = db.images.chunks.find({"files_id":photo})
         my_string = base64.b64encode(col[0]["data"])
@@ -58,6 +58,7 @@ def getMsgs(request):
         c_user = User.objects(email=cu_user)[0]
         c_u_prof = Profile.objects(user_id=c_user['id'])[0]
         msgs = c_u_prof['messages']
+
         if(msgs):
             for msg in msgs:
                 c_msg = Message.objects(id=msg)[0]
@@ -112,5 +113,78 @@ def sendGrpMsg(request):
     else:
         return HttpResponse('Failure')
 
+
+
+def getPrivMsgs(request):
+    if request.method == 'GET':
+        frnd_id = request.GET['f_id']
+
+        cu_user = request.session["username"]
+        c_user = User.objects(email = cu_user)[0]
+        cu_prof = Profile.objects.get(user_id = c_user['id'])
+        frnd_prof = Profile.objects.get(user_id = frnd_id)
+        my_id = c_user['id']
+        frnd_name = frnd_prof['name']
+
+        myphoto= cu_prof["photo"].grid_id
+        mycol = db.images.chunks.find({"files_id":myphoto})
+        myph = base64.b64encode(mycol[0]["data"])
+        my_photo = myph.decode('utf-8')
+        frndphoto= frnd_prof["photo"].grid_id
+        frndcol = db.images.chunks.find({"files_id":frndphoto})
+        frndph = base64.b64encode(frndcol[0]["data"])
+        frnd_photo = frndph.decode('utf-8')
+
+
+        msgs = cu_prof['messages']
+        print('Profile msgs', len(msgs))
+        messages = []
+
+        for msg in msgs:
+            print(msg)
+            temp = Message.objects.get(id = msg)
+            temp_r = temp['reciever']
+            temp_s = temp['sender']
+            ff_id = frnd_prof['user_id']
+            print(temp_r == ff_id)
+            print(temp_s == ff_id)
+            if temp_s == ff_id or temp_r == ff_id:
+                temp1 = dict()
+                temp1['message'] = temp['msg']
+                temp1['sender'] = temp['sender']
+                temp1['reciever'] = temp['reciever']
+                temp1['time'] = temp['createdAt']
+
+                messages.append(temp1)
+            else:
+                continue
         
+        print('messages',len(messages))
+        print('frnd', frnd_name)
+        
+        return render(request, 'chat/priv_msg.html', {'messages': messages, "friend": frnd_name ,"my_id":my_id, "my_photo":my_photo, "frnd_photo": frnd_photo, "friend_id": frnd_id})
+    else:
+        return HttpResponse('Failure')
     
+def sendPrivMsg(request):
+    if request.method == 'POST':
+        print("got request")
+        text = request.POST['msg']
+        frnd_id = request.POST['f_id']
+        print(text)
+        print(frnd_id)
+
+        cu_user = request.session["username"]
+        c_user = User.objects(email = cu_user)[0]
+        cu_prof = Profile.objects.get(user_id = c_user['id'])
+        
+        msg = Message(msg=text, sender=c_user['id'], reciever=frnd_id)
+        msg.save()
+        print("message saved")
+
+        Profile.objects(user_id = c_user['id']).update_one(push__messages = msg['id'])
+        Profile.objects(user_id = frnd_id).update_one(push__messages = msg['id'])
+        print("Profiles changed")
+        return HttpResponse('Success')
+    else:
+        return HttpResponse('Failure')

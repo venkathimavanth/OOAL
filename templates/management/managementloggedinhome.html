@@ -78,15 +78,8 @@
  		   </span>
  		  </a>
  		  <div class="dropdown-menu w dropdown-menu-scale pull-right">
- 		   <a class="dropdown-item" href="#"><span>New Story</span></a>
- 		   <a class="dropdown-item" href="#"><span>Become a Member</span></a>
- 		   <div class="dropdown-divider"></div>
- 		   <a class="dropdown-item" href="#"><span>Profile</span></a>
- 		   <a class="dropdown-item" href="#"><span>Settings</span></a>
- 		   <a class="dropdown-item" href="#">Need help?</a>
- 		   <div class="dropdown-divider"></div>
- 		   <a class="dropdown-item" href="#">Sign out</a>
- 		  </div>
+ 		   <a class="dropdown-item" href="{% url 'management:addchallenge' %}"><span>Daily Challange</span></a>
+		 </div>
  		 </li><!-- /navbar-item -->
 
 
@@ -97,6 +90,15 @@
 			 	</span>
 			  </a>
 			 </li><!-- /navbar-item -->
+
+			 <li class="dropdown mega-avatar">
+				<a href="{% url 'management:addcatogries' %}" aria-expanded="true">
+				<span class="hidden-xs">
+						 Add Category
+				</span>
+				</a>
+			 </li><!-- /navbar-item -->
+
 
 
      <li class="dropdown mega-avatar">

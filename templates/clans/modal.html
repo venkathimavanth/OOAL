@@ -1,0 +1,125 @@
+    
+      <div class="modal-dialog">
+       <div class="modal-content">
+        <div class="modal-body">
+		
+         <div class="row">
+		 
+          <div class="col-md-8 modal-image">
+           <img class="img-responsive" src="data:image/jpeg;base64,{{ post.photo }}" alt="Image"/>
+          </div><!--/ col-md-8 -->
+          <div class="col-md-4 modal-meta">
+           <div class="modal-meta-top">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			 <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+			</button><!--/ button -->
+            <div class="img-poster clearfix">
+             <a href="#"><img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ post.ownerphoto }}" alt="User"/></a>
+             <strong><a href="#">{{ post.owner }}</a></strong>
+             <span>12 minutes ago</span><br/>
+		     <a href="#" class="kafe kafe-btn-mint-small"><i class="fa fa-check-square"></i> Following</a>
+            </div><!--/ img-poster -->
+			  
+            <ul class="img-comment-list">
+             <li>
+             {% for comment in comments %}
+              <div class="comment-img">
+               <img src="data:image/jpeg;base64,{{ comment.photo }}" class="img-responsive img-circle" alt="Image"/>
+              </div>
+              <div class="comment-text">
+               <strong><a href="#">{{ comment.owner }}</a></strong>
+               <p>{{ comment.comment }}</p> <span class="date sub-text">on December 5th, 2016</span>
+              </div>
+             </li><!--/ li -->
+             {% endfor %}
+            </ul><!--/ comment-list -->
+			  
+            <div class="modal-meta-bottom">
+			 <ul>
+			  <li>
+			  		{% if post.is_liked_by_curr_user %}
+			     		<a onClick=like('{{ post.id }}') class="modal-like" href="#"><i class="fa fa-heart" ></i></a><span> {{post.likes}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					{% else %}
+			    		<a onClick=like('{{ post.id }}') class="modal-like" href="#"><i class="fa fa-heart-o" ></i></a><span> {{post.likes}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					{% endif %}
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+			      <a class="modal-comment" href="#"><i class="fa fa-comments"></i></a><span> {{ count }}</span> </li>
+			  <li>
+			   	<div class="comment-body">
+			   		<form id='compose-comment-form'>
+					   {% csrf_token %}
+					   
+					   <input id='comment' class="form-control input-sm" style="float:left" type="text" placeholder="Write your comment..."/>
+					   <input id="cmnt-btn" type="submit" hidden />
+					   <input id="post-id" value= {{ post.id }} hidden/>
+
+					   
+
+					</form>
+			   	</div><!--/ comment-body -->	
+              </li>				
+             </ul>				
+            </div><!--/ modal-meta-bottom -->
+			  
+           </div><!--/ modal-meta-top -->
+          </div><!--/ col-md-4 -->
+		  
+         </div><!--/ row -->
+        </div><!--/ modal-body -->
+		
+       </div><!--/ modal-content -->
+      </div><!--/ modal-dialog -->
+      	<script>
+		document.getElementById('comment').addEventListener('keypress', function(event) {
+			if (event.keyCode == 13) {
+				event.preventDefault();
+				document.getElementById("cmnt-btn").click();
+			}
+		});
+	</script>
+
+	<script>
+
+		$("#cmnt-btn").click(function(e){
+
+			e.preventDefault();
+			console.log('send-cmnt-btn')
+			var c_id = $('#post-id').val()
+			console.log(c_id)
+			$.ajax({
+				type: 'POST',
+				url: 'post/comment/',
+				data:{
+					'msg': $('#comment').val(),
+					'p_id': c_id,
+					'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+
+				},
+				success: modal(c_id),
+				error: function(result) {
+                        alert('error');
+                    }
+			});
+		});
+
+	</script>
+
+    <script>
+        function like(postId) {
+            console.log("like(",postId,")");
+			$.ajax({
+                    type: "GET",
+                    url: "post/like/",
+                    data: { 
+                        'postId': postId,
+                    },
+                    success: modal(postId),
+                    error: function(result) {
+                        alert('error');
+                    }
+                });
+        }
+    </script>
+

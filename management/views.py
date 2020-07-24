@@ -132,6 +132,24 @@ def report_portal(request):
     template = 'management/report_portal.html'
     return render(request,template)
 
+  
+def addcatogries(request):
+    if request.method == "POST":
+        category_name=request.POST["category"]
+        name = request.POST["name"]
+        print(category_name)
+        if category_name == "CategoryModel":
+                c=CategoryModel(category_name=name)
+                c.save()
+        elif category_name == "ChallangeTypeModel":
+                c=ChallangeTypeModel(challange_type_model=name)
+                c.save()
+        elif category_name == "TypeOfSubmissionModel":
+                c=TypeOfSubmissionModel(type_of_submission=name)
+                c.save()
+    return render(request,'management/addcatogries.html',{})  
+
+
 def report(request):
     if request.method == 'POST':
         if 'problem' in request.POST:

@@ -1,0 +1,37 @@
+            <ul class="img-comment-list">
+             <li>
+             {% for comment in comments %}
+              <div class="comment-img">
+               <img src="data:image/jpeg;base64,{{ comment.photo }}" class="img-responsive img-circle" alt="Image"/>
+              </div>
+              <div class="comment-text">
+               <strong><a href="#">{{ comment.owner }}</a></strong>
+               <p>{{ comment.comment }}</p> <span class="date sub-text">on December 5th, 2016</span>
+              </div>
+             </li><!--/ li -->
+             {% endfor %}
+            </ul><!--/ comment-list -->
+			  
+            <div class="modal-meta-bottom">
+			 <ul>
+			  <li>
+			  		{% if post.is_liked_by_curr_user %}
+			     		<a class="modal-like" href="{% url 'community:clan-unlike' post.id %}"><i class="fa fa-heart" ></i></a><span> {{c.likes}}</span>
+					{% else %}
+			    		<a class="modal-like" href="{% url 'community:clan-like' post.id %}"><i class="fa fa-heart-o" ></i></a><span> {{c.likes}}</span>
+					{% endif %}
+
+			      <a class="modal-comment" href="#"><i class="fa fa-comments"></i></a><span> {{ count }}</span> </li>
+			  <li>
+			   	<div class="comment-body">
+			   		<form id='compose-comment-form'>
+					   {% csrf_token %}
+					   
+					   <input id='comment' class="form-control input-sm" style="float:left" type="text" placeholder="Write your comment..."/>
+					   <input id="cmnt-btn" type="submit" hidden />
+					   <input id="post-id" value= {{ post.id }} hidden/>
+
+					   
+
+					</form>
+			   	</div><!--/ comment-body -->	
