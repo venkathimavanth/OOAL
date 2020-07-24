@@ -36,62 +36,13 @@
 		 </a>
             {% endfor %}
 
-<!--		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/black.jpg'%}) no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/13.jpg"%} alt="user"></div>
-           <h4>Eleanor Harper</h4>
-           <p>4 hours ago</p>
-          </div>		  
-		 </div>
-		 </a>
-
-		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/4.jpg'%}) no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/12.jpg"%} alt="user"></div>
-           <h4>Sean Coleman</h4>
-           <p>5 hours ago</p>
-          </div>		  
-		 </div>
-		 </a>
-
-		 <a href="#">
-		 <div class="storybox" 
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/15.jpg'%}) no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src={% static "assets/img/users/15.jpg"%} alt="user"></div>
-           <h4>Vanessa Wells</h4>
-           <p>5 hours ago</p>
-          </div>		  
-		 </div>
-		 </a>
-
         <div class="trending-box hidden-xs hidden-md">
 		 <div class="row">
 		  <div class="col-lg-12">
-		    <a href="photo_stories.html"><h4>More stories</h4></a>
+		    <a href="{% url 'community:show_challanges' clan_id %}"><h4>More challanges</h4></a>
 		  </div>
 		 </div>
         </div>
-        -->
 		</div><!--/ col-lg-3 -->
 	    <div class="col-lg-6">
 

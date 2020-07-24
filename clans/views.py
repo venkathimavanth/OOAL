@@ -11,6 +11,7 @@ from .models import community,Post,clanChallange,challange
 from chat.models import Message, GroupMessage
 from management.models import Challange
 import datetime
+import cv2
 
 
 import base64
@@ -22,7 +23,6 @@ import datetime,json
 from pymongo import MongoClient
 mongo_client = MongoClient()
 db = mongo_client.EAD_OOAL
-
 
 
 @login_required
@@ -85,6 +85,12 @@ def add_challange(request,clan_id):
         else:
             return render(request,'clans/clan_show.html',{"warning":"Please fill all the blanks correctly"})
     return redirect('user_auth:home')
+
+
+@login_required
+def submit_form(request,challange_id):
+    return render(request,'clans/submit_challange.html',{"challange_id":challange_id})
+
 
 @login_required
 def submit_challanges(request,challange_id):
@@ -153,6 +159,8 @@ def create_clan(request):
             print("uid",uid["id"])
             name = request.POST["name"]
             photo=request.FILES["photo"]
+            image = cv2.imread(photo)
+            print('photo',photo)
             discription = request.POST["discription"]
 
             clan=community(name=name,discription=discription)
@@ -182,6 +190,7 @@ def review_challanges(request,clan_id):
         c = clanChallange.objects.get(id = ch)
 
         for challang in c['challange']:
+            print('challange',challang)
             chall = challange.objects.get(id = challang)
             if not chall['accepted_by_head'] and chall['sent_for_review']:
                 temp = dict()
@@ -238,19 +247,22 @@ def show_challanges(request,clan_id):
     status = 'Not Completed'
     print(clan['group_challanges'])
     for ch in clan['group_challanges']:
+        status = 'Not Completed'
         c = clanChallange.objects.get(id = ch)
         strt = c['created_date'].strftime('%Y-%m-%d')
         comp = c['complete_date'].strftime('%Y-%m-%d')
         tod = datetime.date.today().strftime('%Y-%m-%d')
         for l in c['challange']:
+            print(l)
             k = challange.objects.get(id = l)
+            print(k['id'])
             if k['done_by'] == user['id']:
                 if k['sent_for_review'] and not k['accepted_by_head']:
                     status = 'being reviewed'
                 if k['sent_for_review'] and k['accepted_by_head']:
                     status = 'Completed'
 
-
+        print(status)
         if int(tod[:4]) <= int(comp[:4]):
             if int(tod[5:7]) <= int(comp[5:7]):
                 if int(tod[8:10]) <= int(comp[8:10]):
@@ -264,6 +276,8 @@ def show_challanges(request,clan_id):
                     tempc['status'] = status
                     is_owner = False
                     if c['owner'] == user['id']:
+                        print(c['owner'])
+                        print(user['id'])
                         is_owner = True
                     tempc['is_owner'] = is_owner
 
@@ -273,7 +287,7 @@ def show_challanges(request,clan_id):
                     else:
                         clan_challenges.append(tempc)
 
-    return render(request, 'clans/show_challanges.html',{"clan_challenges":clan_challenges,'clan_challenges_today':clan_challenges_today})
+    return render(request, 'clans/show_challanges.html',{"clan_challenges":clan_challenges,'clan_challenges_today':clan_challenges_today,'clan_id':clan_id})
 
 
 
@@ -285,8 +299,6 @@ def clanHome(request):
     username = request.session["username"]
     user = User.objects.get(email=username)
     profile = Profile.objects.get(user_id=user["id"])
-
-
 
     clans1 = []
     for i in profile["clans_registered"]:
@@ -303,8 +315,10 @@ def clanHome(request):
         for j in clan1['participants']:
             p =  Profile.objects.get(user_id=j)
             photo1= p["photo"].grid_id
+
             col1 = db.images.chunks.find({"files_id":photo1})
             my_string1 = base64.b64encode(col1[0]["data"])
+
             list.append(my_string1.decode('utf-8'))
 
         temp['members_photos'] = list
@@ -315,6 +329,8 @@ def clanHome(request):
     return render(request,'clans/clans.html',{"clans1": clans1})
 
 
+def temp(request):
+    return render(request,'clans/notifications.html')
 
 
 

@@ -37,52 +37,14 @@
             <div class="search-box full-width">
                 <div class="search">
                     <div class="input-field" style="float:left;width:84%">
-                        <input placeholder="Search" type="text">
-                        <i class="fa fa-search"></i>
+                        <!--<input placeholder="Search" type="text">
+                        <i class="fa fa-search"></i> -->
                     </div>
                     <div class="container"style="float:right;width:16%">
                     <!-- Trigger the modal with a button -->
-                    <button type="button" class="kafe-btn kafe-btn-mint" id="createClan"><i class="fa fa-users"></i> Create</button>
+                    <a href="{% url 'community:clan-show' clan_id %}"><button type="button" class="kafe-btn kafe-btn-mint" id="createClan">Go back</button></a>
+
                     <!-- Modal -->
-                    <div class="modal fade" id="myModal" role="dialog">
-                        <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header" style="padding:35px 50px;">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h5><span class="glyphicon glyphicon-plus"></span> Create Clan</h5>
-                            </div>
-                            <div class="modal-body" style="padding:40px 50px;">
-                            <form role="form" method="post" action="{% url 'community:create-clan' %}"  enctype="multipart/form-data" id="addclan">
-                            {% csrf_token %}
-                                <div class="form-group">
-                                <input name="name" type="text" class="form-control" placeholder="Full Name" required >
-                                </div>
-                                <div class="form-group">
-                                <textarea rows="4" cols="50" class="form-control" name="discription" form="addclan" placeholder="Discription" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                <input type="file" class="form-control" id="img" name="photo"  accept="image/*" onchange="readURL(this);" required>
-                                </div>
-                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> Create</button>
-                                {% if warning %}
-                                    <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
-                                {% endif %}
-                            </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                            </div>
-                        </div>
-
-                        </div>
-                    </div>
-                    </div>
-
-
-
-
                 </div><!--/ search-->
             </div>
 
@@ -108,7 +70,8 @@
 
                  {% if not i.is_owner %}
                  {% if i.status == 'Not Completed' %}
-                        <button type="button" class="kafe-btn kafe-btn-mint" id="challange_req"><i ></i> complete challange </button>
+                       <a href="{% url 'community:submit_form' i.id %}"> <button type="button" class="kafe-btn kafe-btn-mint" id="challange_req"><i ></i> complete challange </button></a>
+
 
                  {% elif i.status == 'being reviewed' %}
                         <button type="button" class="kafe-btn kafe-btn-mint" id="sdfs"><i ></i> Your task is under review </button>
@@ -116,44 +79,11 @@
                   {% else %}
                         <button type="button" class="kafe-btn kafe-btn-mint" id=""><i ></i> Your have completed the task </button>
                    {% endif %}
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal1" role="dialog">
-                        <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header" style="padding:35px 50px;">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h5><span class="glyphicon glyphicon-plus"></span> Submit challange</h5>
-                            </div>
-                            <div class="modal-body" style="padding:40px 50px;">
-                            <form role="form" method="post" action="{% url 'community:submit_challanges' i.id %}"  enctype="multipart/form-data" id="chall">
-                            {% csrf_token %}
-
-                                <div class="form-group">
-                                <textarea rows="4" cols="50" class="form-control" name="discription" form="chall" placeholder="Discription" required></textarea>
-                                </div>
-                                <label for="img1">Proof of completion</label>
-                                <div class="form-group">
-                                <input type="file" class="form-control" id="img1" name="photo"  accept="image/*" onchange="readURL(this);" required>
-                                </div>
-
-                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> submit</button>
-                                {% if warning %}
-                                    <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
-                                {% endif %}
-                            </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                            </div>
-                        </div>
-
-                        </div>
-                    </div>
-                        {% endif %}
+                    {% endif %}
                     </span>
+                    <!-- Modal -->
+
+
                     </div><!--/ followers-body -->
 
                     {% endfor %}
@@ -167,14 +97,20 @@
 
                         <span><h3>{{ i.discription }}</h3></span>
 
+                        {% if not i.is_owner %}
                         <h4>status : {{i.status }}</h4>
+                        {% else %}
+                        <h4>status : You are owner of this challange</h4>
+                        {% endif %}
                         <h4>deadline : {{i.deadline }} </h4>
+
 
                     </div><!--/ name-box -->
                     <span>
 
+                 {% if not i.is_owner %}
                  {% if i.status == 'Not Completed' %}
-                        <button type="button" class="kafe-btn kafe-btn-mint" id="challange_req1"><i ></i> complete challange </button>
+                        <a href="{% url 'community:submit_form' i.id %}"> <button type="button" class="kafe-btn kafe-btn-mint" id="challange_req1"><i ></i> complete challange </button></a>
 
                  {% elif i.status == 'being reviewed' %}
                         <button type="button" class="kafe-btn kafe-btn-mint" id="sdf"><i ></i> Your task is under review </button>
@@ -182,43 +118,11 @@
                   {% else %}
                         <button type="button" class="kafe-btn kafe-btn-mint" id=" "><i ></i> Your have completed the task </button>
                    {% endif %}
-
+                    {% endif %}
+                         </span>
                     <!-- Modal -->
-                    <div class="modal fade" id="myModal11" role="dialog">
-                        <div class="modal-dialog">
 
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header" style="padding:35px 50px;">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h5><span class="glyphicon glyphicon-plus"></span> Submit challange</h5>
-                            </div>
-                            <div class="modal-body" style="padding:40px 50px;">
-                            <form role="form" method="post" action="{% url 'community:submit_challanges' i.id %}"  enctype="multipart/form-data" id="chall1">
-                            {% csrf_token %}
 
-                                <div class="form-group">
-                                <textarea rows="4" cols="50" class="form-control" name="discription" form="chall1" placeholder="Discription" required></textarea>
-                                </div>
-                                <label for="img1">Proof of completion</label>
-                                <div class="form-group">
-                                <input type="file" class="form-control" id="img11" name="photo"  accept="image/*" onchange="readURL(this);" required>
-                                </div>
-
-                                <button name="submit" type="submit" class="btn btn-sub btn-block"><span class="glyphicon glyphicon-ok"></span> submit</button>
-                                {% if warning %}
-                                    <h6 class="form-signin-heading" style="color:red">*{{ warning }}</h6>
-                                {% endif %}
-                            </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                            </div>
-                        </div>
-
-                        </div>
-                    </div>
-                    </span>
                     </div><!--/ followers-body -->
 
                     {% endfor %}
@@ -232,6 +136,7 @@
 
        </div><!--/ row-->
 	  </div><!--/ container -->
+      </div>
 	 </section><!--/ profile -->
 
      <!-- ==============================================
