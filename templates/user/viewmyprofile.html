@@ -22,13 +22,13 @@
 			<div class="user-info">
 			 <div class="image">
 		      <a href="photo_profile_two.html">
-			   <img src={% static  'assets/img/users/1.jpg' %} class="img-responsive img-circle" alt="User">
+			   <img src="data:image/jpeg;base64,{{ photo }}" class="img-responsive img-circle" alt="User">
 			   <span class="online-status online"></span>
 			  </a>
 			 </div>
 		     <div class="detail">
-			  <h4>Vanessa Wells</h4>
-			  <small>@vanessa</small>
+			  <h4>{{ profile.name }}</h4>
+			  <small>{{ email }}</small>
 			 </div>
 			 <div class="row">
 			  <div class="col-12">
@@ -40,15 +40,12 @@
 			</div>
            </li>
            <li>
-            <small class="text-muted"><a href="photo_profile_two.html">320 Posts <em class="fa fa-angle-right pull-right"></em></a> </small><br/>
-            <small class="text-muted"><a href="photo_followers.html">2456 Followers <em class="fa fa-angle-right pull-right"></em></a> </small><br/>
-            <small class="text-muted"><a href="photo_followers.html">456 Following <em class="fa fa-angle-right pull-right"></em></a> </small>
+            <small class="text-muted"><a href="photo_profile_two.html">{{ posts_count }} Posts <em class="fa fa-angle-right pull-right"></em></a> </small><br/>
+            <small class="text-muted"><a href="photo_followers.html">{{ friends }} Friends<em class="fa fa-angle-right pull-right"></em></a> </small><br/>
             <hr>
             <small class="text-muted">Bio: </small>
-            <p>795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
+            <p>{{ profile.discription }}</p>
             <hr>
-            <small class="text-muted">Website: </small>
-            <p>http://www.themashabrand.com </p>
             <hr>
            </li>
           </ul>
@@ -56,249 +53,80 @@
 		</div><!--/ col-lg-3-->
 
 		<div class="col-lg-6" style="background: #fff;">
-
+{% for c in cupons %}
 		 <div class="row">
-
+			 {% if c.0 %}
 		  <div class="col-lg-6">
 			 <a href="#myModal" data-toggle="modal">
 			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/6.jpg') no-repeat;
+			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url({% static 'assets/img/posts/14.jpg' %}) no-repeat;
 					  background-size: cover;
+					  background-position: center center;
+						opacity: 0.8;
+					  -webkit-background-size: cover;
+					  -moz-background-size: cover;
+					  -o-background-size: cover;">
+			  <div class="explore-top">
+			   <div class="explore-like"><i class="fa fa-heart"></i> <span></span></div>
+				 	<center style="opacity: 1;">
+						<a style="font-size:35px;">{{ c.0.offer.company_id }}</a><br/>
+						<a style="font-size:35px;">{{ c.0.cupon.coupon_code }}</a><br/>
+						<a style="font-size:25px;">Exp : {{ c.0.cupon.expiry_date }}</a><br/>
+					</center>
+			  </div>
+			 </div>
+			 </a>
+		  </div>
+			{% endif %}
+			{% if c.1 %}
+		  <div class="col-lg-6">
+			 <a href="#myModal" data-toggle="modal">
+			 <div class="explorebox"
+			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url({% static 'assets/img/posts/15.jpg' %}) no-repeat;
+					  background-size: cover;
+						opacity: 0.8;
 					  background-position: center center;
 					  -webkit-background-size: cover;
 					  -moz-background-size: cover;
 					  -o-background-size: cover;">
 			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>312</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
+			   <div class="explore-like"><i class="fa fa-heart"></i> <span></span></div>
+				 <center style="opacity: 1;">
+					 <a style="font-size:35px;">{{ c.1.offer.company_id }}</a><br/>
+					 <a style="font-size:35px;">{{ c.1.cupon.coupon_code }}</a><br/>
+					 <a style="font-size:25px;">Exp : {{ c.1.cupon.expiry_date }}</a><br/>
+				 </center>
 			  </div>
 			 </div>
 			 </a>
 		  </div>
-
-		  <div class="col-lg-6">
-			 <a href="#myModal" data-toggle="modal">
-			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/9.jpg') no-repeat;
-					  background-size: cover;
-					  background-position: center center;
-					  -webkit-background-size: cover;
-					  -moz-background-size: cover;
-					  -o-background-size: cover;">
-			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>624</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
-			  </div>
-			 </div>
-			 </a>
-		  </div>
+			{% endif %}
 
 		 </div><!--/ row -->
+{% endfor %}
 
-		 <div class="row">
-
-		  <div class="col-lg-6">
-			 <a href="#myModal" data-toggle="modal">
-			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/32.jpg') no-repeat;
-					  background-size: cover;
-					  background-position: center center;
-					  -webkit-background-size: cover;
-					  -moz-background-size: cover;
-					  -o-background-size: cover;">
-			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>12</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
-			  </div>
-			 </div>
-			 </a>
-		  </div>
-
-		  <div class="col-lg-6">
-			 <a href="#myModal" data-toggle="modal">
-			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/30.jpg') no-repeat;
-					  background-size: cover;
-					  background-position: center center;
-					  -webkit-background-size: cover;
-					  -moz-background-size: cover;
-					  -o-background-size: cover;">
-			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>1499</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
-			  </div>
-			 </div>
-			 </a>
-		  </div>
-
-		 </div><!--/ row -->
-
-		 <div class="row">
-
-		  <div class="col-lg-6">
-			 <a href="#myModal" data-toggle="modal">
-			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/19.jpg') no-repeat;
-					  background-size: cover;
-					  background-position: center center;
-					  -webkit-background-size: cover;
-					  -moz-background-size: cover;
-					  -o-background-size: cover;">
-			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>1742</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
-			  </div>
-			 </div>
-			 </a>
-		  </div>
-
-		  <div class="col-lg-6">
-			 <a href="#myModal" data-toggle="modal">
-			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/8.jpg') no-repeat;
-					  background-size: cover;
-					  background-position: center center;
-					  -webkit-background-size: cover;
-					  -moz-background-size: cover;
-					  -o-background-size: cover;">
-			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>1269</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
-			  </div>
-			 </div>
-			 </a>
-		  </div>
-
-		 </div><!--/ row -->
-
-		 <div class="row">
-
-		  <div class="col-lg-6">
-			 <a href="#myModal" data-toggle="modal">
-			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/36.jpg') no-repeat;
-					  background-size: cover;
-					  background-position: center center;
-					  -webkit-background-size: cover;
-					  -moz-background-size: cover;
-					  -o-background-size: cover;">
-			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>12456</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
-			  </div>
-			 </div>
-			 </a>
-		  </div>
-
-		  <div class="col-lg-6">
-			 <a href="#myModal" data-toggle="modal">
-			 <div class="explorebox"
-			   style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('assets/img/posts/25.jpg') no-repeat;
-					  background-size: cover;
-					  background-position: center center;
-					  -webkit-background-size: cover;
-					  -moz-background-size: cover;
-					  -o-background-size: cover;">
-			  <div class="explore-top">
-			   <div class="explore-like"><i class="fa fa-heart"></i> <span>10945</span></div>
-			   <div class="explore-circle pull-right"><i class="far fa-bookmark"></i></div>
-			  </div>
-			 </div>
-			 </a>
-		  </div>
-
-		 </div><!--/ row -->
 
 		</div>
 		<div class="col-lg-3">
 
          <div class="suggestion-box full-width">
 			<div class="suggestions-list">
+				{% if sfriends %}
+				{% for sf in sfriends %}
 				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/1.jpg" alt="">
+					<img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ sf.photo }}" alt="Image">
 					<div class="name-box">
-						<h4>Vanessa Wells</h4>
-						<span>@vannessa</span>
+						<h4>{{ sf.name }}</h4>
+						<span>{{ sf.email }}</span>
 					</div>
-					<span><i class="fa fa-plus"></i></span>
+					<span id="{{ sf.email }}" onclick="fun1(this)"><i class="fa fa-eye"></i></span>
 				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/2.jpg" alt="">
-					<div class="name-box">
-						<h4>Anthony McCartney</h4>
-						<span>@antony</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/3.jpg" alt="">
-					<div class="name-box">
-						<h4>Anna Morgan</h4>
-						<span>@anna</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/4.jpg" alt="">
-					<div class="name-box">
-						<h4>Sean Coleman</h4>
-						<span>@sean</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/5.jpg" alt="">
-					<div class="name-box">
-						<h4>Grace Karen</h4>
-						<span>@grace</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/6.jpg" alt="">
-					<div class="name-box">
-						<h4>Clifford Graham</h4>
-						<span>@clifford</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
+				{% endfor %}
+				{% endif %}
 			</div><!--suggestions-list end-->
 		</div>
 
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-12">
-		    <h4>Trending Photos</h4>
-		  </div>
-		 </div>
-        </div>
 
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/17.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/12.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/21.gif" class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/23.gif" class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/11.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/20.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-        </div>
 
 
 		</div>

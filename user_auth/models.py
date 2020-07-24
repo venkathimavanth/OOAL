@@ -10,8 +10,13 @@ class User(Document):
     email_verified=BooleanField(default=False)
     profile_created=BooleanField(default=False)
     user_type = StringField(max_length=10)
-    profileid=  ObjectIdField(unique = True)
+    profileid=  ObjectIdField()
 
+
+
+class Cupon(Document):
+    offerid = ObjectIdField()
+    couponid = ObjectIdField()
 
 
 class Profile(Document):
@@ -32,5 +37,8 @@ class Profile(Document):
     pending_friend_requests = ListField(ObjectIdField())
     accepted_chall=ListField(ObjectIdField())
     completed=ListField(ObjectIdField())
+    cupons=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
     messages = ListField(ObjectIdField())
+    myposts=ListField(ObjectIdField())
+    myfeed=ListField(ObjectIdField())

@@ -1,0 +1,187 @@
+{% extends 'managementbase.html' %}
+{% load static %}
+{% load staticfiles %}
+
+
+
+
+{% block extra_head_content %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+
+        .submit-btn2{
+            color: #fff;
+            background-color: #11cdef;
+            border-color: transparent;
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            border-radius: .50rem;
+            transition: all .15s ease;
+            text-align: center;
+            vertical-align: center;
+            width: 110px;
+            height: 35px;
+       }
+
+        input[type=file]{
+            color:transparent;
+            background-color: transparent;
+        }
+        .btn-default{
+            font-family: "Open Sans",sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.5;
+            color: #fff;
+            background-color: #172b4d;
+            box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+            width: 120px;
+            height:36px;
+        }
+        .btn:hover{
+        background-color: #101e35;
+            border-color: #101e35;
+            color:#fff;
+        }
+        .alert-danger{
+            background-color: #f75676;
+            border-color: #f75676
+       }
+       .alert-success{
+           background-color: #15c39a;
+           border: #15c39a;
+       }
+       .alert{
+           padding: 0px;
+       }
+       #message_div{
+           box-shadow: 0 10px 12px rgba(100,100,143,.20), 0 4px 6px rgba(0,0,0,.16);
+           border-radius: .50rem;
+           vertical-align: center;
+           height:50px;
+           color: white;
+           font-weight: 600;
+           font-size: larger;
+           font-family: "Open Sans",sans-serif;
+       }
+        .message-wrapper{
+            height: 50px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+	 <!-- ==============================================
+	 Modal Section
+	 =============================================== -->
+<center>
+     <section class="single-post"  style="margin-top: -40px;">
+        <div class="container">
+            <div class="modal-dialog" >
+                <div class="modal-content" >
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="message-wrapper" >
+{#                                    <div class="alert alert-success" id="message_div">#}
+{#                                        <span class="message-icon">#}
+{#                                            <img src="{% static 'business/tick-icon.png' %}" style="width: 45px;margin-left: 5%">#}
+{#                                        </span>#}
+{#                                                        This is danger#}
+{#                                    </div>#}
+                                    {% if messages %}
+
+                                            {% for message in messages %}
+                                                {% if message.tags == 'error' %}
+                                                    <div class="alert alert-danger" id="message_div">
+                                                    <span class="message-icon">
+                                                        <img src="{% static 'business/danger-icon.png' %}" style="width: 50px;margin-left: 5%">
+                                                    </span>
+                                                    {{ message|safe }}
+                                                    </div>
+                                                {% endif %}
+                                                {% if message.tags == 'success' %}
+                                                    <div class="alert alert-success" id="message_div">
+                                                        <span class="message-icon">
+                                                            <img src="{% static 'business/tick-icon.png' %}" style="width: 45px;margin-left: 5%">
+                                                        </span>
+                                                    {{ message|safe }}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <form  method="post" class="form-inline" id="form-id" enctype="multipart/form-data" >
+                                {% csrf_token %}
+                                <center>
+                                    <img src="{% static 'business/img-icon.png' %}" style="width: 150px;margin-top: 5%;">
+                                    <p >Upload banner image</p>
+                                </center>
+
+                                <center>
+                                    <button class="submit-btn2" type="button">
+                                    <input  type="file" id="banner_img"    name="file"   required></button>
+                                </center><br>
+
+{#                                <center>#}
+{#                                    <input type="text" class="form-control form-control-alternative" id="input1" name="code" placeholder="Coupon code" required>#}
+{#                                </center><br>#}
+
+                                <center>
+                                    <input type="text" class="form-control form-control-alternative" id="input2" name="description" placeholder="Description" required>
+                                </center>
+                                <center>
+                                    <input type="radio" class="form-control form-control-alternative" name="content" value="image">
+                                    <label for="image">Image</label>&nbsp;&nbsp;
+                                    <input type="radio" class="form-control form-control-alternative" name="content" value="video">
+                                    <label for="video">Video</label><br>
+                                </center>
+                                <center>
+                                    <input type="submit" class="btn btn-default"  value="Upload">
+                                </center>
+                            </form>
+                        </div><!--/ row -->
+                    </div><!--/ modal-body -->
+                </div><!--/ modal-content -->
+            </div><!--/ modal-dialog -->
+        </div><!--/ container -->
+    </section><!--/ modal -->
+</center>
+
+
+
+     <!-- ==============================================
+	 Scripts
+	 =============================================== -->
+{##}
+    <script>
+        setTimeout(function() {
+        $('#message_div').fadeOut('slow ');
+        }, 3000); // <-- time in milliseconds
+    </script>
+	<script>
+	$('#Slim,#Slim2').slimScroll({
+	        height:"auto",
+			position: 'right',
+			railVisible: true,
+			alwaysVisible: true,
+			size:"8px",
+		});
+	</script>
+{% endblock %}
+

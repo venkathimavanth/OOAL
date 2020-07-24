@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .decorators import login_required,management_required,business_required
 from django.core.mail import EmailMessage, send_mail
 from rest_framework.views import APIView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 def home(request):
@@ -109,10 +111,11 @@ def login(request):
             return render(request,'registration/login.html',{'warning':"Fill all elements"})
     return render(request,'registration/login.html',{})
 
-@login_required
+# @login_required
 def loggedinhome(request):
     print("called loggedinhome view func")
-    return render(request,'registration/loginhome.html',{'warning':"Logged in successfully"})
+    return redirect('user:userhome')
+    # return render(request,'registration/loginhome.html',{'warning':"Logged in successfully"})
 
 
 @management_required
