@@ -35,7 +35,10 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vhimareddy1999@gmail.com'
-EMAIL_HOST_PASSWORD = 'bhavana@65tinku'
+EMAIL_HOST_PASSWORD = 'myclan#2'
+
+
+
 
 
 
@@ -57,7 +60,6 @@ INSTALLED_APPS = [
     'business',
     'clans',
     'chat',
-    # 'payments',
 ]
 
 MIDDLEWARE = [
@@ -155,9 +157,3 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-PAYTM_MERCHANT_ID = 'fVZTfF42019980984447'
-PAYTM_SECRET_KEY = 'mSRZcfHj!h4#xB6s'
-PAYTM_WEBSITE = 'WEBSTAGING'
-PAYTM_CHANNEL_ID = 'WEB'
-PAYTM_INDUSTRY_TYPE_ID = 'Retail'

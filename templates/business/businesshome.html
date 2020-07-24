@@ -1,12 +1,59 @@
 {% extends 'businessuserbase.html' %}
 
+{% load static %}
+{% load staticfiles %}
+
+{% block extra_head_content  %}
+<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OOAL</title>
+		<meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <meta property="og:title" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:description" content="" />
+
+<!-- <link rel="stylesheet" href={% static "bus_booking/css/open-iconic-bootstrap.min.css" %}> -->
+		<link rel="icon" href={% static "assets/img/logo.html" %}>
+		<link rel="apple-touch-icon" href={% static "img/favicons/apple-touch-icon.html" %}>
+		<link rel="apple-touch-icon" sizes="72x72" href={% static  "img/favicons/apple-touch-icon-72x72.html" %}>
+		<link rel="apple-touch-icon" sizes="114x114" href={% static  "img/favicons/apple-touch-icon-114x114.html" %}>
+
+    <link type="text/css"  rel="stylesheet" href={% static "assets/css/demos/photo.css" %} />
+
+		<script src={% static  "assets/js/modernizr-custom.html" %}></script>
+{% endblock %}
+
+
 {% block content %}
-<section class="nav-sec" id="navbar"  style="overflow:hidden;height:20px;">
-  <div class="d-flex justify-content-between">
 
-  </div>
-</section>
+<section class="login">
+      <div class="container">
+       <div class="banner-content">
+
+        <p> Stress is an issue faced by many individuals that we work with. Time and time again, we see
+people feeling overwhelmed because of the pressures that they face as a part of modern
+life. People nowadays try to socialize themself and end up in more and more technology.
+This is an attempt to use the same technology and relieve their stress by participating in
+the real world. Out-on-a-Limb is a stress buster which provides several socializing and
+stress relieving challenges for the users. </p>
+
+       </div><!--/. banner-content -->
+      </div><!-- /.container -->
+     </section>
 
 
 
+	<script src={% static  "assets/js/jquery.min.js" %}></script>
+	<script src={% static  "assets/js/bootstrap.min.js" %}></script>
+	<script src={% static  "assets/js/base.js" %}></script>
+
+  <!-- <form method="post">
+    {% csrf_token %}
+    Name : <input type="email" name="name" required>
+    Password : <input type="password" name="password" required>
+    Re-Password : <input type="password" name="repassword" required>
+    <button type="submit" name="button">Signup</button>
+  </form> -->
 {% endblock %}

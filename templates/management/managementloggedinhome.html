@@ -71,20 +71,6 @@
 		 <ul class="nav navbar-nav">
 
 
- 		 <li class="dropdown mega-avatar">
- 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
- 		   <span class="hidden-xs">
- 		Add Challange
- 		   </span>
- 		  </a>
- 		  <div class="dropdown-menu w dropdown-menu-scale pull-right">
- 		   <a class="dropdown-item" href="{% url 'management:addchallenge' %}"><span>Daily Challange</span></a>
-			 <a class="dropdown-item" href="{% url 'management:addweeklychallenge' %}"><span>Weekly Challange</span></a>
-
-		 </div>
- 		 </li><!-- /navbar-item -->
-
-
 			 <li class="dropdown mega-avatar">
 			  <a href="{% url 'management:dailychallanges' %}" aria-expanded="true">
 			 	<span class="hidden-xs">
@@ -92,15 +78,6 @@
 			 	</span>
 			  </a>
 			 </li><!-- /navbar-item -->
-
-			 <li class="dropdown mega-avatar">
-				<a href="{% url 'management:addcatogries' %}" aria-expanded="true">
-				<span class="hidden-xs">
-						 Add Category
-				</span>
-				</a>
-			 </li><!-- /navbar-item -->
-
 
 
      <li class="dropdown mega-avatar">
@@ -118,11 +95,42 @@
       </nav><!-- /.navbar -->
      </header><!-- Page Header -->
 
-		 <section class="nav-sec" id="navbar"  style="overflow:hidden;height:20px;">
-		   <div class="d-flex justify-content-between">
 
-		   </div>
-		 </section>
+     <section class="nav-sec" id="navbar"  style="overflow:hidden;height:100px">
+       <div class="d-flex justify-content-between">
+        <div class="p-2 nav-icon-lg dark-black" >
+        <a class="nav-icon" href="#">
+       <span>Daily Challange</span>
+        </a>
+        </div>
+        <div class="p-2 nav-icon-lg clean-black" style="background-color:grey" >
+        <a class="nav-icon" href="#">
+       <span>Weekly Challanges</span>
+        </a>
+        </div>
+        <div class="p-2 nav-icon-lg dark-black" >
+        <a class="nav-icon" href="#">
+       <span>Age-Re Daily Challanges</span>
+        </a>
+        </div>
+        <div class="p-2 nav-icon-lg clean-black" style="background-color:grey">
+        <a class="nav-icon" href="#">
+       <span>Business Challanges</span>
+        </a>
+        </div>
+        <div class="p-2 nav-icon-lg dark-black" >
+        <a class="nav-icon" href="#">
+       <span>Challanges</span>
+        </a>
+        </div>
+        <div class="p-2 nav-icon-lg dark-black" style="background-color:grey">
+        <a class="nav-icon" href="#">
+       <span>#</span>
+        </a>
+        </div>
+       </div>
+     </section>
+
 
 
 
