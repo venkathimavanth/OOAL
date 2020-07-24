@@ -88,9 +88,9 @@
 
 
      <li class="dropdown mega-avatar">
-		  <a href="#" aria-expanded="true">
+		  <a href="{% url 'user:viewmyprofile' %}" aria-expanded="true">
 		   <span class="hidden-xs">
-			      About
+			      Profile
 		   </span>
 		  </a>
 		 </li><!-- /navbar-item -->
@@ -143,7 +143,8 @@
 		    <a class="nav-icon" href="{% url 'user:fun' %}" >
                 <img src="{% static 'img/favicons/output-onlinepngtools (2).png' %}" style="height: 42px;width:42px;color: white;margin-top: -5px;">
 {#                <em class="fa fa-user"></em>#}
-		   <span style="padding-top: 5px;">Fun videos</span>
+          <span style="padding-top: 5px;">Fun videos</span>
+
 		    </a>
 		    </div>
 		   </div>

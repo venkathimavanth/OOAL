@@ -33,6 +33,16 @@ class DailyChallanges(Document):
     number_of_reports = IntField(default=0)
     age_restricted=BooleanField(default=False)
     discription = StringField(max_length=1000)
+    
+class WeeklyChallanges(Document):
+    name = StringField(max_length=200)
+    created_date=DateTimeField()
+    posted_year=StringField(max_length=200)
+    posted_week=StringField(max_length=200)
+    number_of_reports = IntField(default=0)
+    age_restricted=BooleanField(default=False)
+    discription = StringField(max_length=1000)    
+
 
 class FunContent(Document):
     created_date = DateTimeField()

@@ -124,8 +124,7 @@ def fun(request):
         video = base64EncodedStr.decode('utf-8')
         all_content.append({'content': video, 'content_type': video_instance.video.content_type,
                             'is_image': video_instance.video.is_image})
-
-    # return render(request, template, {"all_content": all_content})
+         # return render(request, template, {"all_content": all_content})
     print("\nReady to render\n")
     page = request.GET.get('page', 1)
     paginator = Paginator(all_content, 2)
@@ -174,3 +173,4 @@ def stats(request):
 
 
         return render(request,template,{'all_context':all_context,'all_context2':all_context2})
+

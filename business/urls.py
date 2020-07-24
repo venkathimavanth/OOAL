@@ -13,4 +13,5 @@ urlpatterns = [
     # path('fun/',views.Fun_View.as_view(),name='fun'),
     path('fun/',views.fun,name='fun'),
     path('stats/',views.stats,name='stats'),
+
 ]

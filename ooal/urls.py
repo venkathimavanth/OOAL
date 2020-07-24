@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('business.urls')),
     path('', include('clans.urls')),
     path('', include('chat.urls')),
+    # path('', include('payments.urls')),
 ]
 
 # if settings.DEBUG:

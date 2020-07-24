@@ -75,16 +75,33 @@
 			 <div class="col-lg-3">
 {% if daily_challange %}
 				<a href="{% url 'user:dsc' %}">
-		 <div class="storybox"
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif' %}) no-repeat;
+         <div class="storybox"
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif' %}) no-repeat; 
+
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
                   -moz-background-size: cover;
                   -o-background-size: cover;">
           <div class="story-body text-center">
-           <h4>{{ daily_challange.name }}</h4>
+            <h4>{{ daily_challange.name }}</h4>
            <p>Daily Challange</p>
+          </div>
+		 </div>
+		 </a>
+{% endif %}
+{% if weekly_challange %}
+				<a href="{% url 'user:dsc' %}">
+		 <div class="storybox"
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/21.gif' %}) no-repeat;
+		          background-size: cover;
+                  background-position: center center;
+                  -webkit-background-size: cover;
+                  -moz-background-size: cover;
+                  -o-background-size: cover;">
+          <div class="story-body text-center">
+           <h4>{{ weekly_challange.name }}</h4>
+           <p>Weekly Challange</p>
           </div>
 		 </div>
 		 </a>
@@ -108,6 +125,29 @@
 		 </a>
 		 {% endfor %}
 {% endif %}
+
+
+{% if Limited_Offer %}
+{% for l in Limited_Offer %}
+<a href="{% url 'user:lo' id=l.id %}">
+<div class="storybox"
+style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/23.gif' %}) no-repeat;
+					background-position: center center;
+					-webkit-background-size: cover;
+					background-size: cover;
+					-moz-background-size: cover;
+					-o-background-size: cover;">
+	<div class="story-body text-center">
+	 <h4>{{ l.company_id }}</h4>
+	 <p>Limited Offer</p>
+	</div>
+</div>
+</a>
+{% endfor %}
+
+{% endif %}
+
+
 
 </div><!--/ col-lg-3 -->
 
@@ -166,7 +206,8 @@
 				            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
 					         <a class="dropdown-item" href="#">Hide post</a>
 							 <a class="dropdown-item" href="#">Stop following</a>
-							 <a class="dropdown-item" href="{% url 'management:report' %}?post={{ p.id }}">Report</a>
+                <a class="dropdown-item" href="{% url 'management:report' %}?post={{ p.id }}">Report</a>      
+
 				            </div>
 				           </div><!--/ dropdown -->
 				           <!-- END dropdown-->
