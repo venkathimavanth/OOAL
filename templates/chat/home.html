@@ -112,7 +112,7 @@
 			  {% if friends_list %}
 			  {% for i in friends_list %}
 			  
-			   <li class="friends" data-value="{{ i.id }}" onclick="msg_frnd(this)">
+			   <li class="friends" data-value="{{ i.id }}" onclick=msg_frnd('{{ i.id }}')>
 				<div class="user-message-details">
 				 <div class="user-message-img">
 				  <img data-src="{{ i.photo }}" src="data:image/jpeg;base64,{{ i.photo }}" class="img-responsive img-circle" alt="">
@@ -135,7 +135,7 @@
 			  <ul>
 			  {% if groups_list %}
 			  {% for i in groups_list %}
-			   <li class="active" data-value="{{ i.id }}" onclick="msg_group(this)">
+			   <li class="active" data-value="{{ i.id }}" onclick=msg_group('{{ i.id }}')>
 				<div class="user-message-details">
 				 <div class="user-message-img">
 				  <img data-src="{{ i.photo }}" src="data:image/jpeg;base64,{{ i.photo }}" class="img-responsive img-circle" alt="">
@@ -205,7 +205,7 @@
 		function msg_frnd(frndId) {
 			console.log("msg_frnd(frndId)");
 			console.log(frndId);
-			var frnd_id = frndId.getAttribute("data-value");
+			var frnd_id = frndId
 			console.log(frnd_id);
 			$.ajax({
                     type: "GET",
@@ -225,33 +225,11 @@
         	$('#conv-box').html(data)
 		}
 	</script>
-		<script>
-		function msg_re_frnd(frndId) {
-			console.log("msg_re_frnd(frndId)");
-			console.log(frndId);
-			$.ajax({
-                    type: "GET",
-                    url: "/chat/getPrivMsg/",
-                    data: { 
-                        'f_id': frndId,
-                    },
-                    success: display,
-					dataType: 'html',
-                    error: function(result) {
-                        alert('error');
-                    }
-                });
-		}
-		function display(data,textStatus,jqXHR) {
-			console.log("display")
-        	$('#conv-box').html(data)
-		}
-	</script>
 
 	<script>
 		function msg_group(grpId) {
 			console.log("msg_group(grpId)");
-			var grp_id = grpId.getAttribute("data-value");
+			var grp_id = grpId; 
 			$.ajax({
                     type: "GET",
                     url: "/chat/getGrpMsg/",
