@@ -535,7 +535,16 @@ def viewmyprofile(request):
     if ae:
         pe,profile=get_userprofile(request,user["id"])
         if pe:
-            return render(request,"user/viewmyprofile.html",{"profile":profile,"email":user["email"]})
+            temp={"profile":profile,"email":user["email"]}
+            photo= profile["photo"].grid_id
+            col = db.images.chunks.find({"files_id":photo})
+            my_string = base64.b64encode(col[0]["data"])
+            my_string=my_string.decode('utf-8')
+            temp["photo"] = my_string
+            temp["posts_count"] = len(profile["myposts"])
+            temp["friends"] = len(profile["friends"])
+            temp["sfriends"]=returnSuggestedFriends(request)
+            return render(request,"user/viewmyprofile.html",temp)
     return redirect("user_auth:loggedinhome")
 
 
