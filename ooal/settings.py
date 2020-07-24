@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'business',
     'clans',
     'chat',
+    # 'payments',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,9 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PAYTM_MERCHANT_ID = 'fVZTfF42019980984447'
+PAYTM_SECRET_KEY = 'mSRZcfHj!h4#xB6s'
+PAYTM_WEBSITE = 'WEBSTAGING'
+PAYTM_CHANNEL_ID = 'WEB'
+PAYTM_INDUSTRY_TYPE_ID = 'Retail'
