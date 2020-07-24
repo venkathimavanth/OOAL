@@ -1,7 +1,7 @@
 from mongoengine import connect,ObjectIdField,BooleanField,DateTimeField,StringField,IntField,ListField,ImageField,Document
 from datetime import datetime
 
-connect('EAD_OOAL')
+connect("EAD_OOAL")
 
 class Message(Document):
     msg = StringField()

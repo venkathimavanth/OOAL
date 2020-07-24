@@ -1,4 +1,5 @@
 from django.shortcuts import render,render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
 from user_auth.decorators import *
 from user_auth.models import *
 from management.models import *
@@ -28,6 +29,11 @@ def get_userprofile(request,id):
         got=True
     return (got,prof)
 
+@login_required
+def userhome(request):
+    print("called userhome view func in user app")
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
 
     if request.method == "POST":
         if "tought" in request.POST :
@@ -481,7 +487,7 @@ def findfriends(request):
     profile = Profile.objects.get(id = user["profileid"])
     content=list()
     for h in User.objects.all()[:16]:
-        if h["id"] == user["id"]:
+        if h["id"] == user["id"] or h["id"] in profile["friends"]:
             continue
         f = h["id"]
         temp=dict()
@@ -503,12 +509,51 @@ def findfriends(request):
     return render(request,"user/findfriends.html",{"content":content})
 
 
+def returnSuggestedFriends(request):
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+    content=list()
+    for h in User.objects.all()[:8]:
+        if h["id"] == user["id"] or h["id"] in profile["friends"]:
+            continue
+        f = h["id"]
+        temp=dict()
+        reqby = User.objects.get(id=f)
+        reqbyprof = Profile.objects.get(user_id=f)
+        temp["name"] = reqbyprof["name"]
+        temp["discription"] = reqbyprof["discription"]
+        try:
+            temp["discription"] = temp["discription"][:40] + "....."
+        except:
+            pass
+        temp["email"] = reqby["email"]
+        photo= reqbyprof["photo"].grid_id
+        col = db.images.chunks.find({"files_id":photo})
+        my_string = base64.b64encode(col[0]["data"])
+        temp["photo"] = my_string.decode('utf-8')
+        content.append(temp)
+    return content
 
 @login_required
 def viewprofile(request,email):
     print("called viewprofile view func")
     e,u = check_user_exists(request,email)
     ae,user=check_user_exists(request,request.session["username"])
+    message=""
+    if request.method == "POST":
+        x=abusive_detect_main(request.POST["discription"])
+        if int(x) in [3,4]:
+            message = "Your Challange Is Harmfull"
+        else:
+            f = FriendToFriend(
+                user_id =  user["id"],
+                created_date=datetime.datetime.now(),
+                name = request.POST["name"],
+                discription = request.POST["discription"],
+            ).save()
+            profile1=Profile.objects.get(id=u["profileid"])
+            profile1['accepted_chall'].append(f["id"])
+            profile1.save()
     if e and ae and u["profile_created"] and user["profile_created"] and ( u["id"] != user["id"] ):
         profile1=Profile.objects.get(id=u["profileid"])
         profile2=Profile.objects.get(id=user["profileid"])
@@ -534,6 +579,7 @@ def viewprofile(request,email):
             "email" : u["email"],
             "photo" : my_string.decode('utf-8'),
             "friends" : friends,
+            "message":message
         }
         return render(request,"user/viewprofile.html",context)
     return redirect("user:friends")

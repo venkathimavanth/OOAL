@@ -10,7 +10,7 @@ class User(Document):
     email_verified=BooleanField(default=False)
     profile_created=BooleanField(default=False)
     user_type = StringField(max_length=10)
-    profileid=  ObjectIdField(unique = True)
+    profileid=  ObjectIdField()
 
 
 
@@ -40,3 +40,5 @@ class Profile(Document):
     cupons=ListField(ObjectIdField())
     clans_registered = ListField(ObjectIdField())
     messages = ListField(ObjectIdField())
+    myposts=ListField(ObjectIdField())
+    myfeed=ListField(ObjectIdField())

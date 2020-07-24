@@ -3,14 +3,14 @@ from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,Fil
 connect("EAD_OOAL")
 
 class CategoryModel(Document):
-    category_name = StringField(max_length=200,unique=True)
+    category_name = StringField(max_length=200)
 
 class ChallangeTypeModel(Document):
-    challange_type_model = StringField(max_length=200,unique=True)
+    challange_type_model = StringField(max_length=200)
 
 
 class TypeOfSubmissionModel(Document):
-    type_of_submission = StringField(max_length=200,unique=True)
+    type_of_submission = StringField(max_length=200)
 
 
 class Challange(Document):
