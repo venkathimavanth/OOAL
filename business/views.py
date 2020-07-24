@@ -4,9 +4,7 @@ from business.models import *
 from user_auth.decorators import business_required
 import csv,io,datetime
 from django.contrib import messages
-from django.http import HttpResponse
 import base64
-from django.views.generic.list import ListView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from pymongo import MongoClient
 mongo_client = MongoClient()
@@ -82,30 +80,8 @@ def perminent_coupons(request):
     else:
         return render(request,template)
 
-@business_required
-def video_check(request):
-    template = 'business/video_upload.html'
-    if request.method == 'POST':
-        print('\nPOST')
-        if 'file' in request.FILES and 'name' in request.POST and 'content' in request.POST:
-            print('Correct request')
-            name = request.POST['name']
-            content = request.POST['content']
-            file = request.FILES['file']
-            if content == 'image':
-                content_type = 'image/jpeg'
-                is_image = True
-            else:
-                content_type = 'video/mp4'
-                is_image = False
-            instance = Video_Check(video_name = name).save()
-            instance.video.put(file,content_type=content_type,is_image=is_image)
-            instance.save()
-            return HttpResponse('Content Uploaded sucessfully :) !!!!!!!!!')
-        else:
-            print('Wrong request')
-    else:
-        return render(request,template)
+# @business_required
+
 # @business_required
 def video_view(request):
     template = 'business/test.html'

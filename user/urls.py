@@ -18,4 +18,5 @@ urlpatterns = [
     path('viewmyprofile/', views.viewmyprofile ,name='viewmyprofile'),
     path('challanges/', views.challanges ,name='challanges'),
     path('userhome/', views.userhome ,name='userhome'),
+    path('fun/',views.fun_view, name='fun'),
 ]

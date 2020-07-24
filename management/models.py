@@ -1,4 +1,4 @@
-from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
+from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,FileField,ImageField,DateTimeField, BooleanField, Document
 
 connect("EAD_OOAL")
 
@@ -33,3 +33,15 @@ class DailyChallanges(Document):
     number_of_reports = IntField(default=0)
     age_restricted=BooleanField(default=False)
     discription = StringField(max_length=1000)
+
+class FunContent(Document):
+    created_date = DateTimeField()
+    created_user= ObjectIdField()
+    content = FileField()
+    description = StringField(max_length=1000)
+
+class Report(Document):
+    user_id = ObjectIdField
+    time = DateTimeField
+    post_id = ObjectIdField
+    problem = StringField(max_length=1000)

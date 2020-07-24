@@ -4,7 +4,6 @@ connect("EAD_OOAL")
 
 
 
-
 class Post(Document):
     user_id =  ObjectIdField()
     user_photo = ImageField()
