@@ -742,7 +742,9 @@ def exitClan(request, clan_id):
     
     return render(request,'clans/clans.html',{"clans1": clans1})
 
-
+@login_required
+def submit_form(request,challange_id):
+    return render(request,'clans/submit_challange.html',{"challange_id":challange_id})
 
 
 
