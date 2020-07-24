@@ -1,29 +1,90 @@
 
 {% extends 'loggedinbase.html' %}
 
+{% load static %}
+{% load staticfiles %}
 
 
+{% block extra_head_content %}
+<style>
+	.upload-btn-wrapper {
+		position: relative;
+		overflow: hidden;
+		display: inline-block;
+	}
 
+	/* .btn { */
+		/* border: 2px solid gray; */
+		/* color: gray; */
+		/* background-color: white; */
+		/* padding: 8px 20px; */
+		/* border-radius: 8px; */
+		/* font-size: 20px; */
+		/* font-weight: bold; */
+	/* } */
+
+	.upload-btn-wrapper input[type=file] {
+		font-size: 100px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		opacity: 0;
+	}
+	@keyframes spinneran {
+			0% {
+					transform: translate3d(-50%, -50%, 0) rotate(0deg);
+			}
+			100% {
+					 transform: translate3d(-50%, -50%, 0) rotate(360deg);
+			}
+	}
+	.spinner1 {
+
+			height: 60px;
+			opacity: 1;
+			position: relative;
+			transition: opacity linear 0.1s;
+
+	}
+	.spinner1::before {
+					animation: 2s linear infinite spinneran;
+					border: solid 3px white;
+					border-bottom-color: #EF6565;
+					border-radius: 50%;
+					content: "";
+					height: 40px;
+					left: 50%;
+					opacity: inherit;
+					position: absolute;
+					top: 50%;
+					transform: translate3d(-50%, -50%, 0);
+					transform-origin: center;
+					width: 40px;
+					will-change: transform;
+			}
+	</style>
+
+
+{% endblock %}
 
 {% block content %}
 
 <section class="newsfeed">
 	  <div class="container-fluid">
 	   <div class="row">
-	    <div class="col-lg-3">
-
-		 <a href="#">
+			 <div class="col-lg-3">
+{% if daily_challange %}
+				<a href="{% url 'user:dsc' %}">
 		 <div class="storybox"
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url('assets/img/posts/2.gif') no-repeat;
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif' %}) no-repeat;
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
                   -moz-background-size: cover;
                   -o-background-size: cover;">
           <div class="story-body text-center">
-           <div class=""><img class="img-circle" src="assets/img/users/10.jpg" alt="user"></div>
-           <h4>Clifford Graham</h4>
-           <p>2 hours ago</p>
+           <h4>{{ daily_challange.name }}</h4>
+           <p>Daily Challange</p>
           </div>
 		 </div>
 		 </a>
@@ -45,18 +106,19 @@
 		 </a>
 {% endif %}
 
-		 <a href="#">
+{% if ftf %}
+	{% for f in ftf %}
+				<a href="{% url 'user:ftf' id=f.id %}">
 		 <div class="storybox"
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url('assets/img/posts/3.gif') no-repeat;
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/2.gif' %}) no-repeat;
 		          background-size: cover;
                   background-position: center center;
                   -webkit-background-size: cover;
                   -moz-background-size: cover;
                   -o-background-size: cover;">
           <div class="story-body text-center">
-           <div class=""><img class="img-circle" src="assets/img/users/13.jpg" alt="user"></div>
-           <h4>Eleanor Harper</h4>
-           <p>4 hours ago</p>
+           <h4>{{ f.name }}</h4>
+           <p>Friendly Challange</p>
           </div>
 		 </div>
 		 </a>
@@ -309,355 +371,30 @@ style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), u
 						 </div>
 						 {% endif %}
 
-		 <a href="#">
-		 <div class="storybox"
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url('assets/img/posts/4.jpg') no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src="assets/img/users/12.jpg" alt="user"></div>
-           <h4>Sean Coleman</h4>
-           <p>5 hours ago</p>
-          </div>
-		 </div>
-		 </a>
-
-		 <a href="#">
-		 <div class="storybox"
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url('assets/img/posts/15.jpg') no-repeat;
-		          background-size: cover;
-                  background-position: center center;
-                  -webkit-background-size: cover;
-                  -moz-background-size: cover;
-                  -o-background-size: cover;">
-          <div class="story-body text-center">
-           <div class=""><img class="img-circle" src="assets/img/users/15.jpg" alt="user"></div>
-           <h4>Vanessa Wells</h4>
-           <p>5 hours ago</p>
-          </div>
-		 </div>
-		 </a>
-
-        <div class="trending-box hidden-xs hidden-md">
-		 <div class="row">
-		  <div class="col-lg-12">
-		    <a href="photo_stories.html"><h4>More stories</h4></a>
-		  </div>
-		 </div>
-        </div>
-
-		</div><!--/ col-lg-3 -->
-	    <div class="col-lg-6">
-
-         <div class="cardbox">
-
-          <div class="cardbox-heading">
-           <!-- START dropdown-->
-           <div class="dropdown pull-right">
-            <button class="btn btn-secondary btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-		     <em class="fa fa-ellipsis-h"></em>
-			</button>
-            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-	         <a class="dropdown-item" href="#">Hide post</a>
-			 <a class="dropdown-item" href="#">Stop following</a>
-			 <a class="dropdown-item" href="#">Report</a>
-            </div>
-           </div><!--/ dropdown -->
-           <!-- END dropdown-->
-           <div class="media m-0">
-            <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src="assets/img/users/18.jpg" alt="User"></a>
-			</div>
-            <div class="media-body">
-             <p class="m-0">Benjamin Robinson</p>
-			 <small><span>10 hours ago</span></small>
-            </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src="assets/img/posts/1.jpg" alt="MaterialImg">
-		   </a>
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src="assets/img/users/1.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/2.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/3.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/4.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/5.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/7.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/8.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/9.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/10.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->
-
-		 </div><!--/ cardbox -->
-
-         <div class="cardbox">
-
-          <div class="cardbox-heading">
-           <!-- START dropdown-->
-           <div class="dropdown pull-right">
-            <button class="btn btn-secondary btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-		     <em class="fa fa-ellipsis-h"></em>
-			</button>
-            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-	         <a class="dropdown-item" href="#">Hide post</a>
-			 <a class="dropdown-item" href="#">Stop following</a>
-			 <a class="dropdown-item" href="#">Report</a>
-            </div>
-           </div><!--/ dropdown -->
-           <!-- END dropdown-->
-           <div class="media m-0">
-            <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src="assets/img/users/7.jpg" alt="User"></a>
-			</div>
-            <div class="media-body">
-             <p class="m-0">Vanessa Wells</p>
-			 <small><span>12 hours ago</span></small>
-            </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src="assets/img/posts/5.jpg" alt="MaterialImg">
-		   </a>
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src="assets/img/users/1.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/2.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/3.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/4.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/5.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/7.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/8.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/9.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/10.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->
-
-		 </div><!--/ cardbox -->
-
-         <div class="cardbox">
-
-          <div class="cardbox-heading">
-           <!-- START dropdown-->
-           <div class="dropdown pull-right">
-            <button class="btn btn-secondary btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-		     <em class="fa fa-ellipsis-h"></em>
-			</button>
-            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-	         <a class="dropdown-item" href="#">Hide post</a>
-			 <a class="dropdown-item" href="#">Stop following</a>
-			 <a class="dropdown-item" href="#">Report</a>
-            </div>
-           </div><!--/ dropdown -->
-           <!-- END dropdown-->
-           <div class="media m-0">
-            <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src="assets/img/users/2.jpg" alt="User"></a>
-			</div>
-            <div class="media-body">
-             <p class="m-0">Alex Grantte</p>
-			 <small><span>12 hours ago</span></small>
-            </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src="assets/img/posts/14.jpg" alt="MaterialImg">
-		   </a>
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src="assets/img/users/1.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/2.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/3.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/4.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/5.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/7.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/8.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/9.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/10.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->
-
-		 </div><!--/ cardbox -->
-
-         <div class="cardbox">
-
-          <div class="cardbox-heading">
-           <!-- START dropdown-->
-           <div class="dropdown pull-right">
-            <button class="btn btn-secondary btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-		     <em class="fa fa-ellipsis-h"></em>
-			</button>
-            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-	         <a class="dropdown-item" href="#">Hide post</a>
-			 <a class="dropdown-item" href="#">Stop following</a>
-			 <a class="dropdown-item" href="#">Report</a>
-            </div>
-           </div><!--/ dropdown -->
-           <!-- END dropdown-->
-           <div class="media m-0">
-            <div class="d-flex mr-3">
-			 <a href="#"><img class="img-responsive img-circle" src="assets/img/users/9.jpg" alt="User"></a>
-			</div>
-            <div class="media-body">
-             <p class="m-0">Anna Morgan</p>
-			 <small><span>13 hours ago</span></small>
-            </div>
-           </div><!--/ media -->
-          </div><!--/ cardbox-heading -->
-
-		  <div class="cardbox-item">
-		   <a href="#myModal" data-toggle="modal">
-		    <img class="img-responsive" src="assets/img/posts/18.jpg" alt="MaterialImg">
-		   </a>
-          </div><!--/ cardbox-item -->
-	      <div class="cardbox-base">
-		   <ul>
-			<li><a href="#"><img src="assets/img/users/1.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/2.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/3.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/4.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/5.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/6.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/7.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/8.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/9.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		    <li><a href="#"><img src="assets/img/users/10.jpg" class="img-responsive img-circle" alt="User"></a></li>
-		   </ul>
-		  </div><!--/ cardbox-base -->
-          <div class="cardbox-like">
-		   <ul>
-			<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
-		   </ul>
-          </div><!--/ cardbox-like -->
-
-		 </div><!--/ cardbox -->
-
 		</div><!--/ col-lg-6 -->
+
+
 		<div class="col-lg-3">
 
          <div class="suggestion-box full-width">
 			<div class="suggestions-list">
+
+				{% if sfriends %}
+				{% for sf in sfriends %}
 				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/17.jpg" alt="Image">
+					<img class="img-responsive img-circle" src="data:image/jpeg;base64,{{ sf.photo }}" alt="Image">
 					<div class="name-box">
-						<h4>Anthony McCartney</h4>
-						<span>@antony</span>
+						<h4>{{ sf.name }}</h4>
+						<span>{{ sf.email }}</span>
 					</div>
-					<span><i class="fa fa-plus"></i></span>
+					<span id="{{ sf.email }}" onclick="fun1(this)"><i class="fa fa-eye"></i></span>
 				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/16.jpg" alt="Image">
-					<div class="name-box">
-						<h4>Sean Coleman</h4>
-						<span>@sean</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/14.jpg" alt="Image">
-					<div class="name-box">
-						<h4>Francis Long</h4>
-						<span>@francis</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/11.jpg" alt="Image">
-					<div class="name-box">
-						<h4>Vanessa Wells</h4>
-						<span>@vannessa</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/9.jpg" alt="Image">
-					<div class="name-box">
-						<h4>Anna Morgan</h4>
-						<span>@anna</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
-				<div class="suggestion-body">
-					<img class="img-responsive img-circle" src="assets/img/users/8.jpg" alt="Image">
-					<div class="name-box">
-						<h4>Clifford Graham</h4>
-						<span>@clifford</span>
-					</div>
-					<span><i class="fa fa-plus"></i></span>
-				</div>
+				{% endfor %}
+				{% endif %}
 			</div><!--suggestions-list end-->
 		</div>
 
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-12">
-		    <h4>Trending Photos</h4>
-		  </div>
-		 </div>
-        </div>
 
-        <div class="trending-box">
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/17.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/12.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/21.gif" class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/23.gif" class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-		 <div class="row">
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/11.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		  <div class="col-lg-6">
-		   <a href="#"><img src="assets/img/posts/20.jpg" class="img-responsive" alt="Image"/></a>
-		  </div>
-		 </div>
-        </div>
 
 
 		</div>
