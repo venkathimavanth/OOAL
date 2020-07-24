@@ -2,7 +2,10 @@ from django.shortcuts import render,render_to_response
 from user_auth.decorators import *
 from management.models import *
 from user_auth.models import *
-import datetime
+import datetime,base64
+from django.contrib import messages
+from user.models import Post
+
 # Create your views here.
 
 @management_required
@@ -95,11 +98,129 @@ def managementhome(request):
     print("called management:managementhome view func")
     return render(request,'management/managementhome.html',{'warning':"Logged in successfully"})
 
+@management_required
+def fun_upload(request):
+    template = 'management/fun_upload.html'
+    if request.method == 'POST':
+        print('\nPOST')
+        if 'file' in request.FILES and 'content' in request.POST and 'description' in request.POST:
+            print('Correct request')
+            description = request.POST['description']
+            content = request.POST['content']
+            file = request.FILES['file']
+            if content == 'image':
+                content_type = 'image/jpeg'
+                is_image = True
+            else:
+                content_type = 'video/mp4'
+                is_image = False
+            created_date = datetime.datetime.now()
+            created_user = User.objects.get(email=request.session["username"])["id"]
+            instance = FunContent(description = description,created_date=created_date,created_user=created_user).save()
+            instance.content.put(file,content_type=content_type,is_image=is_image)
+            instance.save()
+            messages.success(request, 'Post sucessfully uploaded')
+            return render(request,template)
+        else:
+            messages.error(request, 'Please fill all the feilds')
+            return render(request, template)
+    else:
+        return render(request,template)
+
+@management_required
+def report_portal(request):
+    template = 'management/report_portal.html'
+    # return  render(request,template)
+    if request.method == 'POST':
+        id=request.POST['id']
+        button = request.POST['button']
+        # print("\n",id,button)
+        if button == 'delete':
+            report=Report.objects.filter(post_id=id).first()
+            report.delete()
+            post=Post.objects.filter(id=id).first()
+            post.delete()
+
+            return redirect('management:report_view')
+        if button == 'accept':
+            report = Report.objects.filter(post_id=id).first()
+            report.delete()
+            return redirect('management:report_view')
+    else:
+        context={}
+        all_context=[]
+        all_reports = Report.objects.all()
+        for report in all_reports:
+            user_id = report.user_id
+            prof = Profile.objects.filter(user_id=user_id).first()
+            post_id = report.post_id
+            post = Post.objects.filter(id=post_id).first()
+            img = post.content.read()
+            imgbase64EncodedStr = base64.b64encode(img)
+            img = imgbase64EncodedStr.decode('utf-8')
+            context['name']=prof.name
+            context['time']=report.time
+            context['problem']=report.problem
+            context['img']=img
+            context['post_id']=post_id
+            all_context.append(context)
+
+        return render(request, template, {'all_context':all_context})
+    # for report in all_reports:
 
 
 
 
+  
+def addcatogries(request):
+    if request.method == "POST":
+        category_name=request.POST["category"]
+        name = request.POST["name"]
+        print(category_name)
+        if category_name == "CategoryModel":
+                c=CategoryModel(category_name=name)
+                c.save()
+        elif category_name == "ChallangeTypeModel":
+                c=ChallangeTypeModel(challange_type_model=name)
+                c.save()
+        elif category_name == "TypeOfSubmissionModel":
+                c=TypeOfSubmissionModel(type_of_submission=name)
+                c.save()
+    return render(request,'management/addcatogries.html',{})  
 
+
+def report(request):
+    template = 'management/get_report.html'
+    if request.method == 'POST':
+        if 'problem' in request.POST :#and 'post_id' in request.POST:
+            post_id = request.GET.get('post')
+            post = Post.objects.filter(id=post_id).first()
+            # print('\ngot1234', post_id)
+            problem = request.POST['problem']
+            # post_id = request.POST['post_id']
+            created_date = datetime.datetime.now()
+            created_user = User.objects.get(email=request.session["username"])["id"]
+            # print("\n",problem,post_id,created_date,created_user,"\n")
+            report = Report(problem = problem,user_id = created_user,time = created_date,post_id = post.id).save()
+            report.save()
+            # return render(request,'management/after_report.html')
+            return HttpResponse('Reported !!')
+        # else:
+        #     messages.error('Please fill all feilds')
+        #     return render(request,'management/after_report.html')
+    else:
+        
+        post_id = request.GET.get('post')
+        # print('\ngot',post_id)
+        post = Post.objects.filter(id = post_id).first()
+        # print('id',post.id)
+        post_img = post.content.read()
+        imgbase64EncodedStr = base64.b64encode(post_img)
+        post_img = imgbase64EncodedStr.decode('utf-8')
+        # context = {'post_img':post_img}
+        # print(context)
+        return render(request,template,{'post_img':post_img})
+    # pass
 # def temp(request):
 #     print("oyyeoyye")
 #     obj=DailyChallanges(

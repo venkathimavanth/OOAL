@@ -12,10 +12,10 @@
         <div class="conversation-header">
             <div class="user-message-details">
                 <div class="user-message-img">
-                    <img data-src="{{ group_details.photo }}" src="data:image/jpeg;base64,{{ group_details.photo }}" class="img-responsive img-circle" alt="">
+                    <img data-src="{{ frnd_photo }}" src="data:image/jpeg;base64,{{ frnd_photo }}" class="img-responsive img-circle" alt="">
                 </div>
                 <div class="user-message-info">
-                    <h4>{{ group_details.name }}</h4>
+                    <h4>{{ friend }}</h4>
                     <p>Online</p>
                 </div><!--/ user-message-info -->
             </div><!--/ user-message-details -->
@@ -23,17 +23,17 @@
         </div><!--/ conversation-header -->
 
         <div class="conversation-container box-full">
-            {% for c in group_msgs %}
-            {% if c.sender == uid %}
+            {% for c in messages %}
+            {% if c.sender == my_id %}
                 <div class="convo-box pull-right">
                     <div class="convo-area">
                         <div class="convo-message">
-                            <p>{{ c.msg }}</p>
+                            <p>{{ c.message }}</p>
                         </div><!--/ convo-message-->
                         <span>{{ c.createdAt }}</span>
                     </div><!--/ convo-area -->
                     <div class="convo-img">
-                        <img  src="data:image/jpeg;base64,{{ group_details.photo }}" class="img-responsive img-circle" alt="">
+                        <img  src="data:image/jpeg;base64,{{ my_photo }}" class="img-responsive img-circle" alt="">
                     </div><!--/ convo-img -->
                 </div><!--/ convo-box -->
             
@@ -42,12 +42,12 @@
                 <div class="convo-box convo-left">
                     <div class="convo-area convo-left">
                         <div class="convo-message">
-                            <p>{{ c.msg }}</p>
+                            <p>{{ c.message }}</p>
                         </div><!--/ convo-message-->
                         <span>{{ c.createdAt }}</span>
                     </div><!--/ convo-area -->
                     <div class="convo-img">
-                        <img  src="data:image/jpeg;base64,{{ group_details.photo }}" class="img-responsive img-circle" alt="">
+                        <img  src="data:image/jpeg;base64,{{ frnd_photo }}" class="img-responsive img-circle" alt="">
                     </div><!--/ convo-img -->
                 </div><!--/ convo-box -->
             {% endif %}
@@ -56,14 +56,16 @@
             
 
         <form id="compose_msg_form">
+                {% csrf_token %}
+
             <div class="type_messages">  
                 <div class="input-field">
-                    <textarea id="msg" placeholder="Type something &amp; press enter" onkeyup="manage(this)" ></textarea>
+                    <textarea id="msg" placeholder="Type something &amp; press enter" onkeyup="priv_manage(this)" ></textarea>
                     <ul class="imoji">
-                        <button id="send_btn" type="submit" class="send-btn" disabled ><i class="fa fa-paper-plane"></i></button>
-                        <button id="send_btn" class="send-btn" ><i class="fa fa-smile" ></i></button>
-                        <button id="send_btn" class="send-btn" ><i class="fa fa-image"></i></button>
-                        <button id="send_btn" class="send-btn" ><i class="fa fa-paperclip"></i></button>
+                        <button id="priv_send_btn" type="submit" class="send-btn" disabled ><i class="fa fa-paper-plane"></i></button>
+                        <button id="send_btn1" class="send-btn" ><i class="fa fa-smile" ></i></button>
+                        <button id="send_btn2" class="send-btn" ><i class="fa fa-image"></i></button>
+                        <button id="send_btn3" class="send-btn" ><i class="fa fa-paperclip"></i></button>
                     </ul><!--/ imoji -->
                 </div><!--/ input-field -->
             </div><!--/ type_messages -->	
@@ -71,5 +73,30 @@
                         
     </div><!--main-conversation-box end-->
 </div><!--/ col-lg-8 -->
+	<script>
+
+		$("#priv_send_btn").click(function(e){
+
+			e.preventDefault();
+			console.log('send-send_btn')
+			var c_id = '{{ friend_id }}'
+            console.log(c_id)
+			$.ajax({
+				type: 'POST',
+				url: '/chat/sendPrivMsg/',
+				data:{
+					'msg': $('#msg').val(),
+					'f_id': c_id,
+					'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val(),
+
+				},
+				success: msg_frnd(c_id),
+				error: function(result) {
+                        alert('error');
+                    }
+			});
+		});
+
+	</script>
 
 </html>

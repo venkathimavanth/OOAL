@@ -1,7 +1,6 @@
-from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
+from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document,FileField
 
 connect("EAD_OOAL")
-
 
 
 
@@ -15,8 +14,7 @@ class Post(Document):
     isvideo = BooleanField(default=False)
 
     text = StringField(max_length=200)
-    image = ImageField()
-    video = StringField(max_length=200)
+    content =  FileField()
 
     ischallenge = BooleanField(default=False)
     challegetype=StringField(max_length=200)
@@ -27,3 +25,17 @@ class Post(Document):
 
     likes=ListField(ObjectIdField())
     comments=ListField(ObjectIdField())
+
+class Comment(Document):
+    message = StringField()
+    owner = ObjectIdField()
+    reports = IntField(default=0)
+    reportedBy = ListField(ObjectIdField())
+
+
+class FriendToFriend(Document):
+    user_id =  ObjectIdField()
+    created_date=DateTimeField()
+    age_restricted=BooleanField(default=False)
+    name = StringField(max_length=200)
+    discription = StringField(max_length=1000)
