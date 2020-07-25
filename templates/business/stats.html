@@ -185,7 +185,9 @@
                 </div><!--/ container -->
             </section><!--/ modal -->
         {% endfor %}
-    {% endif %}
+        {% else %}
+            <p style="text-align: center;padding-top: 80px;">No stats Found</p>
+        {% endif %}
 </center>
 
 
@@ -209,4 +211,3 @@
 		});
 	</script>
 {% endblock %}
-

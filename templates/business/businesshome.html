@@ -1,5 +1,31 @@
 {% extends 'businessuserbase.html' %}
+{% load static %}
+{% load staticfiles %}
+{% block extra_head_content %}
+    <style>
+        body    {
+            background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('{% static 'business/business.jpg' %}');
+            -webkit-background-size: cover;
+            -moz-background-size:  cover;
+            -o-background-size: cover;
+            background-size: cover;
+            {#height: 100%;#}
+            {#width: 100%;#}
 
+        }
+        .content{
+                margin-top: 200px;
+                padding: 5px;
+                text-align: center;
+        }
+        .content p{
+            font-family: 'Helvetica Neue', serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #fff;
+        }
+    </style>
+{% endblock extra_head_content %}
 {% block content %}
 <section class="nav-sec" id="navbar"  style="overflow:hidden;height:20px;">
   <div class="d-flex justify-content-between">
@@ -7,6 +33,11 @@
   </div>
 </section>
 
+<div class="content" >
+    <p>Welcome to OOAL</p><br>
+    <p>Improve your business through promotions</p>
+
+</div>
 
 
 {% endblock %}

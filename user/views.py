@@ -269,7 +269,7 @@ def single_post(request):
             comments.append(temp1)
         count = len(comments)
         print('-------------------------',po["is_liked_by_curr_user"])
-        return render(request, 'registration/modal.html', {'myphoto': my_photo,'post': po, 'comments': comments, 'count': count})
+        return render(request, 'registration/modal.html', {'post': po, 'comments': comments, 'count': count})
     else:
         return HttpResponse("failure")
 
@@ -606,26 +606,29 @@ def returnSuggestedFriends(request):
     profile = Profile.objects.get(id = user["profileid"])
     content=list()
     for h in User.objects.all()[:8]:
-        if h["id"] == user["id"] or h["id"] in profile["friends"]:
-            continue
-        f = h["id"]
-        temp=dict()
-        reqby = User.objects.get(id=f)
-        reqbyprof = Profile.objects.get(user_id=f)
-        temp["name"] = reqbyprof["name"]
-        temp["discription"] = reqbyprof["discription"]
         try:
-            temp["discription"] = temp["discription"][:40] + "....."
+            if h["id"] == user["id"] or h["id"] in profile["friends"]:
+                continue
+            f = h["id"]
+            temp=dict()
+            reqby = User.objects.get(id=f)
+            reqbyprof = Profile.objects.get(user_id=f)
+            temp["name"] = reqbyprof["name"]
+            temp["discription"] = reqbyprof["discription"]
+            try:
+                temp["discription"] = temp["discription"][:40] + "....."
+            except:
+                pass
+            temp["email"] = reqby["email"]
+
+            photo= reqbyprof["photo"].read()
+            my_string = base64.b64encode(photo)
+            my_string=my_string.decode('utf-8')
+
+            temp["photo"] = my_string
+            content.append(temp)
         except:
             pass
-        temp["email"] = reqby["email"]
-
-        photo= reqbyprof["photo"].read()
-        my_string = base64.b64encode(photo)
-        my_string=my_string.decode('utf-8')
-
-        temp["photo"] = my_string
-        content.append(temp)
     return content
 
 @login_required

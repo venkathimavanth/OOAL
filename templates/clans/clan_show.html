@@ -116,7 +116,7 @@
 
 
          <div class="cardbox">
-		 
+
           <div class="cardbox-heading">
            <!-- START dropdown-->
            <div class="dropdown pull-right">
@@ -136,7 +136,7 @@
 			</div>
             <div class="media-body">
              <p class="m-0">{{ c.owner }}</p>
-			 <small><span>10 hours ago</span></small>
+			 <small><span>0 hours ago</span></small>
             </div>
 
            </div><!--/ media -->
@@ -150,8 +150,8 @@
 
 		  <div class="cardbox-item">
 		   <a href="#myModal"   data-toggle="modal">
-		    <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" alt="MaterialImg">
-		   </a> 
+		    <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" style="width:100%" alt="MaterialImg">
+		   </a>
           </div><!--/ cardbox-item -->
 		  </div>
           <div class="cardbox-like">
@@ -164,7 +164,7 @@
 			    <li><a href="{% url 'community:clan-like' c.id %}"><i class="fa fa-heart-o" ></i></a><span> {{c.likes}}</span></li>
 			{% endif %}
 
-		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
+		    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 3</span></li>
 
 		   </ul>
           </div><!--/ cardbox-like -->
@@ -174,9 +174,9 @@
       <div id='loadModal' class="modal-dialog">
        <div class="modal-content">
         <div class="modal-body">
-		
+
          <div class="row">
-		 
+
           <div class="col-md-8 modal-image">
            <img class="img-responsive" src="data:image/jpeg;base64,{{ c.photo }}" alt="Image"/>
           </div><!--/ col-md-8 -->
@@ -191,7 +191,7 @@
              <span>12 minutes ago</span><br/>
 		     <a href="#" class="kafe kafe-btn-mint-small"><i class="fa fa-check-square"></i> Following</a>
             </div><!--/ img-poster -->
-			  
+
             <ul class="img-comment-list">
              <li>
               <div class="comment-img">
@@ -239,7 +239,7 @@
               </div>
              </li><!--/ li -->
             </ul><!--/ comment-list -->
-			  
+
             <div class="modal-meta-bottom">
 			 <ul>
 			  <li>
@@ -254,29 +254,29 @@
 			   	{% comment %} <div class="comment-body">
 			   		<form id='compose-comment-form'>
 					   {% csrf_token %}
-					   
+
 					   <input id='comment' class="form-control input-sm" style="float:left" type="text" placeholder="Write your comment..."/>
 					   <input id="cmnt-btn" type="submit" hidden />
 					   <input id="post-id" value= {{ c.id }} hidden/>
 
-					   
+
 
 					</form>
 			   	</div><!--/ comment-body -->	 {% endcomment %}
-              </li>				
-             </ul>				
+              </li>
+             </ul>
             </div><!--/ modal-meta-bottom -->
-			  
+
            </div><!--/ modal-meta-top -->
           </div><!--/ col-md-4 -->
-		  
+
          </div><!--/ row -->
         </div><!--/ modal-body -->
-		
+
        </div><!--/ modal-content -->
       </div><!--/ modal-dialog -->
      </div><!--/ modal -->
-	
+
 
 
 		{% endfor %}
@@ -346,8 +346,13 @@
                             <h5><span class="glyphicon glyphicon-plus"></span> Community Calendar</h5>
                             </div>
                             <div class="modal-body" style="padding:40px 50px;">
-								<div id="calendar"class="col-lg-18"></div>
-								<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+                                <div class="ui container">
+                                    <div class="ui grid">
+                                        <div class="ui sixteen column">
+                                            <div id="spcalendar"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -445,7 +450,7 @@
 
 				</div>
 			</div><!--suggestions-list end-->
-		</div>	
+		</div>
 		{% endfor %}
 
 
@@ -475,8 +480,8 @@
 	 <!-- ==============================================
 	 Modal Section
 	 =============================================== -->
-	 
-	 
+
+
      <!-- ==============================================
 	 Scripts
 	 =============================================== -->
@@ -535,7 +540,7 @@
 			$.ajax({
                     type: "GET",
                     url: "post/single/",
-                    data: { 
+                    data: {
                         'postId': postId,
                     },
                     success: display,
@@ -544,7 +549,7 @@
                         alert('error');
                     }
                 });
-			
+
 		}
 		function display(data,textStatus,jqXHR) {
 			console.log("display")
@@ -583,6 +588,82 @@
             $("#myModal2").modal();
         });
         });
+    </script>
+
+    <script>
+
+    $(document).ready(function() {
+
+		$('#spcalendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			defaultDate: '2020-07-25',
+			navLinks: true, // can click day/week names to navigate views
+			editable: true,
+			eventLimit: true, // allow "more" link when too many events
+			events: [
+				{
+					title: 'All Day Event',
+					start: '2016-12-01'
+				},
+				{
+					title: 'Long Event',
+					start: '2016-12-07',
+					end: '2016-12-10'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2016-12-09T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2016-12-16T16:00:00'
+				},
+				{
+					title: 'Conference',
+					start: '2016-12-11',
+					end: '2016-12-13'
+				},
+				{
+					title: 'Meeting',
+					start: '2016-12-12T10:30:00',
+					end: '2016-12-12T12:30:00'
+				},
+				{
+					title: 'Lunch',
+					start: '2016-12-12T12:00:00'
+				},
+				{
+					title: 'Meeting',
+					start: '2016-12-12T14:30:00'
+				},
+				{
+					title: 'Happy Hour',
+					start: '2016-12-12T17:30:00'
+				},
+				{
+					title: 'Dinner',
+					start: '2016-12-12T20:00:00'
+				},
+				{
+					title: 'Birthday Party',
+					start: '2016-12-13T07:00:00'
+				},
+				{
+					title: 'Click for Google',
+					url: 'https://google.com/',
+					start: '2016-12-28'
+				}
+			]
+		});
+
+	});
+
     </script>
 
 {% endblock content %}

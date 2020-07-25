@@ -273,8 +273,8 @@ def report(request):
             # print("\n",problem,post_id,created_date,created_user,"\n")
             report = Report(problem = problem,user_id = created_user,time = created_date,post_id = post.id).save()
             report.save()
-            # return render(request,'management/after_report.html')
-            return HttpResponse('Reported !!')
+            return render(request,'management/report_sucessfull.html')
+            # return HttpResponse('Reported !!')
         # else:
         #     messages.error('Please fill all feilds')
         #     return render(request,'management/after_report.html')
@@ -289,7 +289,7 @@ def report(request):
         post_img = imgbase64EncodedStr.decode('utf-8')
         # context = {'post_img':post_img}
         # print(context)
-        return render(request,template,{'post_img':post_img})
+        return render(request,template,{'post_img':post_img})   
 
     # pass
 # def temp(request):

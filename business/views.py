@@ -50,7 +50,7 @@ def coupon_upload(request):
         print(coupon_ids)
         created_user = User.objects.get(email=request.session["username"])["id"]
         created_date = datetime.datetime.now()
-        LO_instance = Limited_Offer(created_date=created_date,created_user=created_user,offer_count=len(coupon_ids),coupons=coupon_ids).save()
+        LO_instance = Limited_Offer(company_id="KFC",created_date=created_date,created_user=created_user,offer_count=len(coupon_ids),coupons=coupon_ids).save()
         LO_instance.banner_image.put(banner, content_type='image/jpeg')
         LO_instance.save()
         messages.success(request,'File sucessfully uploaded')
@@ -69,7 +69,7 @@ def perminent_coupons(request):
             discription = request.POST['discription']
             created_user = User.objects.get(email=request.session["username"])["id"]
             created_date = datetime.datetime.now()
-            model_instance = Unlimited_Coupons(coupon_code=coupon_code,created_user=created_user,created_date=created_date,discription=discription ).save()
+            model_instance = Unlimited_Coupons(company_id="KFC",coupon_code=coupon_code,created_user=created_user,created_date=created_date,discription=discription ).save()
             model_instance.banner_image.put(banner,content_type='image/jpeg')
             model_instance.save()
             messages.success(request,'Coupon sucessfully added')
@@ -79,6 +79,10 @@ def perminent_coupons(request):
             return render(request,template)
     else:
         return render(request,template)
+
+def tnc(request):
+    return render(request,"business/T&C.html")
+
 
 
 # @business_required
