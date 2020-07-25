@@ -1,4 +1,4 @@
-
+<br><br><br><br><br><br><br><br>
       <div class="modal-dialog">
        <div class="modal-content">
         <div class="modal-body">
@@ -45,7 +45,8 @@
 			  		{% if post.is_liked_by_curr_user %}
 			     		<a onClick=like('{{ post.id }}') class="modal-like" href="#"><i class="fa fa-heart" ></i></a><span> {{post.likes}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					{% else %}
-			    		<a class="modal-like" onClick=like('{{ post.id }}')  href="#"><i class="fa fa-heart-o" ></i>like</a><span> {{post.likes}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			    		<a class="modal-like" onClick=like('{{ post.id }}')  href="#"><i class="fa fa-heart-o" ></i>like</a><i class="fa fa-heart-o" ></i><span> {{post.likes}}
+                <i class="fa fa-heart-o" ></i>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					{% endif %}
 
 

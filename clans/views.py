@@ -457,8 +457,9 @@ def add_clan_user(request, clan_id):
     profile = Profile.objects.get(id = user["profileid"])
     content=list()
     for h in User.objects.all()[:16]:
-        if h["id"] == user["id"]:
+        if h["id"] == user["id"] or h["id"] not in profile["friends"]:
             continue
+        print("*",h["id"],profile["friends"])
         f = h["id"]
         temp=dict()
         reqby = User.objects.get(id=f)

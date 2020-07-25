@@ -41,7 +41,7 @@
 			animation: fadeEffect 1s; /* Fading effect takes 1 second */
 		}
 
-		
+
 		@keyframes fadeEffect {
 			from {opacity: 0;}
 			to {opacity: 1;}
@@ -55,7 +55,7 @@
         img.send {
             height: 200px;
             width: 200px;
-            
+
         }
         p.msg-head {
             text-align: center;
@@ -85,22 +85,22 @@
      <section class="chat">
 	  <div class="container">
 	   <div class="row">
-	   
+
         <div class="messages-box">
 		 <div class="row">
 		  <div class="col-lg-4 col-md-12 no-pdd">
 		   <div class="messages-container">
-		   
+
 			<div class="message-header">
 			 <div class="message-title">
 			  <h4>Messages</h4>
 			 </div><!--/ message-title-->
-             <div class="search-area">  
+             <div class="search-area">
               <div class="input-field">
                <input placeholder="Search" type="text">
                <i class="fa fa-search"></i>
               </div>
-             </div><!--/ search-area-->			 
+             </div><!--/ search-area-->
 			</div><!--/ message-header-->
 			<div class="messages-list">
 			<div class="tab">
@@ -111,7 +111,7 @@
 			  <ul>
 			  {% if friends_list %}
 			  {% for i in friends_list %}
-			  
+
 			   <li class="friends" data-value="{{ i.id }}" onclick=msg_frnd('{{ i.id }}')>
 				<div class="user-message-details">
 				 <div class="user-message-img">
@@ -120,15 +120,13 @@
 				 </div>
 				 <div data-name="{{ i.name }}"class="user-message-info">
 				  <h4>{{ i.name }}</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
 			     </div><!--/ user-message-info -->
 				 <span class="message-notification">1</span>
 			    </div><!--/ user-message-details -->
 			   </li>
-			   
+
 			   {% endfor %}
-			   {% endif %}										
+			   {% endif %}
 			  </ul>
 			  </div>
 			<div id="Groups" class="tabcontent">
@@ -143,39 +141,37 @@
 				 </div>
 				 <div data-name="{{ i.name }}" class="user-message-info">
 				  <h4>{{ i.name }}</h4>
-				  <p>Lorem ipsum dolor ...</p>
-				  <span class="time-posted">1:55 PM</span>
 			     </div><!--/ user-message-info -->
 				 <span class="message-notification">1</span>
 			    </div><!--/ user-message-details -->
 			   </li>
 			   {% endfor %}
-			   {% endif %}										
+			   {% endif %}
 			  </ul>
 			  </div>
 			</div><!--/ messages-list -->
-			
+
 		   </div><!--/ messages-container-->
 		  </div><!--/ col-lg-4 -->
-		  
+
 		  <div class="col-lg-8 col-md-12 pd-right-none pd-left-none">
 		   <div class="conversation-box" id="conv-box">
-		   
+
 				<div class="conv-msg-home">
                     <img class="center send" src={% static "assets/img/compose-001.png"%}>
                     <p class='msg-head'>Your Messages</p>
                     <p class="msg-caption">Send private photos and messages to a friend or group.</p>
-                </div> 								
+                </div>
            </div><!--main-conversation-box end-->
 		  </div><!--/ col-lg-8 -->
-		  
+
 		 </div><!--/ row -->
-		</div><!--/ messages-box -->	   
-	  
+		</div><!--/ messages-box -->
+
       </div><!--/ row -->
       </div><!--/ container -->
-     </section><!--/ chat -->	 
-	   
+     </section><!--/ chat -->
+
      <!-- ==============================================
 	 Scripts document.getElementById("myTextarea").value
 	 =============================================== -->
@@ -188,7 +184,7 @@
 			else {
 				bt.disabled = true;
 			}
-		}    
+		}
 	</script>
 	 <script type="text/javascript">
 		function manage(txt) {
@@ -199,7 +195,7 @@
 			else {
 				bt.disabled = true;
 			}
-		}    
+		}
 	</script>
 	<script>
 		function msg_frnd(frndId) {
@@ -210,7 +206,7 @@
 			$.ajax({
                     type: "GET",
                     url: "/chat/getPrivMsg/",
-                    data: { 
+                    data: {
                         'f_id': frnd_id,
                     },
                     success: display,
@@ -229,11 +225,11 @@
 	<script>
 		function msg_group(grpId) {
 			console.log("msg_group(grpId)");
-			var grp_id = grpId; 
+			var grp_id = grpId;
 			$.ajax({
                     type: "GET",
                     url: "/chat/getGrpMsg/",
-                    data: { 
+                    data: {
                         'clan_id': grp_id,
                     },
                     success: display,
@@ -242,7 +238,7 @@
                         alert('error');
                     }
                 });
-			
+
 		}
 		function display(data,textStatus,jqXHR) {
 			console.log("display")
@@ -258,7 +254,7 @@
 			$.ajax({
                     type: "GET",
                     url: "/chat/getGrpMsg/",
-                    data: { 
+                    data: {
                         'clan_id': grp_id,
                     },
                     success: display,
@@ -293,7 +289,7 @@
 			evt.currentTarget.className += " active";
 		}
 	</script>
-	
+
 	<script>
 		{% comment %} // Get the element with id="defaultOpen" and click on it {% endcomment %}
 		document.getElementById("defaultOpen").click();
@@ -310,7 +306,7 @@
 			railVisible: true,
 			alwaysVisible: true,
 			size:"8px",
-		});		
+		});
 	</script>
 
   </body>
