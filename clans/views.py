@@ -195,15 +195,13 @@ def review_challanges(request,clan_id):
                 temp['discription'] = c['discription']
                 profile = Profile.objects.get(user_id = chall['done_by'])
                 temp['person_name'] = profile['name']
-                photo= profile["photo"].grid_id
-                col = db.images.chunks.find({"files_id":photo})
-                my_string = base64.b64encode(col[0]["data"])
+                photo= profile["photo"].read()
+                my_string = base64.b64encode(photo)
                 my_string=my_string.decode('utf-8')
                 temp["person_photo"] = my_string
                 temp['id'] = challang
-                proof = chall['proof_of_completion'].grid_id
-                col = db.images.chunks.find({"files_id":proof})
-                my_string1 = base64.b64encode(col[0]["data"])
+                proof = chall['proof_of_completion'].read()
+                my_string1 = base64.b64encode(proof)
                 my_string1=my_string1.decode('utf-8')
                 temp['proof'] = my_string1
                 temp['remarks'] = chall['discription']
@@ -305,17 +303,15 @@ def clanHome(request):
         temp['name'] = clan1['name']
         temp['clan_id'] = clan1['id']
         temp['description'] = clan1['discription']
-        photo= clan1["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= clan1["photo"].read()
+        my_string = base64.b64encode(photo)
         temp['clan_photo'] = my_string.decode('utf-8')
         list = []
         for j in clan1['participants']:
             p =  Profile.objects.get(user_id=j)
-            photo1= p["photo"].grid_id
+            photo1= p["photo"].read()
 
-            col1 = db.images.chunks.find({"files_id":photo1})
-            my_string1 = base64.b64encode(col1[0]["data"])
+            my_string1 = base64.b64encode(photo1)
 
             list.append(my_string1.decode('utf-8'))
 
@@ -356,9 +352,8 @@ def add_clan_user(request, clan_id):
         except:
             pass
         temp["email"] = reqby["email"]
-        photo= reqbyprof["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= reqbyprof["photo"].read()
+        my_string = base64.b64encode(photo)
         temp["photo"] = my_string.decode('utf-8')
         content.append(temp)
     return render(request, 'clans/clan_add_user.html',{"content":content, "clan_id":clan_id})
@@ -410,9 +405,8 @@ def clan_show(request, clan_id):
     for j in clan['participants']:
         temp1 = dict()
         p =  Profile.objects.get(user_id=j)
-        photo1= p["photo"].grid_id
-        col1 = db.images.chunks.find({"files_id":photo1})
-        my_string1 = base64.b64encode(col1[0]["data"])
+        photo1= p["photo"].read()
+        my_string1 = base64.b64encode(photo1)
         temp1['photo'] = my_string1.decode('utf-8')
         print(p['name'])
         temp1['name'] = p['name']
@@ -426,9 +420,8 @@ def clan_show(request, clan_id):
         clan_members.append(temp1)
 
     clan_posts = []
-    photo= profile["photo"].grid_id
-    col1 = db.images.chunks.find({"files_id":photo})
-    my_string1 = base64.b64encode(col1[0]["data"])
+    photo= profile["photo"].read()
+    my_string1 = base64.b64encode(photo)
 
     for c in clan['community_blog']:
         temp = dict()
@@ -446,9 +439,8 @@ def clan_show(request, clan_id):
 
         temp['comments'] = post['comments']
         temp['description'] = post['description']
-        photo= post["image"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= post["image"].read()
+        my_string = base64.b64encode(photo)
         temp["photo"] = my_string.decode('utf-8')
         temp["owner_photo"] = my_string1.decode('utf-8')
         clan_posts.append(temp)
@@ -478,9 +470,8 @@ def add_clan_user(request, clan_id):
         except:
             pass
         temp["email"] = reqby["email"]
-        photo= reqbyprof["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= reqbyprof["photo"].read()
+        my_string = base64.b64encode(photo)
         temp["photo"] = my_string.decode('utf-8')
         content.append(temp)
     return render(request, 'clans/clan_add_user.html',{"content":content, "clan_id":clan_id})
@@ -501,9 +492,8 @@ def search(request):
         us = User.objects.get(id=p["user_id"])
         temp["email"] = us["email"]
 
-        photo= p["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= p["photo"].read()
+        my_string = base64.b64encode(photo)
         my_string=my_string.decode('utf-8')
         temp["photo"] = my_string
 
@@ -592,19 +582,16 @@ def single_post(request):
 
         temp['comments'] = post['comments']
         temp['description'] = post['description']
-        photo= post["image"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= post["image"].read()
+        my_string = base64.b64encode(photo)
         temp["photo"] = my_string.decode('utf-8')
         # temp["owner_photo"] = my_string1.decode('utf-8')
-        o_photo= po_p["photo"].grid_id
-        o_col = db.images.chunks.find({"files_id":o_photo})
-        o_my_string = base64.b64encode(o_col[0]["data"])
+        o_photo= po_p["photo"].read()
+        o_my_string = base64.b64encode(o_photo)
         temp["ownerphoto"] = o_my_string.decode('utf-8')
 
-        my_photo= profile["photo"].grid_id
-        my_col = db.images.chunks.find({"files_id":my_photo})
-        my_my_string = base64.b64encode(my_col[0]["data"])
+        my_photo= profile["photo"].read()
+        my_my_string = base64.b64encode(my_photo)
         temp["ownerphoto"] = my_my_string.decode('utf-8')
 
 
@@ -625,9 +612,8 @@ def single_post(request):
             own = User.objects(id = o)[0]
             own_p = Profile.objects.get(user_id = o)
             temp1['owner'] = own_p['name']
-            photo= own_p["photo"].grid_id
-            ph = db.images.chunks.find({"files_id":photo})
-            ph_string = base64.b64encode(ph[0]["data"])
+            photo= own_p["photo"].read()
+            ph_string = base64.b64encode(photo)
             temp1["photo"] = ph_string.decode('utf-8')
 
             comments.append(temp1)
@@ -661,9 +647,8 @@ def getComments(request):
             own = User.objects(id = o)[0]
             own_p = Profile.objects.get(user_id = o)
             temp1['owner'] = own_p['name']
-            photo= own_p["photo"].grid_id
-            ph = db.images.chunks.find({"files_id":photo})
-            ph_string = base64.b64encode(ph[0]["data"])
+            photo= own_p["photo"].read()
+            ph_string = base64.b64encode(photo)
             temp1["photo"] = ph_string.decode('utf-8')
 
             comments.append(temp1)
@@ -720,16 +705,14 @@ def exitClan(request, clan_id):
         temp['name'] = clan1['name']
         temp['clan_id'] = clan1['id']
         temp['description'] = clan1['discription']
-        photo= clan1["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= clan1["photo"].read()
+        my_string = base64.b64encode(photo)
         temp['clan_photo'] = my_string.decode('utf-8')
         list = []
         for j in clan1['participants']:
             p =  Profile.objects.get(user_id=j)
-            photo1= p["photo"].grid_id
-            col1 = db.images.chunks.find({"files_id":photo1})
-            my_string1 = base64.b64encode(col1[0]["data"])
+            photo1= p["photo"].read()
+            my_string1 = base64.b64encode(photo1)
             list.append(my_string1.decode('utf-8'))
 
         temp['members_photos'] = list

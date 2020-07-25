@@ -1,4 +1,4 @@
-from mongoengine import connect,ObjectIdField,DateTimeField,StringField,IntField,ListField,ImageField,Document,BooleanField
+from mongoengine import connect,ObjectIdField,DateTimeField,StringField,IntField,ListField,ImageField,Document,BooleanField,FileField
 from datetime import datetime
 
 connect('EAD_OOAL')
@@ -12,7 +12,7 @@ class community(Document):
     group_challanges = ListField(ObjectIdField())
     messages = ListField(ObjectIdField())
     community_blog = ListField(ObjectIdField())
-    photo = ImageField()
+    photo = FileField()
     createdAt = DateTimeField(default=datetime.now())
 
 class clanChallange(Document):
@@ -33,14 +33,14 @@ class challange(Document):
     accepted_by_head = BooleanField(default=False)
     sent_for_review = BooleanField(default=False)
     discription = StringField(max_length=1000)
-    proof_of_completion = ImageField()
+    proof_of_completion = FileField()
 
 
 
 
 class GroupPost(Document):
     description = StringField()
-    image = ImageField()
+    image = FileField()
     likes = IntField(default=0)
     likedBy = ListField(ObjectIdField())
     comments = ListField(ObjectIdField())

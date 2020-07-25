@@ -30,9 +30,8 @@ def chatHome(request):
         frnd_u = User.objects(id=friend)[0]
         temp['name'] = frnd["name"]
         temp['id'] = frnd_u["id"]
-        photo= frnd["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= frnd["photo"].read()
+        my_string = base64.b64encode(photo)
         temp["photo"] = my_string.decode('utf-8')
         friends_list.append(temp)
     print(len(friends_list))
@@ -41,9 +40,8 @@ def chatHome(request):
         group = community.objects(id=clan)[0]
         temp["id"] = group["id"]
         temp['name'] = group["name"]
-        photo= group["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= group["photo"].read()
+        my_string = base64.b64encode(photo)
         temp["photo"] = my_string.decode('utf-8')
         groups_list.append(temp)
     print(len(groups_list))
@@ -82,9 +80,8 @@ def getGroupMsgs(request):
         temp = dict()
         temp['id'] = clan["id"]
         temp['name'] = clan["name"]
-        photo= clan["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= clan["photo"].read()
+        my_string = base64.b64encode(photo)
         temp["photo"] = my_string.decode('utf-8')
         group_details = temp
 
@@ -126,13 +123,11 @@ def getPrivMsgs(request):
         my_id = c_user['id']
         frnd_name = frnd_prof['name']
 
-        myphoto= cu_prof["photo"].grid_id
-        mycol = db.images.chunks.find({"files_id":myphoto})
-        myph = base64.b64encode(mycol[0]["data"])
+        myphoto= cu_prof["photo"].read()
+        myph = base64.b64encode(myphoto)
         my_photo = myph.decode('utf-8')
-        frndphoto= frnd_prof["photo"].grid_id
-        frndcol = db.images.chunks.find({"files_id":frndphoto})
-        frndph = base64.b64encode(frndcol[0]["data"])
+        frndphoto= frnd_prof["photo"].read()
+        frndph = base64.b64encode(frndphoto)
         frnd_photo = frndph.decode('utf-8')
 
 
@@ -158,14 +153,14 @@ def getPrivMsgs(request):
                 messages.append(temp1)
             else:
                 continue
-        
+
         print('messages',len(messages))
         print('frnd', frnd_name)
-        
+
         return render(request, 'chat/priv_msg.html', {'messages': messages, "friend": frnd_name ,"my_id":my_id, "my_photo":my_photo, "frnd_photo": frnd_photo, "friend_id": frnd_id})
     else:
         return HttpResponse('Failure')
-    
+
 def sendPrivMsg(request):
     if request.method == 'POST':
         print("got request")
@@ -177,7 +172,7 @@ def sendPrivMsg(request):
         cu_user = request.session["username"]
         c_user = User.objects(email = cu_user)[0]
         cu_prof = Profile.objects.get(user_id = c_user['id'])
-        
+
         msg = Message(msg=text, sender=c_user['id'], reciever=frnd_id)
         msg.save()
         print("message saved")

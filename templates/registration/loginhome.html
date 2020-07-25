@@ -76,7 +76,7 @@
 {% if daily_challange %}
 				<a href="{% url 'user:dsc' %}">
          <div class="storybox"
-		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif' %}) no-repeat; 
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/3.gif' %}) no-repeat;
 
 		          background-size: cover;
                   background-position: center center;
@@ -91,7 +91,7 @@
 		 </a>
 {% endif %}
 {% if weekly_challange %}
-				<a href="{% url 'user:dsc' %}">
+				<a href="{% url 'user:wsc' %}">
 		 <div class="storybox"
 		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/21.gif' %}) no-repeat;
 		          background-size: cover;
@@ -146,7 +146,23 @@ style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), u
 {% endfor %}
 
 {% endif %}
+{% if rchal %}
+				<a href="{% url 'user:dsc' %}">
+         <div class="storybox"
+		   style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), url({% static 'assets/img/posts/13.gif' %}) no-repeat;
 
+		          background-size: cover;
+                  background-position: center center;
+                  -webkit-background-size: cover;
+                  -moz-background-size: cover;
+                  -o-background-size: cover;">
+          <div class="story-body text-center">
+            <h4>{{ rchal.name }}</h4>
+           <p>Recomended For U!</p>
+          </div>
+		 </div>
+		 </a>
+{% endif %}
 
 
 </div><!--/ col-lg-3 -->
@@ -204,9 +220,8 @@ style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), u
 						     <em class="fa fa-ellipsis-h"></em>
 							</button>
 				            <div class="dropdown-menu dropdown-scale dropdown-menu-right" role="menu" style="position: absolute; transform: translate3d(-136px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-					         <a class="dropdown-item" href="#">Hide post</a>
-							 <a class="dropdown-item" href="#">Stop following</a>
-                <a class="dropdown-item" href="{% url 'management:report' %}?post={{ p.id }}">Report</a>      
+					         <a class="dropdown-item" >Copy Link</a>
+                <a class="dropdown-item" href="{% url 'management:report' %}?post={{ p.id }}">Report</a>
 
 				            </div>
 				           </div><!--/ dropdown -->
@@ -247,8 +262,8 @@ style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), u
 
 				          <div class="cardbox-like">
 						   <ul>
-							<li><a href="#"><i class="fa fa-heart"></i></a><span> 786,286</span></li>
-						    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> 126,400</span></li>
+							<li><a href="#"><i class="fa fa-heart"></i></a><span> </span></li>
+						    <li><a href="#" title="" class="com"><i class="fa fa-comments"></i></a> <span class="span-last"> </span></li>
 						   </ul>
 				          </div><!--/ cardbox-like -->
 
@@ -378,6 +393,13 @@ style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), u
 
 
 		<div class="col-lg-3">
+			<div class="trending-box">
+	 <div class="row">
+		<div class="col-lg-12">
+			<h4>Friend Suggestions</h4>
+		</div>
+	 </div>
+			</div>
 
          <div class="suggestion-box full-width">
 			<div class="suggestions-list">
@@ -394,11 +416,38 @@ style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), u
 				</div>
 				{% endfor %}
 				{% endif %}
-			</div><!--suggestions-list end-->
-		</div>
 
 
 
+			</div>
+</div>
+        <div class="trending-box">
+		 <div class="row">
+		  <div class="col-lg-12">
+		    <h4>Advertisements</h4>
+		  </div>
+		 </div>
+        </div>
+{% if unco %}
+{% for f in unco %}
+        <div class="trending-box">
+		 <div class="row">
+			 {% if f.0 %}
+			<div class="col-lg-6">
+		   <a href="#"><img src="data:image/jpeg;base64,{{ f.0.1 }}" class="" style="width:200px;height:200px" alt="Image"/></a>
+		  </div>
+			{% endif %}
+			{% if f.1 %}
+		  <div class="col-lg-6">
+		   <a href="#"><img src="data:image/jpeg;base64,{{ f.1.1 }}" class="" style="width:200px;height:200px" alt="Image"/></a>
+		  </div>
+			{% endif %}
+
+		 </div>
+
+        </div>
+{% endfor %}
+{% endif %}
 
 		</div>
 
@@ -478,5 +527,13 @@ style="background: linear-gradient( rgba(34,34,34,0.78), rgba(34,34,34,0.78)), u
     }
 </script>
 
+<script>
+function myFunction(copyText) {
+  copyText.select();
+  copyText.setSelectionRange(0, 99999)
+  document.execCommand("copy");
+  alert("Copied the text: " + copyText.value);
+}
+</script>
 
 {% endblock %}

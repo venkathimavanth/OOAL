@@ -59,7 +59,7 @@
 		  <span class="icon-bar"></span>
 		  <span class="icon-bar"></span>
 		 </button>
-		 <a class="navbar-brand" href="{% url 'user_auth:managementhome' %}">OOAL-Business</a>
+		 <a class="navbar-brand" href="{% url 'user_auth:businesshome' %}">OOAL-Business</a>
 		</div>
 
 		<div class="navbar-right">
@@ -74,7 +74,7 @@
    			 </li><!-- /navbar-item -->
 
   			 <li class="dropdown mega-avatar">
-  			  <a href="#" aria-expanded="true">
+  			  <a href="{% url 'business:stats' %}" aria-expanded="true">
   			 			 STATS
   			  </a>
   			 </li><!-- /navbar-item -->
@@ -85,12 +85,6 @@
    			  </a>
    			 </li><!-- /navbar-item -->
 
-
-			 <li class="dropdown mega-avatar">
-			  <a href="#" aria-expanded="true">
-			 			 Profile
-			  </a>
-			 </li><!-- /navbar-item -->
 
 
      <li class="dropdown mega-avatar">

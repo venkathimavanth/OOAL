@@ -1,0 +1,55 @@
+{% extends 'managementbase.html' %}
+
+{% block content %}
+<section class="nav-sec" id="navbar"  style="overflow:hidden;height:20px;">
+  <div class="d-flex justify-content-between">
+
+  </div>
+</section>
+<section class="single-post" style="height:900px">
+  <div class="container">
+   <div class="row">
+
+     <div class="modal-dialog">
+      <div class="modal-content">
+       <div class="modal-body">
+         <center>
+          <h5 style="color:red">{{ message }}</h5> 
+         <h2>Change Access Of<h2><br>
+
+           <form method="post" class="form-signin" style="width:100%" id="addchallenge">
+              {% csrf_token %}
+            <div class="form-group">
+             <input name="email" type="email" class="form-control" placeholder="email" required >
+            </div>
+            <div class="form-group">
+              <select id="type" name="type" class="form-control" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();' placeholder="Category" required>
+                 <option value="" disabled selected>Select Type</option>
+
+                      <option value="0">User</option>
+                      <option value="1">Management</option>
+                      <option value="2">Business User</option>
+
+
+              </select>
+            </div>
+
+
+            <button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="submit">Add</button>
+            <br/>
+
+           </form>
+
+           </center>
+       </div><!--/ modal-body -->
+
+      </div><!--/ modal-content -->
+     </div><!--/ modal-dialog -->
+
+     </div><!--/ modal-dialog -->
+     </div><!--/ modal-dialog -->
+    </section><!--/ modal -->
+
+
+
+{% endblock %}

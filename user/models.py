@@ -39,3 +39,9 @@ class FriendToFriend(Document):
     age_restricted=BooleanField(default=False)
     name = StringField(max_length=200)
     discription = StringField(max_length=1000)
+
+class Notifications(Document):
+    user_id =  ObjectIdField()
+    sender = StringField()
+    message = StringField()
+    time=DateTimeField()

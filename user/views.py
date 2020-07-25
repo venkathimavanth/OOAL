@@ -40,7 +40,6 @@ def userhome(request):
         if "tought" in request.POST :
             post=Post(
                 user_id =  user["id"],
-                # user_photo = ImageField()
                 created_date=datetime.datetime.now(),
 
                 # isimage = BooleanField(default=False)
@@ -69,7 +68,7 @@ def userhome(request):
             break
 
     except:
-        pass  
+        pass
 
 
 
@@ -91,8 +90,13 @@ def userhome(request):
         context['Limited_Offer']=lis
     except:
         pass
-  
 
+    try:
+        rchal=recomend_challange(request)
+        if rchal:
+            context['rchal']=rchal
+    except:
+        pass
 
     feed=profile["myfeed"]
     posts=[]
@@ -105,20 +109,24 @@ def userhome(request):
             profile1=Profile.objects.get(user_id=p["user_id"])
             po["username"]=profile1["name"]
 
-            photo= profile1["photo"].grid_id
-            col = db.images.chunks.find({"files_id":photo})
-            my_string = base64.b64encode(col[0]["data"])
-            po["user_photo"]=my_string.decode('utf-8')
+
+            photo= profile1["photo"].read()
+            my_string = base64.b64encode(photo)
+            my_string=my_string.decode('utf-8')
+
+
+            po["user_photo"]=my_string
             # print(my_string.decode('utf-8'))
             po["created_date"]=p["created_date"]#
             po["isimage"]=p["isimage"]
             po["isvideo"]=p["isvideo"]
             po["text"]=p["text"]
 
-            content = p.content.read()
-            base64EncodedStr = base64.b64encode(content)
-            content = base64EncodedStr.decode('utf-8')
-            po["content"] =content
+            if p["isvideo"]:
+                content = p.content.read()
+                base64EncodedStr = base64.b64encode(content)
+                content = base64EncodedStr.decode('utf-8')
+                po["content"] =content
 
             po["ischallenge"]=p["ischallenge"]
 
@@ -140,6 +148,24 @@ def userhome(request):
     context["posts"]=posts[-1:-101:-1]
     context["sfriends"]=returnSuggestedFriends(request)
 
+    try:
+        unco=[]
+        i=0
+        x=[]
+        for u in Unlimited_Coupons.objects.all():
+            photo= u["banner_image"].read()
+            my_string = base64.b64encode(photo)
+            my_string=my_string.decode('utf-8')
+            x.append([u,my_string])
+            i=i+1
+            if i%2 ==0:
+                unco.append(x)
+                x=[]
+        if x:
+            unco.append(x)
+        context["unco"]=unco
+    except:
+        pass
     # print(context)
     page = request.GET.get('page', 1)
     paginator = Paginator(posts, 2)
@@ -174,10 +200,11 @@ def single_post(request):
         profile1=Profile.objects.get(user_id=p["user_id"])
         po["username"]=profile1["name"]
 
-        photo= profile1["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
-        po["user_photo"]=my_string.decode('utf-8')
+
+        photo= profile1["photo"].read()
+        my_string = base64.b64encode(photo)
+        my_string=my_string.decode('utf-8')
+        po["user_photo"]=my_string
         # print(my_string.decode('utf-8'))
         po["created_date"]=p["created_date"]#
         po["isimage"]=p["isimage"]
@@ -215,10 +242,11 @@ def single_post(request):
         except:
             pass
 
-        my_photo= profile["photo"].grid_id
-        my_col = db.images.chunks.find({"files_id":my_photo})
-        my_my_string = base64.b64encode(my_col[0]["data"])
-        po["ownerphoto"] = my_my_string.decode('utf-8')
+        photo= profile["photo"].read()
+        my_string = base64.b64encode(photo)
+        my_string=my_string.decode('utf-8')
+
+        po["ownerphoto"] = my_string
         comments = []
 
         for k in po["comments"]:
@@ -231,10 +259,12 @@ def single_post(request):
             own = User.objects(id = o)[0]
             own_p = Profile.objects.get(user_id = o)
             temp1['owner'] = own_p['name']
-            photo= own_p["photo"].grid_id
-            ph = db.images.chunks.find({"files_id":photo})
-            ph_string = base64.b64encode(ph[0]["data"])
-            temp1["photo"] = ph_string.decode('utf-8')
+
+            photo= own_p["photo"].read()
+            my_string = base64.b64encode(photo)
+            my_string=my_string.decode('utf-8')
+
+            temp1["photo"] = my_string
 
             comments.append(temp1)
         count = len(comments)
@@ -303,7 +333,6 @@ def dsc(request):
             daily_challange=DailyChallanges.objects.get(posted_date=datetime.date.today())
             post=Post(
                 user_id =  user["id"],
-                user_photo = profile["photo"],
                 created_date=datetime.datetime.now(),
 
                 isimage = False,
@@ -333,6 +362,58 @@ def dsc(request):
 
     return render(request,'user/dsc.html',context)
 
+
+def wsc(request):
+    context=dict()
+    ae,user=check_user_exists(request,request.session["username"])
+    profile = Profile.objects.get(id = user["profileid"])
+    if request.method == "POST":
+        if 'file' in request.FILES:
+            file = request.FILES['file']
+            content_type = 'video/mp4'
+            weekNumber = date.today().isocalendar()[1]
+            Weekly_challange_t=reversed(WeeklyChallanges.objects.filter(posted_week=str(weekNumber)))
+            weekly_challange=None
+            for w in Weekly_challange_t:
+                Weekly_challange=w
+                break
+            post=Post(
+                user_id =  user["id"],
+                created_date=datetime.datetime.now(),
+
+                isimage = False,
+                isvideo = True,
+
+                text = Weekly_challange["discription"],
+                ischallenge = True,
+                challegetype="Weekly Single Challange",
+                challengeid=Weekly_challange["id"],
+            ).save()
+            post.content.put(file,content_type=content_type)
+            post.save()
+            addThisPost(request,post,user,profile)
+            profile["completed"].append(Weekly_challange["id"])
+            profile.save()
+
+
+    try:
+        weekNumber = date.today().isocalendar()[1]
+        Weekly_challange_t=reversed(WeeklyChallanges.objects.filter(posted_week=str(weekNumber)))
+        weekly_challange=None
+        for w in Weekly_challange_t:
+            Weekly_challange=w
+            break
+        context['daily_challange']=Weekly_challange
+        context["completed"] = False
+        if Weekly_challange["id"] in profile["completed"]:
+            context["completed"] =True
+        # print("-----------------",context["completed"],profile["completed"])
+
+    except:
+        pass
+
+    return render(request,'user/wsc.html',context)
+
 def ftf(request,id):
     context=dict()
     ae,user=check_user_exists(request,request.session["username"])
@@ -344,7 +425,6 @@ def ftf(request,id):
             content_type = 'video/mp4'
             post=Post(
                 user_id =  user["id"],
-                user_photo = profile["photo"],
                 created_date=datetime.datetime.now(),
 
                 isimage = False,
@@ -370,8 +450,8 @@ def ftf(request,id):
     except:
         pass
     return redirect('user:userhome')
-  
-  
+
+
 def lo(request,id):
     context=dict()
     ae,user=check_user_exists(request,request.session["username"])
@@ -385,7 +465,6 @@ def lo(request,id):
             content_type = 'video/mp4'
             post=Post(
                 user_id =  user["id"],
-                user_photo = profile["photo"],
                 created_date=datetime.datetime.now(),
 
                 isimage = False,
@@ -427,9 +506,14 @@ def lo(request,id):
         pass
     return redirect('user:userhome')
 
-  
-  
-  
+@login_required
+def notifications(request):
+    context=dict()
+    ae,user=check_user_exists(request,request.session["username"])
+    context["notifications"]=reversed(Notifications.objects.filter(user_id=user["id"]))
+    return render(request,'user/notifications.html',context)
+
+
 
 @login_required
 def friends(request):
@@ -448,10 +532,11 @@ def friends(request):
         except:
             pass
         temp["email"] = reqby["email"]
-        photo= reqbyprof["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
-        temp["photo"] = my_string.decode('utf-8')
+
+        photo= reqbyprof["photo"].read()
+        my_string = base64.b64encode(photo)
+        my_string=my_string.decode('utf-8')
+        temp["photo"] = my_string
         content.append(temp)
     # print(content)
     return render(request,"user/friends.html",{"content":content})
@@ -475,10 +560,10 @@ def pendingrequests(request):
         except:
             pass
         temp["email"] = reqby["email"]
-        photo= reqbyprof["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
-        temp["photo"] = my_string.decode('utf-8')
+        photo= reqbyprof["photo"].read()
+        my_string = base64.b64encode(photo)
+        my_string=my_string.decode('utf-8')
+        temp["photo"] = my_string
         content.append(temp)
     # print(content)
     return render(request,"user/pendingrequests.html",{"content":content})
@@ -505,10 +590,12 @@ def findfriends(request):
         except:
             pass
         temp["email"] = reqby["email"]
-        photo= reqbyprof["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
-        temp["photo"] = my_string.decode('utf-8')
+
+        photo= reqbyprof["photo"].read()
+        my_string = base64.b64encode(photo)
+        my_string=my_string.decode('utf-8')
+
+        temp["photo"] = my_string
         content.append(temp)
 
     return render(request,"user/findfriends.html",{"content":content})
@@ -532,10 +619,12 @@ def returnSuggestedFriends(request):
         except:
             pass
         temp["email"] = reqby["email"]
-        photo= reqbyprof["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
-        temp["photo"] = my_string.decode('utf-8')
+
+        photo= reqbyprof["photo"].read()
+        my_string = base64.b64encode(photo)
+        my_string=my_string.decode('utf-8')
+
+        temp["photo"] = my_string
         content.append(temp)
     return content
 
@@ -558,6 +647,14 @@ def viewprofile(request,email):
             ).save()
             profile1=Profile.objects.get(id=u["profileid"])
             profile1['accepted_chall'].append(f["id"])
+
+            notif = Notifications(
+                user_id =  u["id"],
+                sender = str(user["email"]),
+                message = "Hey! You got a new freind to friend challange ",
+                time=datetime.datetime.now(),
+            )
+            notif.save()
             profile1.save()
     if e and ae and u["profile_created"] and user["profile_created"] and ( u["id"] != user["id"] ):
         profile1=Profile.objects.get(id=u["profileid"])
@@ -574,15 +671,15 @@ def viewprofile(request,email):
             if profile1["user_id"] ==  f :
                 friends=3
         # photo= profile1["photo"].toString('base64');
-        photo= profile1["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= profile1["photo"].read()
+        my_string = base64.b64encode(photo)
+        my_string=my_string.decode('utf-8')
         # for c in col:
         context={
             "name" : profile1["name"],
             "discription" : profile1["discription"],
             "email" : u["email"],
-            "photo" : my_string.decode('utf-8'),
+            "photo" : my_string,
             "friends" : friends,
             "message":message
         }
@@ -605,9 +702,8 @@ def autocompleteModel(request):
         us = User.objects.get(id=p["user_id"])
         temp["email"] = us["email"]
 
-        photo= p["photo"].grid_id
-        col = db.images.chunks.find({"files_id":photo})
-        my_string = base64.b64encode(col[0]["data"])
+        photo= p["photo"].read()
+        my_string = base64.b64encode(photo)
         my_string=my_string.decode('utf-8')
         temp["photo"] = my_string
 
@@ -623,9 +719,8 @@ def viewmyprofile(request):
         pe,profile=get_userprofile(request,user["id"])
         if pe:
             temp={"profile":profile,"email":user["email"]}
-            photo= profile["photo"].grid_id
-            col = db.images.chunks.find({"files_id":photo})
-            my_string = base64.b64encode(col[0]["data"])
+            photo= profile["photo"].read()
+            my_string = base64.b64encode(photo)
             my_string=my_string.decode('utf-8')
             temp["photo"] = my_string
             temp["posts_count"] = len(profile["myposts"])
@@ -662,12 +757,43 @@ def challanges(request):
     if ae:
         pe,profile=get_userprofile(request,user["id"])
         if pe:
-            dc=None
+            context=dict()
             try:
-                dc=DailyChallanges.objects.get(posted_date=datetime.date.today())
+                daily_challange=DailyChallanges.objects.get(posted_date=datetime.date.today())
+                context['daily_challange']=daily_challange
             except:
                 pass
-            return render(request,"user/challanges.html",{"profile":profile,"email":user["email"],"dc":dc})
+            try:
+                weekNumber = date.today().isocalendar()[1]
+                Weekly_challange=reversed(WeeklyChallanges.objects.filter(posted_week=str(weekNumber)))
+                for w in Weekly_challange:
+                    context['weekly_challange']=w
+                    break
+
+            except:
+                pass
+
+
+
+            try:
+                ftf=profile["accepted_chall"]
+                lis=[]
+                for f in ftf:
+                    lis.append(FriendToFriend.objects.get(id=f))
+                context['ftf']=lis
+            except:
+                pass
+            try:
+                lo=Limited_Offer.objects.all()
+                lis=[]
+                for l in lo :
+                    loc=Limited_Offer_Coupons.objects.get(id=l["coupons"][0])
+                    if datetime.datetime.now() < loc["expiry_date"]:
+                        lis.append(l)
+                context['Limited_Offer']=lis
+            except:
+                pass
+            return render(request,"user/challanges.html",context)
     return redirect("user_auth:loggedinhome")
 
 
@@ -784,3 +910,11 @@ def fun_view(request):
         all_content = paginator.page(paginator.num_pages)
     # return render(request, 'business/test.html', {'all_content': all_content})
     return render(request, 'user/fun_view.html', {'all_content': all_content})
+
+
+def recomend_challange(request):
+    daily_challange=DailyChallanges.objects.all()
+    x=None
+    for d in daily_challange:
+        return d
+    return None

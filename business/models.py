@@ -5,7 +5,7 @@ connect("EAD_OOAL")
 # Create your models here.
 
 class Limited_Offer(Document):
-    company_id = ObjectIdField(null=True)
+    company_id = StringField(max_length=200)
     created_date = DateTimeField()
     created_user = ObjectIdField()
     offer_count = IntField()
@@ -19,7 +19,7 @@ class Limited_Offer_Coupons(Document):
     discription = StringField(max_length=1000)
 
 class Unlimited_Coupons(Document):
-    company_id = ObjectIdField(null=True)
+    company_id = StringField(max_length=200)
     coupon_code = StringField(max_length=200)
     created_date = DateTimeField()
     created_user = ObjectIdField()

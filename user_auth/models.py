@@ -1,4 +1,4 @@
-from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document
+from mongoengine import connect,ObjectIdField,StringField,IntField,ListField,ImageField,DateTimeField, BooleanField, Document,FileField
 
 connect("EAD_OOAL")
 
@@ -23,7 +23,8 @@ class Profile(Document):
     name=StringField(max_length=200)
     discription=StringField(max_length=200)
     user_id =  ObjectIdField(unique = True)
-    photo = ImageField()
+    # photo = ImageField()
+    photo=FileField()
     age = IntField(default=0)
     city = StringField(max_length=200)
     country = StringField(max_length=200)

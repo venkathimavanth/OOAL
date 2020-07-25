@@ -19,21 +19,71 @@
 
 	    <div class="col-lg-8 col-lg-offset-2">
 		<ul>
-      {% if dc %}
-		 <li>
-           <div class="media first_child">
-            <img src="assets/img/users/1.jpg" alt="" class="img-responsive img-circle">
-            <div class="media_body">
-             <p><b>{{dc.name}}</b></p><p> {{dc.discription}}</p>
-             <h6>{{dc.posted_date}}</h6>
-             <div class="btn_group">
-              <a class="kafe-btn kafe-btn-mint"><i class="fa fa-check"></i></a>
-              <a class="kafe-btn kafe-btn-red"><i class="fa fa-times"></i></a>
-             </div>
-            </div>
-           </div>
-         </li>
-    {% endif %}
+
+		{% if daily_challange %}
+						<a href="{% url 'user:dsc' %}">
+							<li>
+ 				           <div class="media first_child">
+ 				            <div class="media_body">
+ 				             <p><b>{{daily_challange.name}}</b></p><p> {{daily_challange.discription}}</p>
+ 				             <h6>{{daily_challange.created_date}}</h6>
+ 				             <div class="btn_group">
+ 				             </div>
+ 				            </div>
+ 				           </div>
+ 				         </li>
+				 </a>
+		{% endif %}
+		{% if weekly_challange %}
+						<a href="{% url 'user:wsc' %}">
+							<li>
+		 		           <div class="media first_child">
+		 		            <div class="media_body">
+		 		             <p><b>{{weekly_challange.name}}</b></p><p> {{weekly_challange.discription}}</p>
+		 		             <h6>{{weekly_challange.created_date}}</h6>
+		 		             <div class="btn_group">
+		 		             </div>
+		 		            </div>
+		 		           </div>
+		 		         </li>
+				 </a>
+		{% endif %}
+
+		{% if ftf %}
+			{% for f in ftf %}
+						<a href="{% url 'user:ftf' id=f.id %}">
+							<li>
+				            <div class="media first_child">
+				             <div class="media_body">
+				              <p><b>{{f.name}}</b></p><p> {{f.discription}}</p>
+				              <h6>{{f.created_date}}</h6>
+				              <div class="btn_group">
+				              </div>
+				             </div>
+				            </div>
+				          </li>
+				 </a>
+				 {% endfor %}
+		{% endif %}
+
+
+		{% if Limited_Offer %}
+		{% for l in Limited_Offer %}
+		<a href="{% url 'user:lo' id=l.id %}">
+			<li>
+						<div class="media first_child">
+						 <div class="media_body">
+							<p><b>{{l.name}}</b></p><p> {{l.discription}}</p>
+							<h6>{{l.created_date}}</h6>
+							<div class="btn_group">
+							</div>
+						 </div>
+						</div>
+					</li>
+		</a>
+		{% endfor %}
+
+		{% endif %}
 
 		</ul>
 

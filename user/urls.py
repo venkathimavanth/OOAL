@@ -20,13 +20,14 @@ urlpatterns = [
     path('challanges/', views.challanges ,name='challanges'),
     path('userhome/', views.userhome ,name='userhome'),
     path('challange/dsc/', views.dsc ,name='dsc'),
-    # path('challange/dsc/', views.wsc ,name='wsc'),
+    path('challange/wsc/', views.wsc ,name='wsc'),
     path('ftf/<str:id>/', views.ftf ,name='ftf'),
     path('lo/<str:id>/', views.lo ,name='lo'),
-
+    path('notifications/',views.notifications, name='notifications'),
     path('userhome/model/', views.single_post ,name='single_post'),
     path('userhome/post/comment/', views.createComment ,name='createComment'),
     path('userhome/post/like/', views.like ,name='like'),
     path('fun/',views.fun_view, name='fun'),
+
 
 ]

@@ -15,7 +15,7 @@ urlpatterns = [
     path('report/', views.report,name='report'),
     path('reports_view/',views.report_portal,name='report_view'),
     path('addweeklychallenge/', views.addweeklychallenge ,name='addweeklychallenge'),
-
+    path('makeadmin/', views.makeadmin ,name='makeadmin'),
 
 
 ]

@@ -137,7 +137,6 @@ def fun(request):
     # return render(request, 'business/test.html', {'all_content': all_content})
     return render(request, 'business/fun_view.html', {'all_content': all_content})
 
-@business_required
 def stats(request):
     template = 'business/stats.html'
     limited = Limited_Offer.objects.filter(created_user = User.objects.get(email=request.session["username"])["id"])
@@ -172,5 +171,4 @@ def stats(request):
         all_context2.append(context2)
 
 
-        return render(request,template,{'all_context':all_context,'all_context2':all_context2})
-
+    return render(request,template,{'all_context':all_context,'all_context2':all_context2})

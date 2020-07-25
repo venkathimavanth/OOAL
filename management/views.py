@@ -213,7 +213,7 @@ def report_portal(request):
             all_context.append(context)
 
         return render(request, template, {'all_context':all_context})
-      
+
 def addcatogries(request):
     if request.method == "POST":
         category_name=request.POST["category"]
@@ -228,7 +228,35 @@ def addcatogries(request):
         elif category_name == "TypeOfSubmissionModel":
                 c=TypeOfSubmissionModel(type_of_submission=name)
                 c.save()
-        return render(request,'management/addcatogries.html',{})  
+    return render(request,'management/addcatogries.html',{})
+
+@management_required
+def makeadmin(request):
+    message=""
+    if request.method == "POST":
+        email=request.POST["email"]
+        type = request.POST["type"]
+        try:
+            user=User.objects.get(email=email)
+            if type == "0":
+                user["user_type"] = "0"
+                user.save()
+                # print("-------------------")
+            elif type == "1":
+                user["user_type"] = "1"
+                user.save()
+                # print("------------------+-")
+
+            elif type == "2":
+                user["user_type"] = "2"
+                user.save()
+                # print("---+----------------")
+
+            message = "Changed Access"
+        except:
+            message = "User dosent Exist"
+    return render(request,'management/makeadmin.html',{"message":message})
+
 
 
 def report(request):
@@ -251,7 +279,7 @@ def report(request):
         #     messages.error('Please fill all feilds')
         #     return render(request,'management/after_report.html')
     else:
-        
+
         post_id = request.GET.get('post')
         # print('\ngot',post_id)
         post = Post.objects.filter(id = post_id).first()
@@ -261,7 +289,7 @@ def report(request):
         post_img = imgbase64EncodedStr.decode('utf-8')
         # context = {'post_img':post_img}
         # print(context)
-        return render(request,template,{'post_img':post_img})      
+        return render(request,template,{'post_img':post_img})
 
     # pass
 # def temp(request):

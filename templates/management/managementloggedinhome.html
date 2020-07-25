@@ -69,6 +69,13 @@
 		</div><!-- /.navbar-left -->
 		<div class="navbar-right">
 		 <ul class="nav navbar-nav">
+			 <li class="dropdown mega-avatar">
+			  <a href="{% url 'management:report_view' %}" aria-expanded="true">
+			  <span class="hidden-xs">
+			 			Reports
+			  </span>
+			  </a>
+			 </li><!-- /navbar-item -->
 
 
  		 <li class="dropdown mega-avatar">
@@ -101,7 +108,13 @@
 				</a>
 			 </li><!-- /navbar-item -->
 
-
+			 <li class="dropdown mega-avatar">
+			  <a href="{% url 'management:makeadmin' %}" aria-expanded="true">
+			  <span class="hidden-xs">
+			 			Access Management
+			  </span>
+			  </a>
+			 </li><!-- /navbar-item -->
 
      <li class="dropdown mega-avatar">
 		  <a href="{% url 'user_auth:logout' %}" aria-expanded="true">
